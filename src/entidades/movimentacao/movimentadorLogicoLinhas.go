@@ -2,8 +2,8 @@ package movimentacao
 
 import (
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
-	"Gopher_Dungeon_Arena/src/entidades/personagens"
 	"Gopher_Dungeon_Arena/src/interfaces"
+	"Gopher_Dungeon_Arena/src/utils"
 	"math/rand"
 )
 
@@ -11,11 +11,11 @@ type MovimentadorLogicoLinha struct {
 	ciclos       int
 	ciclosMaximo int
 	varia        bool
-	dx           float64
-	dy           float64
+	direcaoX     float64
+	direcaoY     float64
 }
 
-func (mll *MovimentadorLogicoLinha) Mover(mundo geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mll *MovimentadorLogicoLinha) Mover(game interfaces.IGame, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	mll.ciclos += 1
 	if mll.ciclos >= mll.ciclosMaximo {
 		mll.varia = true
@@ -31,9 +31,9 @@ func (mll *MovimentadorLogicoLinha) Mover(mundo geometria.Retangulo, objeto inte
 	}
 
 	alterar := true
-	posX := objeto.GetX() + mll.dx
-	if posX >= mundo.PosXmax(personagens.BOT_TAMANHO) {
-		posX = mundo.PosXmax(personagens.BOT_TAMANHO)
+	posX := objeto.GetX() + mll.direcaoX
+	if posX >= mundo.PosXmax(utils.BOT_TAMANHO_MUNDO) {
+		posX = mundo.PosXmax(utils.BOT_TAMANHO_MUNDO)
 		mll.bateu()
 		alterar = false
 	} else if posX <= mundo.GetX() {
@@ -43,9 +43,9 @@ func (mll *MovimentadorLogicoLinha) Mover(mundo geometria.Retangulo, objeto inte
 
 	}
 
-	posY := objeto.GetY() + mll.dy
-	if posY >= mundo.PosYmax(personagens.BOT_TAMANHO) {
-		posY = mundo.PosYmax(personagens.BOT_TAMANHO)
+	posY := objeto.GetY() + mll.direcaoY
+	if posY >= mundo.PosYmax(utils.BOT_TAMANHO_MUNDO) {
+		posY = mundo.PosYmax(utils.BOT_TAMANHO_MUNDO)
 		mll.bateu()
 		alterar = false
 
@@ -57,7 +57,11 @@ func (mll *MovimentadorLogicoLinha) Mover(mundo geometria.Retangulo, objeto inte
 	}
 
 	if alterar {
-		objeto.SetPosicao(posX, posY)
+		corpo := geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+
+		if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
+			objeto.SetPosicao(posX, posY)
+		}
 	}
 }
 
@@ -79,19 +83,19 @@ func (mll *MovimentadorLogicoLinha) MovimentoLinear(r *rand.Rand) {
 
 	if tomadaDeDecicaoXouY > 50 {
 		tomadaDeDecicaoEsqOuDir := r.Intn(100)
-		mll.dy = 0.0
+		mll.direcaoY = 0.0
 		if tomadaDeDecicaoEsqOuDir >= 50 {
-			mll.dx = +personagens.BOT_VELOCIDADE_NORMAL
+			mll.direcaoX = +utils.BOT_VELOCIDADE_NORMAL
 		} else {
-			mll.dx = -personagens.BOT_VELOCIDADE_NORMAL
+			mll.direcaoX = -utils.BOT_VELOCIDADE_NORMAL
 		}
 	} else {
 		tomadaDeDecicaoSobeOuDesce := r.Intn(100)
-		mll.dx = 0.0
+		mll.direcaoX = 0.0
 		if tomadaDeDecicaoSobeOuDesce >= 50 {
-			mll.dy = +personagens.BOT_VELOCIDADE_NORMAL
+			mll.direcaoY = +utils.BOT_VELOCIDADE_NORMAL
 		} else {
-			mll.dy = -personagens.BOT_VELOCIDADE_NORMAL
+			mll.direcaoY = -utils.BOT_VELOCIDADE_NORMAL
 		}
 	}
 }

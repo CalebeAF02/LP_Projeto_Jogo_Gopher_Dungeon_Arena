@@ -2,8 +2,8 @@ package movimentacao
 
 import (
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
-	"Gopher_Dungeon_Arena/src/entidades/personagens"
 	"Gopher_Dungeon_Arena/src/interfaces"
+	"Gopher_Dungeon_Arena/src/utils"
 	"math/rand"
 )
 
@@ -11,11 +11,11 @@ type MovimentadorLogicoDiagonal struct {
 	ciclos       int
 	ciclosMaximo int
 	varia        bool
-	dx           float64
-	dy           float64
+	direcaoX     float64
+	direcaoY     float64
 }
 
-func (mld *MovimentadorLogicoDiagonal) Mover(mundo geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mld *MovimentadorLogicoDiagonal) Mover(game interfaces.IGame, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 
 	mld.ciclos += 1
 	if mld.ciclos >= mld.ciclosMaximo {
@@ -32,20 +32,20 @@ func (mld *MovimentadorLogicoDiagonal) Mover(mundo geometria.Retangulo, objeto i
 
 	}
 
-	posX := objeto.GetX() + mld.dx
+	posX := objeto.GetX() + mld.direcaoX
 
-	if posX >= mundo.PosXmax(personagens.BOT_TAMANHO) {
-		posX = mundo.PosXmax(personagens.BOT_TAMANHO)
+	if posX >= mundo.PosXmax(utils.BOT_TAMANHO_MUNDO) {
+		posX = mundo.PosXmax(utils.BOT_TAMANHO_MUNDO)
 		mld.bateu()
 	} else if posX <= mundo.GetX() {
 		posX = mundo.GetX()
 		mld.bateu()
 	}
 
-	posY := objeto.GetY() + mld.dy
+	posY := objeto.GetY() + mld.direcaoY
 
-	if posY >= mundo.PosYmax(personagens.BOT_TAMANHO) {
-		posY = mundo.PosYmax(personagens.BOT_TAMANHO)
+	if posY >= mundo.PosYmax(utils.BOT_TAMANHO_MUNDO) {
+		posY = mundo.PosYmax(utils.BOT_TAMANHO_MUNDO)
 		mld.bateu()
 
 	} else if posY <= mundo.GetY() {
@@ -53,7 +53,11 @@ func (mld *MovimentadorLogicoDiagonal) Mover(mundo geometria.Retangulo, objeto i
 		mld.bateu()
 	}
 
-	objeto.SetPosicao(posX, posY)
+	corpo := geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+
+	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
+		objeto.SetPosicao(posX, posY)
+	}
 
 }
 
@@ -74,20 +78,20 @@ func (mld *MovimentadorLogicoDiagonal) MovimentoDiagonal(r *rand.Rand) {
 	tomadaDeDecicao := r.Intn(100)
 
 	if tomadaDeDecicao >= 0 && tomadaDeDecicao < 25 {
-		mld.dx = -personagens.BOT_VELOCIDADE_NORMAL
-		mld.dy = -personagens.BOT_VELOCIDADE_NORMAL
+		mld.direcaoX = -utils.BOT_VELOCIDADE_NORMAL
+		mld.direcaoY = -utils.BOT_VELOCIDADE_NORMAL
 
 	} else if tomadaDeDecicao >= 25 && tomadaDeDecicao < 50 {
-		mld.dx = -personagens.BOT_VELOCIDADE_NORMAL
-		mld.dy = +personagens.BOT_VELOCIDADE_NORMAL
+		mld.direcaoX = -utils.BOT_VELOCIDADE_NORMAL
+		mld.direcaoY = +utils.BOT_VELOCIDADE_NORMAL
 
 	} else if tomadaDeDecicao >= 50 && tomadaDeDecicao < 75 {
-		mld.dx = +personagens.BOT_VELOCIDADE_NORMAL
-		mld.dy = -personagens.BOT_VELOCIDADE_NORMAL
+		mld.direcaoX = +utils.BOT_VELOCIDADE_NORMAL
+		mld.direcaoY = -utils.BOT_VELOCIDADE_NORMAL
 
 	} else if tomadaDeDecicao >= 75 && tomadaDeDecicao <= 100 {
-		mld.dx = +personagens.BOT_VELOCIDADE_NORMAL
-		mld.dy = +personagens.BOT_VELOCIDADE_NORMAL
+		mld.direcaoX = +utils.BOT_VELOCIDADE_NORMAL
+		mld.direcaoY = +utils.BOT_VELOCIDADE_NORMAL
 	}
 }
 

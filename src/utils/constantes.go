@@ -1,29 +1,21 @@
 package utils
 
-import (
-	"math/rand"
-	"time"
-)
+import "Gopher_Dungeon_Arena/src/config"
 
 const (
-	LARGURA             = 1240
-	ALTURA              = 720
-	PROPORCAO_MINI_MAPA = float64(10)
+	//Jogador
+	JOGADOR_TAMANHO_MUNDO = 20
+	JOGADOR_TAMANHO_MAPA  = JOGADOR_TAMANHO_MUNDO / config.PROPORCAO_MAPA
 
-	MUNDO_LARGURA = float64(LARGURA * (PROPORCAO_MINI_MAPA / (PROPORCAO_MINI_MAPA / 2)))
-	MUNDO_ALTURA  = float64(ALTURA * (PROPORCAO_MINI_MAPA / (PROPORCAO_MINI_MAPA / 2)))
+	//Bot
+	BOT_TAMANHO_MUNDO = 10
+	BOT_TAMANHO_MAPA  = BOT_TAMANHO_MUNDO / config.PROPORCAO_MAPA
 
-	NOME_JOGO = "Gopher_Dungeon_Arena"
+	BOT_VELOCIDADE_RAPIDA = 6
+	BOT_VELOCIDADE_NORMAL = 5
+	BOT_VELOCIDADE_LENTA  = 3
+	BOT_VELOCIDADE_MINIMA = 0
+	BOT_VELOCIDADE_MAXIMA = 6
+
+	BOT_CICLOS_REPETICAO = 10
 )
-
-func XAleatorio(r *rand.Rand) float64 {
-	return float64(r.Intn(LARGURA))
-}
-
-func YAleatorio(r *rand.Rand) float64 {
-	return float64(r.Intn(ALTURA))
-}
-
-func GeradorAleatorio() *rand.Rand {
-	return rand.New(rand.NewSource(time.Now().UnixNano()))
-}

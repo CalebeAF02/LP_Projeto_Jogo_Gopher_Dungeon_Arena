@@ -2,45 +2,55 @@ package movimentacao
 
 import (
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
-	"Gopher_Dungeon_Arena/src/entidades/personagens"
 	"Gopher_Dungeon_Arena/src/interfaces"
+	"Gopher_Dungeon_Arena/src/utils"
 	"math/rand"
 )
 
 type MovimentadorVerticalConstante struct {
-	dY     int
-	ciclos int
+	direcao int
+	ciclos  int
 }
 
-func (mvc *MovimentadorVerticalConstante) Mover(mundo geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mvc *MovimentadorVerticalConstante) Mover(game interfaces.IGame, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+	// 1. Definir a direção inicial se for um novo ciclo
+	if mvc.ciclos == 0 {
+		// Garante que não seja 0 para não ficar parado
+		mvc.direcao = r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1
+		// Decide aleatoriamente se começa subindo ou descendo
+		if r.Float32() < 0.5 {
+			mvc.direcao *= -1
+		}
+	}
 
-	if mvc.dY == 0 {
-		mvc.dY = r.Intn(personagens.BOT_VELOCIDADE_MAXIMA)
+	// 2. Calcular a intenção de movimento
+	posY := objeto.GetY() + float64(mvc.direcao)
+	limiteInferior := mundo.PosYmax(utils.BOT_TAMANHO_MUNDO)
+
+	// 3. Checar colisões com as bordas do mundo
+	if posY >= limiteInferior {
+		posY = limiteInferior
+		mvc.direcao = -(r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1) // Inverte para subir
+		mvc.ciclos = 0
+	} else if posY <= 0 {
+		posY = 0
+		mvc.direcao = r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1 // Inverte para descer
 		mvc.ciclos = 0
 	}
 
-	posY := objeto.GetY() + float64(mvc.dY)
+	corpo := geometria.NovoRetangulo(objeto.GetX(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
 
-	if posY >= mundo.PosYmax(personagens.BOT_TAMANHO) {
-		posY = mundo.PosYmax(personagens.BOT_TAMANHO)
+	// 4. Aplicar o movimento
+	if mundo.EstaDentroDireto(objeto.GetX(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
+		objeto.SetPosicao(objeto.GetX(), posY)
+		mvc.ciclos++
 
-		mvc.dY = r.Intn(personagens.BOT_VELOCIDADE_MAXIMA)
-		mvc.dY = mvc.dY * (-1)
-
-	} else if posY <= mundo.GetY() {
-		posY = mundo.GetY()
-
-		mvc.dY = r.Intn(personagens.BOT_VELOCIDADE_MAXIMA)
-		mvc.dY = mvc.dY * (-1)
 	}
 
-	mvc.ciclos += 1
-
-	if mvc.ciclos == personagens.BOT_CICLOS_REPETICAO {
-		mvc.dY = r.Intn(personagens.BOT_VELOCIDADE_MAXIMA)
+	// 5. Reset de ciclo por tempo
+	if mvc.ciclos >= utils.BOT_CICLOS_REPETICAO {
+		mvc.ciclos = 0
 	}
-
-	objeto.SetPosicao(objeto.GetX(), posY)
 }
 
 func (mvc *MovimentadorVerticalConstante) GetTipo() string {

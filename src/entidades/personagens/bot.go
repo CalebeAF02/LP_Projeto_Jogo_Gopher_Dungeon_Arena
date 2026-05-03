@@ -1,6 +1,7 @@
 package personagens
 
 import (
+	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
@@ -17,25 +18,16 @@ import (
 )
 
 type Bot struct {
-	game     interfaces.IGame
-	entidade ecs.EntidadeID
-	Id       int64
-	sangue   int
-	cor      color.Color
-	status   bool
-	movendo  interfaces.Movimentador
-	posicao  *geometria.Ponto
+	game        interfaces.IGame
+	entidade    ecs.EntidadeID
+	Id          int64
+	sangue      int
+	cor         color.Color
+	status      bool
+	movendo     interfaces.Movimentador
+	posicao     *geometria.Ponto
+	Componentes map[string]interface{}
 }
-
-const (
-	BOT_VELOCIDADE_RAPIDA = 7
-	BOT_VELOCIDADE_NORMAL = 5
-	BOT_VELOCIDADE_LENTA  = 3
-	BOT_VELOCIDADE_MINIMA = 0
-	BOT_VELOCIDADE_MAXIMA = 10
-	BOT_CICLOS_REPETICAO  = 10
-	BOT_TAMANHO           = 10
-)
 
 func NovoBot(game interfaces.IGame, id int64) *Bot {
 
@@ -69,8 +61,16 @@ func (b *Bot) SetCor(c color.Color) {
 }
 
 func (b *Bot) Mover(r *rand.Rand) {
+	posX := b.posicao.GetX()
+	posY := b.posicao.GetY()
+
 	if b.movendo != nil {
-		b.movendo.Mover(b.game.GetMundo(), b, r)
+		b.movendo.Mover(b.game, b.game.GetMundo(), b, r)
+	}
+
+	if b.game.GetMundo().EstaNaMargemInterna(geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO), utils.BOT_TAMANHO_MUNDO) {
+		//b.SetPosicao(posX, posY)
+		//fmt.Println("Bot Passou nesta funcao !")
 	}
 }
 
@@ -91,11 +91,20 @@ func (b *Bot) Atualizar() {
 }
 
 func (b *Bot) Desenhar(tela *ebiten.Image) {
-	ebitenutil.DrawRect(tela, b.game.GetCameraX()+b.GetX(), b.game.GetCameraY()+b.GetY(), 10, 10, b.GetCor())
+	ebitenutil.DrawRect(tela, b.game.GetCamera().GetX()+b.GetX(), b.game.GetCamera().GetY()+b.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO, b.GetCor())
 }
 
 func (b *Bot) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
+	ebitenutil.DrawRect(tela, mapaX+(b.GetX()/config.PROPORCAO_MAPA), mapaY+(b.GetY()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
+}
 
-	ebitenutil.DrawRect(tela, mapaX+(b.GetX()/utils.PROPORCAO_MINI_MAPA), mapaX+(b.GetY()/utils.PROPORCAO_MINI_MAPA), 2, 2, cores.VERMELHO)
+func (e *Bot) GetComponente(id string) interface{} {
+	return e.Componentes[id]
+}
 
+func (e *Bot) AdicionarComponente(id string, comp interface{}) {
+	if e.Componentes == nil {
+		e.Componentes = make(map[string]interface{})
+	}
+	e.Componentes[id] = comp
 }

@@ -2,7 +2,7 @@ package main
 
 import (
 	"Gopher_Dungeon_Arena/src"
-	"Gopher_Dungeon_Arena/src/utils"
+	"Gopher_Dungeon_Arena/src/config"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -10,8 +10,8 @@ import (
 
 func main() {
 	game := src.NovoGame()
-	ebiten.SetWindowSize(utils.LARGURA, utils.ALTURA)
-	ebiten.SetWindowTitle(utils.NOME_JOGO)
+	ebiten.SetWindowSize(config.JANELA_LARGURA, config.JANELA_ALTURA)
+	ebiten.SetWindowTitle(config.NOME_JOGO)
 	//ebiten.SetTPS(ebiten.SyncWithFPS) // sincroniza lógica com FPS
 	//ebiten.SetTPS(1)                  // força 60 ticks por segundo
 

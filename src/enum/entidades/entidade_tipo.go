@@ -7,6 +7,7 @@ const (
 	BOT
 	JOGADOR
 	TIME
+	PAREDE
 )
 
 func (t EntidadeTipo) String() string {
@@ -19,6 +20,8 @@ func (t EntidadeTipo) String() string {
 		return "JOGADOR"
 	case TIME:
 		return "TIME"
+	case PAREDE:
+		return "PAREDE"
 	default:
 		return "**DESCONHECIDO**"
 	}

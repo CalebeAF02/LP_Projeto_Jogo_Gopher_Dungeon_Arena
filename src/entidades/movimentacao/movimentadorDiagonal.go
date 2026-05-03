@@ -2,8 +2,8 @@ package movimentacao
 
 import (
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
-	"Gopher_Dungeon_Arena/src/entidades/personagens"
 	"Gopher_Dungeon_Arena/src/interfaces"
+	"Gopher_Dungeon_Arena/src/utils"
 
 	"math/rand"
 )
@@ -11,27 +11,29 @@ import (
 type MovimentadorDiagonal struct {
 }
 
-func (md *MovimentadorDiagonal) Mover(mundo geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (md *MovimentadorDiagonal) Mover(game interfaces.IGame, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	posX := 0.0
 	posY := 0.0
 
 	tomadaDeDecicao := r.Intn(100)
 
 	if tomadaDeDecicao >= 0 && tomadaDeDecicao < 25 {
-		posX = objeto.GetX() - personagens.BOT_VELOCIDADE_NORMAL
-		posY = objeto.GetY() - personagens.BOT_VELOCIDADE_NORMAL
+		posX = objeto.GetX() - utils.BOT_VELOCIDADE_NORMAL
+		posY = objeto.GetY() - utils.BOT_VELOCIDADE_NORMAL
 	} else if tomadaDeDecicao >= 25 && tomadaDeDecicao < 50 {
-		posX = objeto.GetX() - personagens.BOT_VELOCIDADE_NORMAL
-		posY = objeto.GetY() + personagens.BOT_VELOCIDADE_NORMAL
+		posX = objeto.GetX() - utils.BOT_VELOCIDADE_NORMAL
+		posY = objeto.GetY() + utils.BOT_VELOCIDADE_NORMAL
 	} else if tomadaDeDecicao >= 50 && tomadaDeDecicao < 75 {
-		posX = objeto.GetX() + personagens.BOT_VELOCIDADE_NORMAL
-		posY = objeto.GetY() + personagens.BOT_VELOCIDADE_NORMAL
+		posX = objeto.GetX() + utils.BOT_VELOCIDADE_NORMAL
+		posY = objeto.GetY() + utils.BOT_VELOCIDADE_NORMAL
 	} else if tomadaDeDecicao >= 75 {
-		posX = objeto.GetX() + personagens.BOT_VELOCIDADE_NORMAL
-		posY = objeto.GetY() - personagens.BOT_VELOCIDADE_NORMAL
+		posX = objeto.GetX() + utils.BOT_VELOCIDADE_NORMAL
+		posY = objeto.GetY() - utils.BOT_VELOCIDADE_NORMAL
 	}
 
-	if mundo.EstaDentro(posX, objeto.GetY(), personagens.BOT_TAMANHO, personagens.BOT_TAMANHO) {
+	corpo := geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+
+	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
 		objeto.SetPosicao(posX, posY)
 	}
 

@@ -9,9 +9,10 @@ import (
 type IGame interface {
 	CriarEntidade() ecs.EntidadeID
 	GetEntidades() map[ecs.EntidadeID]ecs.Entidade
-	SetEntidade(nEntidade ecs.EntidadeID, bot ecs.Entidade)
+	SetEntidade(nEntidade ecs.EntidadeID, e ecs.Entidade)
 	GetAleatorio() *rand.Rand
-	GetMundo() geometria.Retangulo
-	GetCameraX() float64
-	GetCameraY() float64
+	GetMundo() *geometria.Retangulo
+	GetCamera() *ecs.Camera
+	ColideComBarreiras(eu *geometria.Retangulo) bool
+	GerarBot(x float64, y float64)
 }

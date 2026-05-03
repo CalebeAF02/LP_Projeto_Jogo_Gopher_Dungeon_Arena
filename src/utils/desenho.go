@@ -8,7 +8,12 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
-func Margem(tela *ebiten.Image, desenho *geometria.Retangulo, margem float64, cor color.Color) {
+func MargemInterna(tela *ebiten.Image, desenho *geometria.Retangulo, margem float64, cor color.Color) {
+	MargemLinha(tela, desenho, margem*(-1), cor)
+	MargemQuina(tela, desenho, margem*(-1), cor)
+}
+
+func MargemExterna(tela *ebiten.Image, desenho *geometria.Retangulo, margem float64, cor color.Color) {
 	MargemLinha(tela, desenho, margem, cor)
 	MargemQuina(tela, desenho, margem, cor)
 }
