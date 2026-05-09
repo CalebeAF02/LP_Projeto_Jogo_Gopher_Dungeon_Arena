@@ -14,5 +14,4 @@ type IGame interface {
 	GetMundo() *geometria.Retangulo
 	GetCamera() *ecs.Camera
 	ColideComBarreiras(eu *geometria.Retangulo) bool
-	GerarBot(x float64, y float64)
 }
