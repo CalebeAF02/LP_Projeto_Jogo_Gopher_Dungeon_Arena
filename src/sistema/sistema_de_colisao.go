@@ -13,8 +13,8 @@ func OrganizaPosicaoAleatoriaBot(g *Game) *geometria.Ponto {
 
 	// Tentamos encontrar uma posição válida (limitamos as tentativas para evitar loop infinito)
 	for tentativas := 0; tentativas < 100; tentativas++ {
-		x := float64(g.aleatorio.Intn(int(g.mundo.PosXmax(utils.BOT_TAMANHO_MUNDO))))
-		y := float64(g.aleatorio.Intn(int(g.mundo.PosYmax(utils.BOT_TAMANHO_MUNDO))))
+		x := float64(g.GetAleatorio().Intn(int(g.GetMundo().PosXmax(utils.BOT_TAMANHO_MUNDO))))
+		y := float64(g.GetAleatorio().Intn(int(g.GetMundo().PosYmax(utils.BOT_TAMANHO_MUNDO))))
 
 		if PosicaoEstaLivre(g, x, y, larguraBot, alturaBot) {
 			return geometria.NovoPonto(x, y)

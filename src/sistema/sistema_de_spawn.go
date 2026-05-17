@@ -14,11 +14,11 @@ type SistemaSpawn struct{}
 
 func (s *SistemaSpawn) Atualizar(g *Game) {
 	// --- LÓGICA DE TEMPO PARA BOTS ---
-	g.framesGeracao++
+	framesGereacao := g.GetFramesGeracao() + 1
 
 	// 180 frames = 3 segundos (em 60 FPS)
-	if g.framesGeracao >= 180 {
-		g.framesGeracao = 0
+	if framesGereacao >= 180 {
+		framesGereacao = 0
 
 		// Sorteia uma posição válida (longe de paredes)
 		pos := OrganizaPosicaoAleatoriaBot(g)
@@ -250,10 +250,10 @@ func SpawnLabirinto(g *Game) {
 }
 
 func SpawnParedesAoRedor(g *Game, passo float64) {
-	xMin := g.mundo.GetX()
-	yMin := g.mundo.GetY()
-	xMax := g.mundo.GetX() + g.mundo.GetLargura()
-	yMax := g.mundo.GetY() + g.mundo.GetAltura()
+	xMin := g.GetMundo().GetX()
+	yMin := g.GetMundo().GetY()
+	xMax := g.GetMundo().GetX() + g.GetMundo().GetLargura()
+	yMax := g.GetMundo().GetY() + g.GetMundo().GetAltura()
 
 	// 1. Paredes Horizontais (Topo e Base)
 	for x := xMin; x < xMax; x += passo {

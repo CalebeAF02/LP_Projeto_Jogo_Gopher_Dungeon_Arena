@@ -17,10 +17,10 @@ func (s *SistemaDesenhar) Desenhar(g *Game, tela *ebiten.Image) {
 	tela.Fill(color.RGBA{20, 20, 20, 255})
 
 	margemMundo := geometria.NovoRetangulo(
-		g.GetCamera().GetX()+g.mundo.GetX(),
-		g.GetCamera().GetY()+g.mundo.GetY(),
-		g.mundo.GetLargura(),
-		g.mundo.GetAltura(),
+		g.GetCamera().GetX()+g.GetMundo().GetX(),
+		g.GetCamera().GetY()+g.GetMundo().GetY(),
+		g.GetMundo().GetLargura(),
+		g.GetMundo().GetAltura(),
 	)
 
 	utils.MargemInterna(
@@ -30,19 +30,19 @@ func (s *SistemaDesenhar) Desenhar(g *Game, tela *ebiten.Image) {
 		cores.BRANCO,
 	)
 
-	for _, entidade := range g.entidades {
+	for _, entidade := range g.GetEntidades() {
 		entidade.Desenhar(tela)
 	}
 
 	if config.PROPORCAO_MUNDO > 1 {
 
-		g.miniMapa.Desenhar(tela)
+		g.GetMiniMapa().Desenhar(tela)
 
-		for _, entidade := range g.entidades {
+		for _, entidade := range g.GetEntidades() {
 			entidade.DesenharMapa(
 				tela,
-				g.miniMapa.GetX(),
-				g.miniMapa.GetY(),
+				g.GetMiniMapa().GetX(),
+				g.GetMiniMapa().GetY(),
 			)
 		}
 	}

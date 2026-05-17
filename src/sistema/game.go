@@ -15,21 +15,21 @@ import (
 type Game struct {
 	proximo          int
 	mundo            *geometria.Retangulo
+	entidades        map[ecs.EntidadeID]ecs.Entidade
+	camera           *ecs.Camera
+	miniMapa         *ecs.MiniMapa
+	aleatorio        *rand.Rand
+	framesGeracao    int
 	sistemaAtualizar []ISistemaAtualizar
 	sistemaDesenhar  []ISistemaDesenhar
-	entidades        map[ecs.EntidadeID]ecs.Entidade
-	aleatorio        *rand.Rand
-	miniMapa         *ecs.MiniMapa
-	camera           *ecs.Camera
-	framesGeracao    int
 }
 
 func NovoGame() *Game {
 	mundo := geometria.NovoRetangulo(0, 0, config.MUNDO_LARGURA, config.MUNDO_ALTURA)
 	entidades := make(map[ecs.EntidadeID]ecs.Entidade)
-	aleatorio := config.GeradorAleatorio()
 	camera := ecs.NovaCamera(mundo)
 	miniMapa := ecs.NovoMiniMapa(mundo, geometria.NovoPonto(10, 10), camera)
+	aleatorio := config.GeradorAleatorio()
 
 	g := Game{mundo: mundo, entidades: entidades, aleatorio: aleatorio, framesGeracao: 0}
 
@@ -100,6 +100,20 @@ func (g *Game) GetAltura() float64 {
 }
 func (g *Game) GetCamera() *ecs.Camera {
 	return g.camera
+}
+func (g *Game) GetFramesGeracao() int {
+	return g.framesGeracao
+}
+func (g *Game) GetMiniMapa() *ecs.MiniMapa {
+	return g.miniMapa
+}
+
+func (g *Game) GetSistemaAtualizar() []ISistemaAtualizar {
+	return g.sistemaAtualizar
+}
+
+func (g *Game) GetSistemaDesenhar() []ISistemaDesenhar {
+	return g.sistemaDesenhar
 }
 
 func (g *Game) SetEntidade(nEntidade ecs.EntidadeID, posicao ecs.Entidade) {

@@ -10,6 +10,6 @@ func (s *SistemaCamera) Atualizar(g *Game) {
 
 		jogador := lTimes[0].GetJogador(0)
 
-		g.camera.OrganizarCameraPeloJogador(jogador.GetPosicao())
+		g.GetCamera().OrganizarCameraPeloJogador(jogador.GetPosicao())
 	}
 }
