@@ -10,6 +10,24 @@ import (
 	"Gopher_Dungeon_Arena/src/interfaces"
 )
 
+type SistemaSpawn struct{}
+
+func (s *SistemaSpawn) Atualizar(g *Game) {
+	// --- LÓGICA DE TEMPO PARA BOTS ---
+	g.framesGeracao++
+
+	// 180 frames = 3 segundos (em 60 FPS)
+	if g.framesGeracao >= 180 {
+		g.framesGeracao = 0
+
+		// Sorteia uma posição válida (longe de paredes)
+		pos := OrganizaPosicaoAleatoriaBot(g)
+
+		// Gera o bot com um movimentador aleatório
+		GerarBot(g, pos.GetX(), pos.GetY())
+	}
+}
+
 func SpawnJogadores(g *Game) {
 	// Jogadores
 	j1 := personagens.NovoJogador(g, "Jogador 1")

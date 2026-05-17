@@ -6,24 +6,22 @@ import (
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/entidades/outros"
 	"Gopher_Dungeon_Arena/src/enum/componentes"
-	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
-	"Gopher_Dungeon_Arena/src/utils"
-	"image/color"
 	"math/rand"
-	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 type Game struct {
-	proximo       int
-	mundo         *geometria.Retangulo
-	entidades     map[ecs.EntidadeID]ecs.Entidade
-	aleatorio     *rand.Rand
-	miniMapa      *ecs.MiniMapa
-	camera        *ecs.Camera
-	framesGeracao int
+	proximo          int
+	mundo            *geometria.Retangulo
+	sistemaAtualizar []ISistemaAtualizar
+	sistemaDesenhar  []ISistemaDesenhar
+	entidades        map[ecs.EntidadeID]ecs.Entidade
+	aleatorio        *rand.Rand
+	miniMapa         *ecs.MiniMapa
+	camera           *ecs.Camera
+	framesGeracao    int
 }
 
 func NovoGame() *Game {
@@ -34,6 +32,20 @@ func NovoGame() *Game {
 	miniMapa := ecs.NovoMiniMapa(mundo, geometria.NovoPonto(10, 10), camera)
 
 	g := Game{mundo: mundo, entidades: entidades, aleatorio: aleatorio, framesGeracao: 0}
+
+	g.sistemaAtualizar = []ISistemaAtualizar{
+		&SistemaInput{},
+		&SistemaIA{},
+		&SistemaSpawn{},
+		&SistemaMovimento{},
+		&SistemaEntidades{},
+		&SistemaCamera{},
+		&SistemaDebug{},
+	}
+
+	g.sistemaDesenhar = []ISistemaDesenhar{
+		&SistemaDesenhar{},
+	}
 
 	g.SetMiniMapa(miniMapa)
 	g.SetCamera(camera)
@@ -116,65 +128,16 @@ func (g *Game) ColideComBarreiras(eu *geometria.Retangulo) bool {
 }
 
 func (g *Game) Update() error {
-	// Atalho para debugar as entidades no terminal
-	if ebiten.IsKeyPressed(ebiten.KeyF1) {
-		ListarPrincipaisEntidades(g)
-	} else if ebiten.IsKeyPressed(ebiten.KeyF2) {
-		ListarEntidadesOrdenadas(g)
-	} else if ebiten.IsKeyPressed(ebiten.KeyEscape) {
-		g.Sair()
-		os.Exit(0)
-	}
-
-	if ebiten.IsKeyPressed(ebiten.KeyB) {
-		CriarBotAleatorio(g)
-	}
-
-	// --- LÓGICA DE TEMPO PARA BOTS ---
-	g.framesGeracao++
-
-	// 180 frames = 3 segundos (em 60 FPS)
-	if g.framesGeracao >= 180 {
-		g.framesGeracao = 0
-
-		// Sorteia uma posição válida (longe de paredes)
-		pos := OrganizaPosicaoAleatoriaBot(g)
-
-		// Gera o bot com um movimentador aleatório
-		GerarBot(g, pos.GetX(), pos.GetY())
-	}
-
-	// --- ATUALIZAÇÃO DA CÂMERA ---
-	lTimes := g.GetTimes()
-	if len(lTimes) > 0 && len(lTimes[0].GetJogadores()) > 0 {
-		jogador := lTimes[0].GetJogador(0)
-		g.camera.OrganizarCameraPeloJogador(jogador.GetPosicao())
-	}
-
-	// --- ATUALIZAÇÃO DAS ENTIDADES ---
-	for _, entidade := range g.entidades {
-		entidade.Atualizar()
+	for _, sistema := range g.sistemaAtualizar {
+		sistema.Atualizar(g)
 	}
 
 	return nil
 }
 
 func (g *Game) Draw(tela *ebiten.Image) {
-	tela.Fill(color.RGBA{20, 20, 20, 255})
-
-	margemMundo := geometria.NovoRetangulo(g.GetCamera().GetX()+g.mundo.GetX(), g.GetCamera().GetY()+g.mundo.GetY(), g.mundo.GetLargura(), g.mundo.GetAltura())
-	utils.MargemInterna(tela, margemMundo, utils.JOGADOR_TAMANHO_MUNDO, cores.BRANCO)
-
-	for _, entidade := range g.entidades {
-		entidade.Desenhar(tela)
-	}
-
-	if config.PROPORCAO_MUNDO > 1 {
-		g.miniMapa.Desenhar(tela)
-
-		for _, entidade := range g.entidades {
-			entidade.DesenharMapa(tela, g.miniMapa.GetX(), g.miniMapa.GetY())
-		}
+	for _, sistema := range g.sistemaDesenhar {
+		sistema.Desenhar(g, tela)
 	}
 }
 

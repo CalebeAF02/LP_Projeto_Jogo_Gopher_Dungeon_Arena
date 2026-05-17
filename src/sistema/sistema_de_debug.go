@@ -6,7 +6,27 @@ import (
 	"reflect"
 	"sort"
 	"strings"
+
+	"github.com/hajimehoshi/ebiten/v2"
 )
+
+type SistemaDebug struct{}
+
+func (s *SistemaDebug) Atualizar(g *Game) {
+	// Atalho para debugar as entidades no terminal
+
+	if ebiten.IsKeyPressed(ebiten.KeyF1) {
+		ListarPrincipaisEntidades(g)
+	}
+
+	if ebiten.IsKeyPressed(ebiten.KeyF2) {
+		ListarEntidadesOrdenadas(g)
+	}
+
+	if ebiten.IsKeyPressed(ebiten.KeyB) {
+		CriarBotAleatorio(g)
+	}
+}
 
 func ListarEntidadesOrdenadas(g *Game) {
 	fmt.Println("\n" + strings.Repeat("=", 40))
