@@ -8,17 +8,20 @@ import (
 	"Gopher_Dungeon_Arena/src/entidades/personagens"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/interfaces"
+	"Gopher_Dungeon_Arena/src/utils"
 )
 
-type SistemaSpawn struct{}
+type SistemaSpawn struct {
+	framesGereacao int
+}
 
 func (s *SistemaSpawn) Atualizar(g *Game) {
 	// --- LÓGICA DE TEMPO PARA BOTS ---
-	framesGereacao := g.GetFramesGeracao() + 1
+	s.framesGereacao++
 
 	// 180 frames = 3 segundos (em 60 FPS)
-	if framesGereacao >= 180 {
-		framesGereacao = 0
+	if s.framesGereacao >= 180 {
+		s.framesGereacao = 0
 
 		// Sorteia uma posição válida (longe de paredes)
 		pos := OrganizaPosicaoAleatoriaBot(g)
@@ -153,40 +156,40 @@ func CriarBot(g *Game, movendo interfaces.Movimentador, posicao *geometria.Ponto
 
 func CriarBotAleatorio(g *Game) {
 
-	for id := 0; id < 10; id++ {
+	for id := 0; id < 3; id++ {
 		b := personagens.NovoBot(g, int64(id))
-		b.SetPosicao(config.XAleatorio(g.aleatorio), config.YAleatorio(g.aleatorio))
+
+		for {
+			posX := config.XAleatorio(g.aleatorio)
+			posY := config.YAleatorio(g.aleatorio)
+			if PosicaoEstaLivre(g, posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) {
+				b.SetPosicao(posX, posY)
+				break
+			}
+		}
 
 		movimentacaoAleatoria := g.aleatorio.Intn(100)
-		if movimentacaoAleatoria >= 0 && movimentacaoAleatoria < 15 {
+		switch {
+		case movimentacaoAleatoria < 15:
 			b.SetMovimentacao(&movimentacao.MovimentadorSimples{})
 			b.SetCor(cores.BRANCO)
-		} else if movimentacaoAleatoria >= 15 && movimentacaoAleatoria < 40 {
+		case movimentacaoAleatoria < 40:
 			b.SetMovimentacao(&movimentacao.MovimentadorVertical{})
 			b.SetCor(cores.VERDE)
-		} else if movimentacaoAleatoria >= 40 && movimentacaoAleatoria < 60 {
+		case movimentacaoAleatoria < 60:
 			b.SetMovimentacao(&movimentacao.MovimentadorHorizontalConstante{})
 			b.SetCor(cores.LARANJA)
-		} else if movimentacaoAleatoria >= 60 && movimentacaoAleatoria < 80 {
+		case movimentacaoAleatoria < 80:
 			b.SetMovimentacao(&movimentacao.MovimentadorVerticalConstante{})
 			b.SetCor(cores.VERDE)
-		} else {
+		default:
 			b.SetMovimentacao(&movimentacao.MovimentadorDiagonal{})
 			b.SetCor(cores.CIANO)
 		}
 
-		if g.aleatorio.Intn(100) < 30 {
-		} else {
+		if g.aleatorio.Intn(100) >= 30 {
 			valor := g.aleatorio.Intn(100)
-			if valor < 30 {
-
-			} else if valor > 30 && valor < 50 {
-				v2 := g.aleatorio.Intn(100)
-				if v2 > 50 {
-				}
-			} else if valor > 50 && valor < 70 {
-
-			} else {
+			if valor >= 70 {
 				b.SetMovimentacao(&movimentacao.MovimentadorHorizontal{})
 				b.SetCor(cores.LARANJA)
 			}
@@ -272,6 +275,7 @@ func SpawnParedesAoRedor(g *Game, passo float64) {
 func GerarBot(g *Game, x float64, y float64) {
 
 	tipo := g.aleatorio.Intn(10)
+
 	if tipo == 0 {
 		CriarBot(g, &movimentacao.MovimentadorHorizontal{}, geometria.NovoPonto(x, y))
 	} else if tipo == 1 {

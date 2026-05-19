@@ -40,3 +40,18 @@ func PosicaoEstaLivre(g *Game, x, y float64, largura, altura float64) bool {
 	}
 	return true // Não colidiu com nenhuma parede
 }
+
+func (g *Game) ColideComBarreiras(eu *geometria.Retangulo) bool {
+
+	for _, e := range g.GetEntidades() {
+		if e.GetTipo() == entidades.PAREDE.String() {
+			if corpoParede := e.GetComponente(componentes.CORPO.String()); corpoParede != nil {
+				if eu.Colide(corpoParede.(*geometria.Retangulo)) {
+					return true
+				}
+			}
+		}
+	}
+
+	return false
+}

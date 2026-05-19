@@ -5,8 +5,6 @@ import (
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/entidades/outros"
-	"Gopher_Dungeon_Arena/src/enum/componentes"
-	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -19,7 +17,6 @@ type Game struct {
 	camera           *ecs.Camera
 	miniMapa         *ecs.MiniMapa
 	aleatorio        *rand.Rand
-	framesGeracao    int
 	sistemaAtualizar []ISistemaAtualizar
 	sistemaDesenhar  []ISistemaDesenhar
 }
@@ -31,7 +28,7 @@ func NovoGame() *Game {
 	miniMapa := ecs.NovoMiniMapa(mundo, geometria.NovoPonto(10, 10), camera)
 	aleatorio := config.GeradorAleatorio()
 
-	g := Game{mundo: mundo, entidades: entidades, aleatorio: aleatorio, framesGeracao: 0}
+	g := Game{mundo: mundo, entidades: entidades, aleatorio: aleatorio}
 
 	g.sistemaAtualizar = []ISistemaAtualizar{
 		&SistemaInput{},
@@ -53,7 +50,7 @@ func NovoGame() *Game {
 	SpawnJogadores(&g)
 
 	SpawnParedesAoRedor(&g, 20)
-	SpawnParedesEspecificas(&g)
+	//SpawnParedesEspecificas(&g)
 	SpawnLabirinto(&g)
 
 	SpawnBots(&g)
@@ -70,10 +67,10 @@ func (g *Game) CriarEntidade() ecs.EntidadeID {
 	g.proximo++
 	return entidade
 }
-
 func (g *Game) GetEntidades() map[ecs.EntidadeID]ecs.Entidade {
 	return g.entidades
 }
+
 func (g *Game) GetTimes() []*outros.Time {
 	listaTimes := []*outros.Time{}
 
@@ -101,17 +98,13 @@ func (g *Game) GetAltura() float64 {
 func (g *Game) GetCamera() *ecs.Camera {
 	return g.camera
 }
-func (g *Game) GetFramesGeracao() int {
-	return g.framesGeracao
-}
+
 func (g *Game) GetMiniMapa() *ecs.MiniMapa {
 	return g.miniMapa
 }
-
 func (g *Game) GetSistemaAtualizar() []ISistemaAtualizar {
 	return g.sistemaAtualizar
 }
-
 func (g *Game) GetSistemaDesenhar() []ISistemaDesenhar {
 	return g.sistemaDesenhar
 }
@@ -126,26 +119,10 @@ func (g *Game) SetCamera(camera *ecs.Camera) {
 	g.camera = camera
 }
 
-func (g *Game) ColideComBarreiras(eu *geometria.Retangulo) bool {
-
-	for _, e := range g.GetEntidades() {
-		if e.GetTipo() == entidades.PAREDE.String() {
-			if corpoParede := e.GetComponente(componentes.CORPO.String()); corpoParede != nil {
-				if eu.Colide(corpoParede.(*geometria.Retangulo)) {
-					return true
-				}
-			}
-		}
-	}
-
-	return false
-}
-
 func (g *Game) Update() error {
 	for _, sistema := range g.sistemaAtualizar {
 		sistema.Atualizar(g)
 	}
-
 	return nil
 }
 
@@ -166,6 +143,5 @@ func (g *Game) Sair() {
 	g.aleatorio = nil
 
 	// Zerando contadores
-	g.framesGeracao = 0
 	g.proximo = 0
 }
