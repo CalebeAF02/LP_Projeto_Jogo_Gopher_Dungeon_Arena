@@ -24,7 +24,7 @@ func (s *SistemaDebug) Atualizar(g *Game) {
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyB) {
-		CriarBotAleatorio(g)
+		SpawnarBotsAleatroiamenteNoMundo(g)
 	}
 }
 

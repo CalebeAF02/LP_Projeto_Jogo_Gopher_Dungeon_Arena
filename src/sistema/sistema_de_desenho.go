@@ -5,7 +5,6 @@ import (
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/utils"
-	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -14,7 +13,7 @@ type SistemaDesenhar struct{}
 
 func (s *SistemaDesenhar) Desenhar(g *Game, tela *ebiten.Image) {
 
-	tela.Fill(color.RGBA{20, 20, 20, 255})
+	tela.Fill(cores.BRANCO)
 
 	margemMundo := geometria.NovoRetangulo(
 		g.GetCamera().GetX()+g.GetMundo().GetX(),
@@ -27,7 +26,7 @@ func (s *SistemaDesenhar) Desenhar(g *Game, tela *ebiten.Image) {
 		tela,
 		margemMundo,
 		utils.JOGADOR_TAMANHO_MUNDO,
-		cores.BRANCO,
+		cores.PRETO,
 	)
 
 	for _, entidade := range g.GetEntidades() {

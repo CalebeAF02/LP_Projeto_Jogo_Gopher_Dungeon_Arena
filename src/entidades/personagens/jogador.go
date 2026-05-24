@@ -39,26 +39,53 @@ func NovoJogador(game interfaces.IGame, n string) *Jogador {
 }
 
 func (j *Jogador) EstaVivo() bool {
-	if j.vida == 0 {
-		j.Status = false
+	if j.vida > 0 && j.sangue > 0 {
+		j.Status = true
+		return j.Status
 	}
+	j.Status = false
 	return j.Status
 }
 
-func (j *Jogador) renasce() {
-	if j.sangue == 0 {
-		j.vida -= 1
-		if j.EstaVivo() {
+func (j *Jogador) Renasce() {
+	if j.EstaVivo() {
+		j.TiraUmaVida()
+
+		if j.vida > 0 {
+			j.ResetaSangue()
+		} else {
 			fmt.Println("O jogador " + j.nome + " morreu!")
 		}
-		j.resetaSangue()
+
+	} else {
+		fmt.Println("O jogador " + j.nome + " já está morto!")
 	}
 }
 
-func (j *Jogador) resetaSangue() {
-	if j.vida == 1 {
-		j.sangue = 100
+func (j *Jogador) TiraUmaVida() {
+	if j.vida > 0 {
+		j.vida -= 1
 	}
+}
+
+func (j *Jogador) AcrescentaUmaVida() {
+	if j.vida < 3 {
+		j.vida += 1
+	} else {
+		fmt.Println("A vida do jogador " + j.nome + " já está cheia!")
+	}
+}
+
+func (j *Jogador) ResetaVida() {
+	j.vida = 3
+}
+
+func (j *Jogador) ResetaSangue() {
+	j.sangue = 100
+}
+
+func (j *Jogador) PerdeSangue(rit int) {
+	j.sangue -= rit
 }
 
 func (j *Jogador) GetNome() string {

@@ -1,14 +1,12 @@
 package sistema
 
 import (
-	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/entidades/movimentacao"
 	"Gopher_Dungeon_Arena/src/entidades/outros"
 	"Gopher_Dungeon_Arena/src/entidades/personagens"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/interfaces"
-	"Gopher_Dungeon_Arena/src/utils"
 )
 
 type SistemaSpawn struct {
@@ -19,15 +17,13 @@ func (s *SistemaSpawn) Atualizar(g *Game) {
 	// --- LÓGICA DE TEMPO PARA BOTS ---
 	s.framesGereacao++
 
-	// 180 frames = 3 segundos (em 60 FPS)
-	if s.framesGereacao >= 180 {
+	// 1860 = 60*30 frames = 30 segundos (em 60 FPS)
+	if s.framesGereacao >= 1860 {
 		s.framesGereacao = 0
 
-		// Sorteia uma posição válida (longe de paredes)
-		pos := OrganizaPosicaoAleatoriaBot(g)
-
-		// Gera o bot com um movimentador aleatório
-		GerarBot(g, pos.GetX(), pos.GetY())
+		if pos := OrganizaPosicaoAleatoriaBot(g); pos != nil {
+			SpawnarBotAleatorio(g, pos.GetX(), pos.GetY())
+		}
 	}
 }
 
@@ -50,8 +46,8 @@ func SpawnJogadores(g *Game) {
 	//j6.SetPosicao(500, 300)
 
 	// Times
-	t1 := outros.NovoTime(g, "Vermelhao - Time_Vermelho", cores.AZUL)
-	//t2 := outros.NovoTime(&g, "Azulzinhos - Time_Azul", cores.AZUL)
+	t1 := outros.NovoTime(g, "Vermelhao - Time_Azul", cores.AZUL)
+	//t2 := outros.NovoTime(&g, "Azulzinhos - Time_Vermelho", cores.VERMELHO)
 
 	// Gerenciando
 	t1.Adicionnar(j1)
@@ -65,18 +61,208 @@ func SpawnJogadores(g *Game) {
 	//t2.Posicoes()
 }
 
-func SpawnBots(g *Game) {
-	//Bot
-	for id := 0; id < 1; id++ {
-		CriarBot(g, &movimentacao.MovimentadorSimples{}, OrganizaPosicaoAleatoriaBot(g))
-		CriarBot(g, &movimentacao.MovimentadorVertical{}, OrganizaPosicaoAleatoriaBot(g))
-		CriarBot(g, &movimentacao.MovimentadorVerticalConstante{}, OrganizaPosicaoAleatoriaBot(g))
-		CriarBot(g, &movimentacao.MovimentadorHorizontal{}, OrganizaPosicaoAleatoriaBot(g))
-		CriarBot(g, &movimentacao.MovimentadorHorizontalConstante{}, OrganizaPosicaoAleatoriaBot(g))
-		CriarBot(g, &movimentacao.MovimentadorDiagonal{}, OrganizaPosicaoAleatoriaBot(g))
-		CriarBot(g, &movimentacao.MovimentadorLogicoLinha{}, OrganizaPosicaoAleatoriaBot(g))
-		CriarBot(g, &movimentacao.MovimentadorLogicoDiagonal{}, OrganizaPosicaoAleatoriaBot(g))
-		CriarBot(g, &movimentacao.MovimentadorLogicoDuplo{}, OrganizaPosicaoAleatoriaBot(g))
+func SpawnarBot(g *Game, movendo interfaces.Movimentador, posicao *geometria.Ponto) {
+	b := personagens.NovoBot(g, 0)
+	b.SetNivelAleatorio()
+	b.SetPosicao(posicao.GetX(), posicao.GetY())
+
+	// Define as cores com base estrita na assinatura de tipo do movimento injetado
+	switch movendo.GetTipo() {
+	case "LOGICO_LINHA":
+		b.SetCor(cores.AMARELO)
+	case "LOGICO_DIAGONAL":
+		b.SetCor(cores.VERDE)
+	case "LOGICO_DUPLO":
+		b.SetCor(cores.AZUL)
+	case "SIMPLES":
+		b.SetCor(cores.VERDE_LIMAO)
+	case "VERTICAL":
+		b.SetCor(cores.AMARELO_CLARO)
+	case "VERTICAL_CONSTANTE":
+		b.SetCor(cores.AMARELO_ESCURO)
+	case "HORIZONTAL":
+		b.SetCor(cores.MARROM)
+	case "HORIZONTAL_CONSTANTE":
+		b.SetCor(cores.MARROM_ESCURO)
+	case "DIAGONAL":
+		b.SetCor(cores.ROSA)
+	}
+
+	b.SetMovimentacao(movendo)
+	//fmt.Printf("BOT <%s> | X: %f | Y: %f\n", b.GetMovendoTipo(), b.GetX(), b.GetY())
+
+}
+
+func SpawnBotDeCadaTipo(g *Game) {
+	// Cria uma lista dos movimentadores desejados para iterar de forma limpa e segura
+	movimentadores := []interfaces.Movimentador{
+		&movimentacao.MovimentadorSimples{},
+		&movimentacao.MovimentadorVertical{},
+		&movimentacao.MovimentadorVerticalConstante{},
+		&movimentacao.MovimentadorHorizontal{},
+		&movimentacao.MovimentadorHorizontalConstante{},
+		&movimentacao.MovimentadorDiagonal{},
+		&movimentacao.MovimentadorLogicoLinha{},
+		&movimentacao.MovimentadorLogicoDiagonal{},
+		&movimentacao.MovimentadorLogicoDuplo{},
+	}
+
+	// Varre a lista garantindo que cada bot receba uma posição válida individual
+	for _, mov := range movimentadores {
+		if pos := OrganizaPosicaoAleatoriaBot(g); pos != nil {
+			SpawnarBot(g, mov, pos)
+		}
+	}
+}
+
+func SpawnarBotAleatorio(g *Game, x float64, y float64) {
+	// Sorteia dinamicamente entre os 9 tipos de movimentadores que você possui
+	tipo := g.aleatorio.Intn(9)
+	posicao := geometria.NovoPonto(x, y)
+
+	switch tipo {
+	case 0:
+		SpawnarBot(g, &movimentacao.MovimentadorSimples{}, posicao)
+	case 1:
+		SpawnarBot(g, &movimentacao.MovimentadorVertical{}, posicao)
+	case 2:
+		SpawnarBot(g, &movimentacao.MovimentadorVerticalConstante{}, posicao)
+	case 3:
+		SpawnarBot(g, &movimentacao.MovimentadorHorizontal{}, posicao)
+	case 4:
+		SpawnarBot(g, &movimentacao.MovimentadorHorizontalConstante{}, posicao)
+	case 5:
+		SpawnarBot(g, &movimentacao.MovimentadorDiagonal{}, posicao)
+	case 6:
+		SpawnarBot(g, &movimentacao.MovimentadorLogicoLinha{}, posicao)
+	case 7:
+		SpawnarBot(g, &movimentacao.MovimentadorLogicoDiagonal{}, posicao)
+	case 8:
+		SpawnarBot(g, &movimentacao.MovimentadorLogicoDuplo{}, posicao)
+	}
+}
+
+func SpawnarBotsAleatroiamenteNoMundo(g *Game) {
+	for id := 0; id < 3; id++ {
+		if pos := OrganizaPosicaoAleatoriaBot(g); pos != nil {
+			SpawnarBotAleatorio(g, pos.GetX(), pos.GetY())
+		}
+	}
+}
+
+func SpawnParedesAoRedor(g *Game, passo float64) {
+	xMin := g.GetMundo().GetX()
+	yMin := g.GetMundo().GetY()
+	xMax := g.GetMundo().GetX() + g.GetMundo().GetLargura()
+	yMax := g.GetMundo().GetY() + g.GetMundo().GetAltura()
+
+	// 1. Paredes Horizontais (Topo e Base)
+	for x := xMin; x < xMax; x += passo {
+		outros.NovaParede(g, geometria.NovoPonto(x, yMin))       // Linha de cima
+		outros.NovaParede(g, geometria.NovoPonto(x, yMax-passo)) // Linha de baixo
+	}
+
+	// 2. Paredes Verticais (Esquerda e Direita)
+	// Começamos em yMin + passo para não sobrepor os cantos já criados
+	for y := yMin + passo; y < yMax-passo; y += passo {
+		outros.NovaParede(g, geometria.NovoPonto(xMin, y))       // Lateral esquerda
+		outros.NovaParede(g, geometria.NovoPonto(xMax-passo, y)) // Lateral direita
+	}
+}
+
+func SpawnLabirinto(g *Game) {
+	// 1. Coleta os dados reais e dinâmicos do tamanho do mundo
+	mundoX := g.mundo.GetX()
+	mundoY := g.mundo.GetY()
+	mundoLargura := g.mundo.GetLargura()
+	mundoAltura := g.mundo.GetAltura()
+
+	// 2. Define o tamanho do Labirinto de forma proporcional ao mundo
+	// Aqui fazemos com que ele ocupe 80% da menor dimensão do mapa, por exemplo
+	tamanho := mundoLargura * 0.8
+	if mundoAltura < mundoLargura {
+		tamanho = mundoAltura * 0.8
+	}
+
+	passo := 30.0
+
+	// 3. Centraliza o Labirinto dinamicamente no meio do mundo
+	inicioX := mundoX + (mundoLargura-tamanho)/2
+	inicioY := mundoY + (mundoAltura-tamanho)/2
+
+	// --- Contorno do Labirinto (Gerado com base no novo início dinâmico) ---
+	// Calculamos onde ficam as aberturas de forma proporcional ao tamanho
+	aberturaEntradaMin := inicioY + (tamanho * 0.4) // Abertura centralizada na lateral
+	aberturaEntradaMax := aberturaEntradaMin + (passo * 2)
+
+	for i := 0.0; i <= tamanho; i += passo {
+		// Topo e Base
+		outros.NovaParede(g, geometria.NovoPonto(inicioX+i, inicioY))
+		outros.NovaParede(g, geometria.NovoPonto(inicioX+i, inicioY+tamanho))
+
+		// Lateral Direita
+		outros.NovaParede(g, geometria.NovoPonto(inicioX+tamanho, inicioY+i))
+
+		// Lateral Esquerda com abertura dinâmica para o jogador entrar
+		posAtualY := inicioY + i
+		if posAtualY < aberturaEntradaMin || posAtualY > aberturaEntradaMax {
+			outros.NovaParede(g, geometria.NovoPonto(inicioX, posAtualY))
+		}
+	}
+
+	// --- Grande Parede Vertical Central (Divide o labirinto exatamente ao meio) ---
+	centroX := inicioX + (tamanho / 2)
+	paredeCentralYMin := inicioY + (tamanho * 0.15)
+	paredeCentralYMax := inicioY + (tamanho * 0.85)
+	aberturaCentralMin := inicioY + (tamanho * 0.45)
+	aberturaCentralMax := aberturaCentralMin + (passo * 2)
+
+	for y := paredeCentralYMin; y <= paredeCentralYMax; y += passo {
+		if y < aberturaCentralMin || y > aberturaCentralMax { // Buraco dinâmico no meio para passar
+			outros.NovaParede(g, geometria.NovoPonto(centroX, y))
+		}
+	}
+
+	// --- Ala Esquerda (Setor de Entrada - Barreiras Horizontais Proporcionais) ---
+	alaEsquerdaXMin := inicioX + (tamanho * 0.1)
+	alaEsquerdaXMax := centroX - (tamanho * 0.1)
+
+	barreiraSuperiorY := inicioY + (tamanho * 0.25)
+	barreiraInferiorY := inicioY + (tamanho * 0.75)
+
+	// Uma barreira horizontal superior
+	for x := alaEsquerdaXMin; x <= alaEsquerdaXMax; x += passo {
+		outros.NovaParede(g, geometria.NovoPonto(x, barreiraSuperiorY))
+	}
+
+	// Uma barreira horizontal inferior
+	for x := alaEsquerdaXMin; x <= alaEsquerdaXMax; x += passo {
+		outros.NovaParede(g, geometria.NovoPonto(x, barreiraInferiorY))
+	}
+
+	// --- Ala Direita (Setor de Desafio) ---
+	// Obstáculo em forma de 'T' proporcional
+	tXMin := centroX + (tamanho * 0.15)
+	tXMax := inicioX + (tamanho * 0.85)
+	tY := inicioY + (tamanho * 0.35)
+
+	for x := tXMin; x <= tXMax; x += passo {
+		outros.NovaParede(g, geometria.NovoPonto(x, tY)) // Parte de cima do T
+	}
+	// Haste do T
+	centroT_X := tXMin + (tXMax-tXMin)/2
+	outros.NovaParede(g, geometria.NovoPonto(centroT_X, tY+passo))
+	outros.NovaParede(g, geometria.NovoPonto(centroT_X, tY+(passo*2)))
+
+	// Paredes tipo "Dentes de Pente" na lateral inferior direita
+	dentesYMin := inicioY + (tamanho * 0.6)
+	dentesYMax := inicioY + (tamanho * 0.85)
+	raiaDireitaX := inicioX + (tamanho * 0.85)
+	raiaEsquerdaX := centroX + (tamanho * 0.3)
+
+	for y := dentesYMin; y <= dentesYMax; y += passo {
+		outros.NovaParede(g, geometria.NovoPonto(raiaDireitaX, y))
+		outros.NovaParede(g, geometria.NovoPonto(raiaEsquerdaX, y))
 	}
 }
 
@@ -123,173 +309,4 @@ func SpawnParedesEspecificas(g *Game) {
 	outros.NovaParede(g, geometria.NovoPonto(680, 430))
 	outros.NovaParede(g, geometria.NovoPonto(680, 460))
 	outros.NovaParede(g, geometria.NovoPonto(680, 490))
-}
-
-func CriarBot(g *Game, movendo interfaces.Movimentador, posicao *geometria.Ponto) {
-	b := personagens.NovoBot(g, 0)
-	b.SetPosicao(posicao.GetX(), posicao.GetY())
-	b.SetMovimentacao(movendo)
-
-	if movendo.GetTipo() == "LOGICO_LINHA" {
-		b.SetCor(cores.AMARELO)
-	} else if movendo.GetTipo() == "LOGICO_DIAGONAL" {
-		b.SetCor(cores.VERDE)
-	} else if movendo.GetTipo() == "LOGICO_DUPLO" {
-		b.SetCor(cores.AZUL)
-	} else if movendo.GetTipo() == "SIMPLES" {
-		b.SetCor(cores.VERDE_LIMAO)
-	} else if movendo.GetTipo() == "VERTICAL" {
-		b.SetCor(cores.AMARELO_CLARO)
-	} else if movendo.GetTipo() == "VERTICAL_CONSTANTE" {
-		b.SetCor(cores.AMARELO_ESCURO)
-	} else if movendo.GetTipo() == "HORIZONTAL" {
-		b.SetCor(cores.MARROM)
-	} else if movendo.GetTipo() == "HORIZONTAL_CONSTANTE" {
-		b.SetCor(cores.MARROM_ESCURO)
-	} else if movendo.GetTipo() == "DIAGONAL" {
-		b.SetCor(cores.ROSA)
-	}
-
-	b.SetMovimentacao(movendo)
-	//fmt.Printf("BOT <%s> | X: %f | Y: %f\n", b.GetMovendoTipo(), b.GetX(), b.GetY())
-}
-
-func CriarBotAleatorio(g *Game) {
-
-	for id := 0; id < 3; id++ {
-		b := personagens.NovoBot(g, int64(id))
-
-		for {
-			posX := config.XAleatorio(g.aleatorio)
-			posY := config.YAleatorio(g.aleatorio)
-			if PosicaoEstaLivre(g, posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) {
-				b.SetPosicao(posX, posY)
-				break
-			}
-		}
-
-		movimentacaoAleatoria := g.aleatorio.Intn(100)
-		switch {
-		case movimentacaoAleatoria < 15:
-			b.SetMovimentacao(&movimentacao.MovimentadorSimples{})
-			b.SetCor(cores.BRANCO)
-		case movimentacaoAleatoria < 40:
-			b.SetMovimentacao(&movimentacao.MovimentadorVertical{})
-			b.SetCor(cores.VERDE)
-		case movimentacaoAleatoria < 60:
-			b.SetMovimentacao(&movimentacao.MovimentadorHorizontalConstante{})
-			b.SetCor(cores.LARANJA)
-		case movimentacaoAleatoria < 80:
-			b.SetMovimentacao(&movimentacao.MovimentadorVerticalConstante{})
-			b.SetCor(cores.VERDE)
-		default:
-			b.SetMovimentacao(&movimentacao.MovimentadorDiagonal{})
-			b.SetCor(cores.CIANO)
-		}
-
-		if g.aleatorio.Intn(100) >= 30 {
-			valor := g.aleatorio.Intn(100)
-			if valor >= 70 {
-				b.SetMovimentacao(&movimentacao.MovimentadorHorizontal{})
-				b.SetCor(cores.LARANJA)
-			}
-		}
-	}
-}
-
-func SpawnLabirinto(g *Game) {
-
-	inicioX, inicioY := 800.0, 800.0
-	tamanho := 600.0
-	passo := 30.0
-
-	for i := 0.0; i <= tamanho; i += passo {
-		// Topo e Base
-		outros.NovaParede(g, geometria.NovoPonto(inicioX+i, inicioY))
-		outros.NovaParede(g, geometria.NovoPonto(inicioX+i, inicioY+tamanho))
-
-		// Lateral Direita
-		outros.NovaParede(g, geometria.NovoPonto(inicioX+tamanho, inicioY+i))
-
-		// Lateral Esquerda (com abertura entre 950 e 1010 para entrar)
-		posAtualY := inicioY + i
-		if posAtualY < 950 || posAtualY > 1010 {
-			outros.NovaParede(g, geometria.NovoPonto(inicioX, posAtualY))
-		}
-	}
-
-	// --- Grande Parede Vertical Central (Divide o labirinto em dois) ---
-	for y := 860.0; y <= 1340; y += passo {
-		if y < 1070 || y > 1130 { // Buraco no meio da parede central para passar
-			outros.NovaParede(g, geometria.NovoPonto(1100, y))
-		}
-	}
-
-	// --- Ala Esquerda (Setor de Entrada) ---
-	// Uma barreira horizontal superior
-	for x := 860.0; x <= 1040; x += passo {
-		outros.NovaParede(g, geometria.NovoPonto(x, 920))
-	}
-
-	// Uma barreira horizontal inferior
-	for x := 860.0; x <= 1040; x += passo {
-		outros.NovaParede(g, geometria.NovoPonto(x, 1280))
-	}
-
-	// --- Ala Direita (Setor de Desafio) ---
-	// Obstáculo em forma de 'T'
-	for x := 1200.0; x <= 1350; x += passo {
-		outros.NovaParede(g, geometria.NovoPonto(x, 1000)) // Parte de cima do T
-	}
-	outros.NovaParede(g, geometria.NovoPonto(1275, 1030))
-	outros.NovaParede(g, geometria.NovoPonto(1275, 1060))
-
-	// Paredes tipo "Dentes de Pente" na lateral direita
-	for y := 1150.0; y <= 1300; y += passo {
-		outros.NovaParede(g, geometria.NovoPonto(1340, y))
-		outros.NovaParede(g, geometria.NovoPonto(1250, y))
-	}
-
-}
-
-func SpawnParedesAoRedor(g *Game, passo float64) {
-	xMin := g.GetMundo().GetX()
-	yMin := g.GetMundo().GetY()
-	xMax := g.GetMundo().GetX() + g.GetMundo().GetLargura()
-	yMax := g.GetMundo().GetY() + g.GetMundo().GetAltura()
-
-	// 1. Paredes Horizontais (Topo e Base)
-	for x := xMin; x < xMax; x += passo {
-		outros.NovaParede(g, geometria.NovoPonto(x, yMin))       // Linha de cima
-		outros.NovaParede(g, geometria.NovoPonto(x, yMax-passo)) // Linha de baixo
-	}
-
-	// 2. Paredes Verticais (Esquerda e Direita)
-	// Começamos em yMin + passo para não sobrepor os cantos já criados
-	for y := yMin + passo; y < yMax-passo; y += passo {
-		outros.NovaParede(g, geometria.NovoPonto(xMin, y))       // Lateral esquerda
-		outros.NovaParede(g, geometria.NovoPonto(xMax-passo, y)) // Lateral direita
-	}
-}
-
-func GerarBot(g *Game, x float64, y float64) {
-
-	tipo := g.aleatorio.Intn(10)
-
-	if tipo == 0 {
-		CriarBot(g, &movimentacao.MovimentadorHorizontal{}, geometria.NovoPonto(x, y))
-	} else if tipo == 1 {
-		CriarBot(g, &movimentacao.MovimentadorHorizontalConstante{}, geometria.NovoPonto(x, y))
-	} else if tipo == 2 {
-		CriarBot(g, &movimentacao.MovimentadorVertical{}, geometria.NovoPonto(x, y))
-	} else if tipo == 3 {
-		CriarBot(g, &movimentacao.MovimentadorVerticalConstante{}, geometria.NovoPonto(x, y))
-	} else if tipo == 4 {
-		CriarBot(g, &movimentacao.MovimentadorDiagonal{}, geometria.NovoPonto(x, y))
-	} else if tipo == 5 {
-		CriarBot(g, &movimentacao.MovimentadorLogicoDiagonal{}, geometria.NovoPonto(x, y))
-	} else {
-		CriarBot(g, &movimentacao.MovimentadorDiagonal{}, geometria.NovoPonto(x, y))
-	}
-
 }

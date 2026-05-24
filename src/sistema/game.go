@@ -25,7 +25,7 @@ func NovoGame() *Game {
 	mundo := geometria.NovoRetangulo(0, 0, config.MUNDO_LARGURA, config.MUNDO_ALTURA)
 	entidades := make(map[ecs.EntidadeID]ecs.Entidade)
 	camera := ecs.NovaCamera(mundo)
-	miniMapa := ecs.NovoMiniMapa(mundo, geometria.NovoPonto(10, 10), camera)
+	miniMapa := ecs.NovoMiniMapa(mundo, geometria.NovoPonto(config.POS_X_MAPA, config.POS_Y_MAPA), camera)
 	aleatorio := config.GeradorAleatorio()
 
 	g := Game{mundo: mundo, entidades: entidades, aleatorio: aleatorio}
@@ -53,7 +53,7 @@ func NovoGame() *Game {
 	//SpawnParedesEspecificas(&g)
 	SpawnLabirinto(&g)
 
-	SpawnBots(&g)
+	SpawnBotDeCadaTipo(&g)
 
 	return &g
 }

@@ -117,8 +117,17 @@ func (r *Retangulo) EstaNaMargemExterna(r2 *Retangulo, margem float64) bool {
 }
 
 func (r *Retangulo) Colide(r2 *Retangulo) bool {
-	return r.x < r2.x+r2.largura &&
-		r.x+r.largura > r2.x &&
-		r.y < r2.y+r2.altura &&
-		r.y+r.altura > r2.y
+	// Posições do retangulo 1
+	posX1 := r.x
+	posY1 := r.y
+	posX2 := posX1 + r.largura
+	posY2 := posY1 + r.altura
+
+	// Posições do retangulo 2
+	outroX1 := r2.x
+	outroY1 := r2.y
+	outroX2 := outroX1 + r2.largura
+	outroY2 := outroY1 + r2.altura
+
+	return posX1 < outroX2 && posX2 > outroX1 && posY1 < outroY2 && posY2 > outroY1
 }

@@ -21,6 +21,7 @@ type Bot struct {
 	game        interfaces.IGame
 	entidade    ecs.EntidadeID
 	Id          int64
+	nivel       int
 	sangue      int
 	cor         color.Color
 	status      bool
@@ -33,11 +34,28 @@ func NovoBot(game interfaces.IGame, id int64) *Bot {
 
 	nEntidade := game.CriarEntidade()
 	posicao := geometria.NovoPonto(0, 0)
-	nBot := Bot{game: game, entidade: nEntidade, Id: id, sangue: 100, cor: cores.BRANCO, status: true, posicao: posicao}
+	nBot := Bot{game: game, entidade: nEntidade, Id: id, nivel: 1, sangue: 100, cor: cores.BRANCO, status: true, posicao: posicao}
 
 	game.SetEntidade(nEntidade, &nBot)
 
 	return &nBot
+}
+
+func (b *Bot) EstaVivo() bool {
+	if b.sangue > 0 {
+		b.status = true
+		return b.status
+	}
+	b.status = false
+	return b.status
+}
+
+func (b *Bot) ResetaSangue() {
+	b.sangue = 100 * b.nivel
+}
+
+func (b *Bot) PerdeSangue(rit int) {
+	b.sangue -= rit
 }
 
 func (b *Bot) SetPosicao(x float64, y float64) {
@@ -56,8 +74,42 @@ func (b *Bot) GetCor() color.Color {
 	return b.cor
 }
 
+func (b *Bot) GetMovendoTipo() string {
+	return b.movendo.GetTipo()
+}
+
+func (b *Bot) GetTipo() string {
+	return entidades.BOT.String()
+}
+
+func (b *Bot) GetNivel() int {
+	return b.nivel
+}
+
 func (b *Bot) SetCor(c color.Color) {
 	b.cor = c
+}
+
+func (b *Bot) SetNivel(nivel int) {
+	b.nivel = nivel
+	b.CorrigeSangue()
+}
+
+func (b *Bot) SetNivelAleatorio() {
+	nivel := b.game.GetAleatorio().Intn(100)
+	switch {
+	case nivel >= 70:
+		b.nivel = 3
+	case nivel >= 50:
+		b.nivel = 2
+	default:
+		b.nivel = 1
+	}
+	b.CorrigeSangue()
+}
+
+func (b *Bot) CorrigeSangue() {
+	b.sangue = 100 * b.nivel
 }
 
 func (b *Bot) Mover(r *rand.Rand) {
@@ -76,14 +128,6 @@ func (b *Bot) Mover(r *rand.Rand) {
 
 func (b *Bot) SetMovimentacao(movendo interfaces.Movimentador) {
 	b.movendo = movendo
-}
-
-func (b *Bot) GetMovendoTipo() string {
-	return b.movendo.GetTipo()
-}
-
-func (b *Bot) GetTipo() string {
-	return entidades.BOT.String()
 }
 
 func (b *Bot) Atualizar() {

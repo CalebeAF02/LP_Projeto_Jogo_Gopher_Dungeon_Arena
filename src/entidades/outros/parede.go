@@ -16,28 +16,36 @@ import (
 type Parede struct {
 	game        interfaces.IGame
 	entidade    ecs.EntidadeID
-	corpo       *geometria.Retangulo
+	estrutura   *geometria.Retangulo
 	Componentes map[string]interface{}
 }
 
 func NovaParede(game interfaces.IGame, posicao *geometria.Ponto) *Parede {
 
 	nEntidade := game.CriarEntidade()
-	nParede := Parede{game: game, entidade: nEntidade, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), 30, 30)}
+	nParede := Parede{game: game, entidade: nEntidade, estrutura: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.PAREDE_TAMANHO_MUNDO, utils.PAREDE_TAMANHO_MUNDO)}
 
 	game.SetEntidade(nEntidade, &nParede)
 
-	nParede.AdicionarComponente(componentes.CORPO.String(), nParede.corpo)
+	nParede.AdicionarComponente(componentes.CORPO.String(), nParede.estrutura)
 
 	return &nParede
 }
 
 func (b *Parede) GetX() float64 {
-	return b.corpo.GetX()
+	return b.estrutura.GetX()
 }
 
 func (b *Parede) GetY() float64 {
-	return b.corpo.GetY()
+	return b.estrutura.GetY()
+}
+
+func (b *Parede) GetLargura() float64 {
+	return b.estrutura.GetLargura()
+}
+
+func (b *Parede) GetAltura() float64 {
+	return b.estrutura.GetAltura()
 }
 
 func (b *Parede) GetTipo() string {
@@ -60,9 +68,9 @@ func (e *Parede) AdicionarComponente(id string, comp interface{}) {
 }
 
 func (b *Parede) Desenhar(tela *ebiten.Image) {
-	ebitenutil.DrawRect(tela, b.game.GetCamera().GetX()+b.GetX(), b.game.GetCamera().GetY()+b.GetY(), 30, 30, cores.CINZA_ESCURO)
+	ebitenutil.DrawRect(tela, b.game.GetCamera().GetX()+b.GetX(), b.game.GetCamera().GetY()+b.GetY(), utils.PAREDE_TAMANHO_MUNDO, utils.PAREDE_TAMANHO_MUNDO, cores.PRETO)
 }
 
 func (b *Parede) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
-	ebitenutil.DrawRect(tela, mapaX+(b.GetX()/config.PROPORCAO_MAPA), mapaY+(b.GetY()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
+	ebitenutil.DrawRect(tela, mapaX+(b.GetX()/config.PROPORCAO_MAPA), mapaY+(b.GetY()/config.PROPORCAO_MAPA), utils.PAREDE_TAMANHO_MAPA, utils.PAREDE_TAMANHO_MAPA, cores.PRETO)
 }

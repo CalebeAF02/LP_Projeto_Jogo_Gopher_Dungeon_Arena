@@ -76,10 +76,10 @@ func (mm *MiniMapa) Desenhar(tela *ebiten.Image) {
 	//amareloAltura := mm.miniMapa.GetAltura() / config.PROPORCAO_MUNDO
 	mm.NovaCameraMiniMapa()
 
-	ebitenutil.DrawRect(tela, mm.cameraMiniMapa.GetX(), mm.cameraMiniMapa.GetY(), mm.cameraMiniMapa.GetLargura(), mm.cameraMiniMapa.GetAltura(), cores.AMARELO)
+	ebitenutil.DrawRect(tela, mm.cameraMiniMapa.GetX(), mm.cameraMiniMapa.GetY(), mm.cameraMiniMapa.GetLargura(), mm.cameraMiniMapa.GetAltura(), cores.AMARELO_CLARO)
 
 	//Margem
-	utils.MargemInterna(tela, mm.miniMapa, utils.JOGADOR_TAMANHO_MAPA, cores.MARROM)
+	utils.MargemInterna(tela, mm.miniMapa, utils.JOGADOR_TAMANHO_MAPA, cores.VERMELHO)
 }
 
 func (mm *MiniMapa) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
