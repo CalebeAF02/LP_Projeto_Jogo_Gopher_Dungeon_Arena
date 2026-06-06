@@ -13,5 +13,5 @@ type IGame interface {
 	GetAleatorio() *rand.Rand
 	GetMundo() *geometria.Retangulo
 	GetCamera() *ecs.Camera
-	ColideComBarreiras(eu *geometria.Retangulo) bool
+	VaiColidir(meuCorpoAtual *geometria.Retangulo, proximoCorpo *geometria.Retangulo) bool
 }

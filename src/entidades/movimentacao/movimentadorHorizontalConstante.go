@@ -26,31 +26,37 @@ func (mhc *MovimentadorHorizontalConstante) Mover(game interfaces.IGame, mundo *
 	}
 
 	// 2. Cálculo da nova intenção de posição
-	posX := objeto.GetX() + float64(mhc.direcao)
+	posX := objeto.GetX1() + float64(mhc.direcao)
 	limiteEsquerda := mundo.GetX()
 	limiteDireita := mundo.PosXmax(utils.BOT_TAMANHO_MUNDO)
 
-	// 3. Verificação de bordas e inversão
+	// 3. Verificação de bordas do mundo e inversão automática
 	if posX >= limiteDireita {
 		posX = limiteDireita
-		// Sorteia nova velocidade e garante que seja negativa (esquerda)
 		mhc.direcao = -(r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1)
 		mhc.ciclos = 0
 	} else if posX <= limiteEsquerda {
 		posX = limiteEsquerda
-		// Sorteia nova velocidade e garante que seja positiva (direita)
 		mhc.direcao = r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1
 		mhc.ciclos = 0
 	}
 
 	mhc.ciclos += 1
 
-	corpo := geometria.NovoRetangulo(posX, objeto.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+	// 4. Cria os retângulos para o teste de colisão ECS
+	proximoCorpo := geometria.NovoRetangulo(posX, objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+	corpoAtual := geometria.NovoRetangulo(objeto.GetX1(), objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
 
-	if mundo.EstaDentroDireto(posX, objeto.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
-		objeto.SetPosicao(posX, objeto.GetY())
+	// 5. Teste de Colisão Seca (Mundo + Outras Entidades)
+	if mundo.EstaDentroDireto(posX, objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
+		!game.VaiColidir(corpoAtual, proximoCorpo) {
+		// Caminho livre: Aplica a nova posição
+		objeto.SetPosicao(posX, objeto.GetY1())
 	} else {
-		//objeto.SetPosicao(posX, objeto.GetY())
+		// BATEU SECO: O movimento deste frame é cancelado (não chama SetPosicao)
+		// COMPORTAMENTO INTELIGENTE: Força a inversão de direção para o bot não ficar preso correndo contra o obstáculo
+		mhc.direcao *= -1
+		mhc.ciclos = 0
 	}
 
 }

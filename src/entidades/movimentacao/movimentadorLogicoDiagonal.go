@@ -32,8 +32,11 @@ func (mld *MovimentadorLogicoDiagonal) Mover(game interfaces.IGame, mundo *geome
 
 	}
 
-	posX := objeto.GetX() + mld.direcaoX
+	// 1. Cálculo da nova intenção de posição
+	posX := objeto.GetX1() + mld.direcaoX
+	posY := objeto.GetY1() + mld.direcaoY
 
+	// 2. Verificação de bordas e colisão com os limites do mundo
 	if posX >= mundo.PosXmax(utils.BOT_TAMANHO_MUNDO) {
 		posX = mundo.PosXmax(utils.BOT_TAMANHO_MUNDO)
 		mld.bateu()
@@ -42,21 +45,27 @@ func (mld *MovimentadorLogicoDiagonal) Mover(game interfaces.IGame, mundo *geome
 		mld.bateu()
 	}
 
-	posY := objeto.GetY() + mld.direcaoY
-
 	if posY >= mundo.PosYmax(utils.BOT_TAMANHO_MUNDO) {
 		posY = mundo.PosYmax(utils.BOT_TAMANHO_MUNDO)
 		mld.bateu()
-
 	} else if posY <= mundo.GetY() {
 		posY = mundo.GetY()
 		mld.bateu()
 	}
 
-	corpo := geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+	// 3. Cria os retângulos para o teste de colisão ECS
+	proximoCorpo := geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+	corpoAtual := geometria.NovoRetangulo(objeto.GetX1(), objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
 
-	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
+	// 4. Teste de Colisão Seca (Mundo + Outras Entidades)
+	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
+		!game.VaiColidir(corpoAtual, proximoCorpo) {
+		// Caminho livre: Aplica a nova posição na diagonal
 		objeto.SetPosicao(posX, posY)
+	} else {
+		// BATEU SECO: Cancela o movimento deste frame (não chama SetPosicao)
+		// COMPORTAMENTO INTELIGENTE: Aciona a sua função para recalcular uma nova direção no próximo frame
+		mld.bateu()
 	}
 
 }

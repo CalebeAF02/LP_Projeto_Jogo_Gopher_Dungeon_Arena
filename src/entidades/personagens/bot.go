@@ -3,6 +3,7 @@ package personagens
 import (
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/ecs"
+	"Gopher_Dungeon_Arena/src/enum/componentes"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/utils"
@@ -27,6 +28,7 @@ type Bot struct {
 	status      bool
 	movendo     interfaces.Movimentador
 	posicao     *geometria.Ponto
+	corpo   *geometria.Retangulo
 	Componentes map[string]interface{}
 }
 
@@ -34,9 +36,11 @@ func NovoBot(game interfaces.IGame, id int64) *Bot {
 
 	nEntidade := game.CriarEntidade()
 	posicao := geometria.NovoPonto(0, 0)
-	nBot := Bot{game: game, entidade: nEntidade, Id: id, nivel: 1, sangue: 100, cor: cores.BRANCO, status: true, posicao: posicao}
+	nBot := Bot{game: game, entidade: nEntidade, Id: id, nivel: 1, sangue: 100, cor: cores.BRANCO, status: true, posicao: posicao, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)}
 
 	game.SetEntidade(nEntidade, &nBot)
+
+	nBot.AdicionarComponente(componentes.CORPO.String(), nBot.corpo)
 
 	return &nBot
 }
@@ -60,14 +64,36 @@ func (b *Bot) PerdeSangue(rit int) {
 
 func (b *Bot) SetPosicao(x float64, y float64) {
 	b.posicao.SetPosicao(x, y)
+	b.corpo.SetX(x)
+	b.corpo.SetY(y)
 }
 
-func (b *Bot) GetX() float64 {
+func (b *Bot) GetCorpo() *geometria.Retangulo {
+	corpo := geometria.NovoRetangulo(b.GetX1(), b.GetY1(), b.GetLargura(), b.GetAltura())
+	return corpo
+}
+
+func (b *Bot) GetX1() float64 {
 	return b.posicao.GetX()
 }
 
-func (b *Bot) GetY() float64 {
+func (b *Bot) GetY1() float64 {
 	return b.posicao.GetY()
+}
+
+func (b *Bot) GetX2() float64 {
+	return b.posicao.GetX() + utils.BOT_TAMANHO_MUNDO
+}
+
+func (b *Bot) GetY2() float64 {
+	return b.posicao.GetY() + utils.BOT_TAMANHO_MUNDO
+}
+func (b *Bot) GetLargura() float64 {
+	return utils.BOT_TAMANHO_MUNDO
+}
+
+func (b *Bot) GetAltura() float64 {
+	return utils.BOT_TAMANHO_MUNDO
 }
 
 func (b *Bot) GetCor() color.Color {
@@ -135,11 +161,11 @@ func (b *Bot) Atualizar() {
 }
 
 func (b *Bot) Desenhar(tela *ebiten.Image) {
-	ebitenutil.DrawRect(tela, b.game.GetCamera().GetX()+b.GetX(), b.game.GetCamera().GetY()+b.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO, b.GetCor())
+	ebitenutil.DrawRect(tela, b.game.GetCamera().GetX()+b.GetX1(), b.game.GetCamera().GetY()+b.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO, b.GetCor())
 }
 
 func (b *Bot) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
-	ebitenutil.DrawRect(tela, mapaX+(b.GetX()/config.PROPORCAO_MAPA), mapaY+(b.GetY()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
+	ebitenutil.DrawRect(tela, mapaX+(b.GetX1()/config.PROPORCAO_MAPA), mapaY+(b.GetY1()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
 }
 
 func (e *Bot) GetComponente(id string) interface{} {

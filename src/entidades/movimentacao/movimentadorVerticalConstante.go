@@ -24,30 +24,39 @@ func (mvc *MovimentadorVerticalConstante) Mover(game interfaces.IGame, mundo *ge
 	}
 
 	// 2. Calcular a intenção de movimento
-	posY := objeto.GetY() + float64(mvc.direcao)
+	posY := objeto.GetY1() + float64(mvc.direcao)
 	limiteInferior := mundo.PosYmax(utils.BOT_TAMANHO_MUNDO)
+	limiteSuperior := mundo.GetY() // Usando mundo.GetY() para garantir consistência com o topo do mapa
 
 	// 3. Checar colisões com as bordas do mundo
 	if posY >= limiteInferior {
 		posY = limiteInferior
 		mvc.direcao = -(r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1) // Inverte para subir
 		mvc.ciclos = 0
-	} else if posY <= 0 {
-		posY = 0
+	} else if posY <= limiteSuperior {
+		posY = limiteSuperior
 		mvc.direcao = r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1 // Inverte para descer
 		mvc.ciclos = 0
 	}
 
-	corpo := geometria.NovoRetangulo(objeto.GetX(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+	// 4. Cria os retângulos para o teste de colisão ECS
+	proximoCorpo := geometria.NovoRetangulo(objeto.GetX1(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+	corpoAtual := geometria.NovoRetangulo(objeto.GetX1(), objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
 
-	// 4. Aplicar o movimento
-	if mundo.EstaDentroDireto(objeto.GetX(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
-		objeto.SetPosicao(objeto.GetX(), posY)
+	// 5. Teste de Colisão Seca (Mundo + Outras Entidades)
+	if mundo.EstaDentroDireto(objeto.GetX1(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
+		!game.VaiColidir(corpoAtual, proximoCorpo) {
+		// Caminho livre: Aplica o movimento vertical e incrementa o ciclo
+		objeto.SetPosicao(objeto.GetX1(), posY)
 		mvc.ciclos++
-
+	} else {
+		// BATEU SECO em outra entidade (Jogador ou Bot): Cancela o movimento do frame
+		// COMPORTAMENTO INTELIGENTE: Inverte o sinal da direção para ele começar a andar para o lado oposto no próximo frame
+		mvc.direcao *= -1
+		mvc.ciclos = 0
 	}
 
-	// 5. Reset de ciclo por tempo
+	// 6. Reset de ciclo por tempo
 	if mvc.ciclos >= utils.BOT_CICLOS_REPETICAO {
 		mvc.ciclos = 0
 	}

@@ -6,8 +6,8 @@ import (
 )
 
 type HabilidadeMovimentacao interface {
-	GetX() float64
-	GetY() float64
+	GetX1() float64
+	GetY1() float64
 	SetPosicao(x, y float64)
 }
 

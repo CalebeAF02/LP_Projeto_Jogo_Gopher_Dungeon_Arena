@@ -11,12 +11,14 @@ func OrganizaPosicaoAleatoriaBot(g *Game) *geometria.Ponto {
 	larguraBot := float64(utils.BOT_TAMANHO_MUNDO)
 	alturaBot := float64(utils.BOT_TAMANHO_MUNDO)
 
-	// Tentamos encontrar uma posição válida (limitamos as tentativas para evitar loop infinito)
+	// Limitamos as tentativas para evitar loop infinito se o mapa estiver cheio
 	for tentativas := 0; tentativas < 100; tentativas++ {
 		x := float64(g.GetAleatorio().Intn(int(g.GetMundo().PosXmax(utils.BOT_TAMANHO_MUNDO))))
 		y := float64(g.GetAleatorio().Intn(int(g.GetMundo().PosYmax(utils.BOT_TAMANHO_MUNDO))))
 
-		if PosicaoEstaLivre(g, x, y, larguraBot, alturaBot) {
+		// REUTILIZAÇÃO: Usamos diretamente o método do jogo para checar barreiras (paredes)
+		corpoTemporario := geometria.NovoRetangulo(x, y, larguraBot, alturaBot)
+		if !g.ColideComTipo(corpoTemporario, entidades.PAREDE.String()) {
 			return geometria.NovoPonto(x, y)
 		}
 	}
@@ -24,34 +26,56 @@ func OrganizaPosicaoAleatoriaBot(g *Game) *geometria.Ponto {
 	return nil
 }
 
-func PosicaoEstaLivre(g *Game, x, y float64, largura, altura float64) bool {
-	// Cria um retângulo temporário para representar o corpo do bot na posição sorteada
-	corpoBot := geometria.NovoRetangulo(x, y, largura, altura)
-
+func (g *Game) VaiColidir(meuCorpoAtual *geometria.Retangulo, proximoCorpo *geometria.Retangulo) bool {
 	for _, e := range g.GetEntidades() {
-		if e.GetTipo() == entidades.PAREDE.String() {
-			if corpoParede := e.GetComponente(componentes.CORPO.String()); corpoParede != nil {
-				// Se colidir com qualquer parede, a posição não está livre
-				if corpoBot.Colide(corpoParede.(*geometria.Retangulo)) {
-					return false
+		tipo := e.GetTipo()
+		if tipo == entidades.PAREDE.String() || tipo == entidades.JOGADOR.String() || tipo == entidades.BOT.String() {
+			if corpoEntidade := e.GetComponente(componentes.CORPO.String()); corpoEntidade != nil {
+				corpo := corpoEntidade.(*geometria.Retangulo)
+
+				// EVITA AUTO-COLISÃO REAL:
+				// Se a entidade da lista tiver exatamente a mesma posição X e Y do meu corpo atual,
+				// significa que essa entidade SOU EU MESMO na tabela do ECS. Ignoramos!
+				if corpo.GetX() == meuCorpoAtual.GetX() && corpo.GetY() == meuCorpoAtual.GetY() {
+					continue
 				}
-			}
-		}
-	}
-	return true // Não colidiu com nenhuma parede
-}
 
-func (g *Game) ColideComBarreiras(eu *geometria.Retangulo) bool {
-
-	for _, e := range g.GetEntidades() {
-		if e.GetTipo() == entidades.PAREDE.String() {
-			if corpoParede := e.GetComponente(componentes.CORPO.String()); corpoParede != nil {
-				if eu.Colide(corpoParede.(*geometria.Retangulo)) {
+				// Agora sim, testa se a minha PRÓXIMA posição vai bater em OUTRA entidade
+				if proximoCorpo.Colide(corpo) {
+					if meuCorpoAtual.Colide(corpo) {
+						continue
+					}
 					return true
 				}
 			}
 		}
 	}
-
 	return false
+}
+
+// ColideComTipo isola uma busca específica (útil para o Spawn ou lógicas de IA direcionadas)
+func (g *Game) ColideComTipo(eu *geometria.Retangulo, tipoDesejado string) bool {
+	for _, e := range g.GetEntidades() {
+		if e.GetTipo() == tipoDesejado {
+			if corpoEntidade := e.GetComponente(componentes.CORPO.String()); corpoEntidade != nil {
+				if eu.Colide(corpoEntidade.(*geometria.Retangulo)) {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
+// Métodos auxiliares semanticamente limpos, reaproveitando a função genérica
+func (g *Game) ColideComBarreiras(eu *geometria.Retangulo) bool {
+	return g.ColideComTipo(eu, entidades.PAREDE.String())
+}
+
+func (g *Game) ColideComJogador(eu *geometria.Retangulo) bool {
+	return g.ColideComTipo(eu, entidades.JOGADOR.String())
+}
+
+func (g *Game) ColideComBot(eu *geometria.Retangulo) bool {
+	return g.ColideComTipo(eu, entidades.BOT.String())
 }

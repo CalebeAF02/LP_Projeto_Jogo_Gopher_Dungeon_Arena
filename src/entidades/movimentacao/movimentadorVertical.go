@@ -16,23 +16,31 @@ func (mb *MovimentadorVertical) Mover(game interfaces.IGame, mundo *geometria.Re
 	tomadaDeDecicao := r.Intn(100)
 
 	if tomadaDeDecicao >= 50 {
-		posY = objeto.GetY() + utils.BOT_VELOCIDADE_NORMAL
+		posY = objeto.GetY1() + utils.BOT_VELOCIDADE_NORMAL
 	} else {
-		posY = objeto.GetY() - utils.BOT_VELOCIDADE_NORMAL
+		posY = objeto.GetY1() - utils.BOT_VELOCIDADE_NORMAL
 	}
 
-	corpo := geometria.NovoRetangulo(objeto.GetX(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+	// 1. Cria o retângulo da PRÓXIMA posição vertical pretendida
+	proximoCorpo := geometria.NovoRetangulo(objeto.GetX1(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
 
-	if !mundo.EstaDentroDireto(objeto.GetX(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
-		if posY >= mundo.PosYmax(utils.BOT_TAMANHO_MUNDO) {
-			posY = mundo.PosYmax(utils.BOT_TAMANHO_MUNDO)
-		} else if posY <= mundo.GetY() {
-			posY = mundo.GetY()
-		}
+	// 2. Cria o retângulo da posição ATUAL do bot para usar no filtro de auto-colisão
+	corpoAtual := geometria.NovoRetangulo(objeto.GetX1(), objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+
+	// 3. Validação de segurança para não deixar o cálculo de posY sair dos limites do mundo
+	if posY >= mundo.PosYmax(utils.BOT_TAMANHO_MUNDO) {
+		posY = mundo.PosYmax(utils.BOT_TAMANHO_MUNDO)
+	} else if posY <= mundo.GetY() {
+		posY = mundo.GetY()
 	}
 
-	if mundo.EstaDentroDireto(objeto.GetX(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
-		objeto.SetPosicao(objeto.GetX(), posY)
+	// Atualiza o retângulo pretendido caso ele tenha sido ajustado pelas bordas do mundo acima
+	proximoCorpo = geometria.NovoRetangulo(objeto.GetX1(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+
+	// 4. Checagem final de impacto seco: Se livre, move. Se houver obstáculo, trava na hora!
+	if mundo.EstaDentroDireto(objeto.GetX1(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
+		!game.VaiColidir(corpoAtual, proximoCorpo) {
+		objeto.SetPosicao(objeto.GetX1(), posY)
 	}
 }
 

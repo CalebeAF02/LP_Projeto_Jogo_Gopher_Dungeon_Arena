@@ -16,23 +16,32 @@ func (mh *MovimentadorHorizontal) Mover(game interfaces.IGame, mundo *geometria.
 	tomadaDeDecicao := r.Intn(100)
 
 	if tomadaDeDecicao >= 50 {
-		posX = objeto.GetX() + utils.BOT_VELOCIDADE_NORMAL
+		posX = objeto.GetX1() + utils.BOT_VELOCIDADE_NORMAL
 	} else {
-		posX = objeto.GetX() - utils.BOT_VELOCIDADE_NORMAL
+		posX = objeto.GetX1() - utils.BOT_VELOCIDADE_NORMAL
 	}
 
-	corpo := geometria.NovoRetangulo(posX, objeto.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+	// 1. Cria o retângulo da PRÓXIMA posição horizontal pretendida
+	proximoCorpo := geometria.NovoRetangulo(posX, objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
 
-	if !mundo.EstaDentroDireto(posX, objeto.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
-		if posX >= mundo.PosXmax(utils.BOT_TAMANHO_MUNDO) {
-			posX = mundo.PosXmax(utils.BOT_TAMANHO_MUNDO)
-		} else if posX <= mundo.GetX() {
-			posX = mundo.GetX()
-		}
+	// 2. Cria o retângulo da posição ATUAL do bot para usar no filtro de auto-colisão
+	corpoAtual := geometria.NovoRetangulo(objeto.GetX1(), objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+
+	// 3. Validação de segurança para não deixar o cálculo de posX sair dos limites do mundo
+	if posX >= mundo.PosXmax(utils.BOT_TAMANHO_MUNDO) {
+		posX = mundo.PosXmax(utils.BOT_TAMANHO_MUNDO)
+	} else if posX <= mundo.GetX() {
+		posX = mundo.GetX()
 	}
 
-	if mundo.EstaDentroDireto(posX, objeto.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
-		objeto.SetPosicao(posX, objeto.GetY())
+	// Atualiza o retângulo pretendido caso ele tenha sido ajustado pelas bordas do mundo acima
+	proximoCorpo = geometria.NovoRetangulo(posX, objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+
+	// 4. Checagem final: Se a nova posição estiver dentro do mundo E não colidir com ninguém, ele anda.
+	// Se bater em parede, jogador ou outro bot, a condição falha e ele para seco no lugar!
+	if mundo.EstaDentroDireto(posX, objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
+		!game.VaiColidir(corpoAtual, proximoCorpo) {
+		objeto.SetPosicao(posX, objeto.GetY1())
 	}
 
 }

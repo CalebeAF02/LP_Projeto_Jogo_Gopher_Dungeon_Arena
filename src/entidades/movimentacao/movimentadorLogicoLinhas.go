@@ -31,7 +31,7 @@ func (mll *MovimentadorLogicoLinha) Mover(game interfaces.IGame, mundo *geometri
 	}
 
 	alterar := true
-	posX := objeto.GetX() + mll.direcaoX
+	posX := objeto.GetX1() + mll.direcaoX
 	if posX >= mundo.PosXmax(utils.BOT_TAMANHO_MUNDO) {
 		posX = mundo.PosXmax(utils.BOT_TAMANHO_MUNDO)
 		mll.bateu()
@@ -43,7 +43,7 @@ func (mll *MovimentadorLogicoLinha) Mover(game interfaces.IGame, mundo *geometri
 
 	}
 
-	posY := objeto.GetY() + mll.direcaoY
+	posY := objeto.GetY1() + mll.direcaoY
 	if posY >= mundo.PosYmax(utils.BOT_TAMANHO_MUNDO) {
 		posY = mundo.PosYmax(utils.BOT_TAMANHO_MUNDO)
 		mll.bateu()
@@ -56,11 +56,23 @@ func (mll *MovimentadorLogicoLinha) Mover(game interfaces.IGame, mundo *geometri
 
 	}
 
+	// Se não bateu nos limites do mundo, verifica colisão com entidades
 	if alterar {
-		corpo := geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+		// 1. Cria o retângulo da PRÓXIMA posição pretendida
+		proximoCorpo := geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
 
-		if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !game.ColideComBarreiras(corpo) {
+		// 2. Cria o retângulo da posição ATUAL para ignorar a auto-colisão no ECS
+		corpoAtual := geometria.NovoRetangulo(objeto.GetX1(), objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+
+		// 3. Teste de Colisão Rígida
+		if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
+			!game.VaiColidir(corpoAtual, proximoCorpo) {
+			// Caminho livre: atualiza a posição
 			objeto.SetPosicao(posX, posY)
+		} else {
+			// BATEU SECO em outra entidade: Cancela o movimento do frame
+			// E aciona o comportamento para mudar de direção em linha reta
+			mll.bateu()
 		}
 	}
 }
