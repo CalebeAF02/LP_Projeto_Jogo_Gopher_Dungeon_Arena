@@ -23,19 +23,16 @@ type Jogador struct {
 	entidade    ecs.Entidade
 	nome        string
 	cor         color.Color
-	posicao     *geometria.Ponto
-	corpo       *geometria.Retangulo
 	Componentes map[string]interface{}
 }
 
 func NovoJogador(cj interfaces.ICenaJogo, n string) *Jogador {
 	nEntidade := cj.CriarEntidade()
-
-	posicao := geometria.NovoPonto(0, 0)
-	nJogador := Jogador{cenaJogo: cj, entidadeID: nEntidade, nome: n, cor: color.White, posicao: posicao, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)}
+	corpo := geometria.NovoRetangulo(0, 0, utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)
+	nJogador := Jogador{cenaJogo: cj, entidadeID: nEntidade, nome: n, cor: color.White}
 	cj.SetEntidade(nEntidade, &nJogador)
 
-	nJogador.AdicionarComponente(componentes.CORPO.String(), nJogador.corpo)
+	nJogador.AdicionarComponente(componentes.CORPO.String(), corpo)
 	nJogador.AdicionarComponente(componentes.VIDA.String(), &componentes.Vida{TipoOrganismo: entidades.JOGADOR.String(), Status: true, Quantidade: 3, Sangue: 100})
 	nJogador.AdicionarComponente(componentes.NIVEL.String(), &componentes.Nivel{Valor: 1, Progressao: 0})
 
@@ -54,7 +51,12 @@ func (j *Jogador) ObterVida() *componentes.Vida {
 	}
 	return nil
 }
-
+func (j *Jogador) ObterCorpo() *geometria.Retangulo {
+	if corpo_comp := j.GetComponente(componentes.CORPO.String()); corpo_comp != nil {
+		return corpo_comp.(*geometria.Retangulo)
+	}
+	return nil
+}
 func (j *Jogador) ObterNivel() *componentes.Nivel {
 	if nivel_comp := j.GetComponente(componentes.NIVEL.String()); nivel_comp != nil {
 		return nivel_comp.(*componentes.Nivel)
@@ -107,27 +109,24 @@ func (j *Jogador) PerdeSangue(rit int) {
 func (j *Jogador) GetEntidade() ecs.Entidade {
 	return j.entidade
 }
-func (j *Jogador) GetCorpo() *geometria.Retangulo {
-	return j.corpo
-}
 
 func (j *Jogador) GetNome() string {
 	return j.nome
 }
 func (j *Jogador) GetPosicao() *geometria.Ponto {
-	return j.posicao
+	return geometria.NovoPonto(j.ObterCorpo().GetX(), j.ObterCorpo().GetY())
 }
 func (j *Jogador) GetX1() float64 {
-	return j.posicao.GetX()
+	return j.GetPosicao().GetX()
 }
 func (j *Jogador) GetY1() float64 {
-	return j.posicao.GetY()
+	return j.GetPosicao().GetY()
 }
 func (j *Jogador) GetX2() float64 {
-	return j.posicao.GetX() + utils.JOGADOR_TAMANHO_MUNDO
+	return j.GetPosicao().GetX() + utils.JOGADOR_TAMANHO_MUNDO
 }
 func (j *Jogador) GetY2() float64 {
-	return j.posicao.GetY() + utils.JOGADOR_TAMANHO_MUNDO
+	return j.GetPosicao().GetY() + utils.JOGADOR_TAMANHO_MUNDO
 }
 func (j *Jogador) GetLargura() float64 {
 	return utils.JOGADOR_TAMANHO_MUNDO
@@ -144,15 +143,14 @@ func (j *Jogador) GetTipo() string {
 }
 
 func (j *Jogador) SetPosicao(x float64, y float64) {
-	j.posicao.SetPosicao(x, y)
-	j.corpo.SetX(x)
-	j.corpo.SetY(y)
+	j.ObterCorpo().SetX(x)
+	j.ObterCorpo().SetY(y)
 }
 func (j *Jogador) SetX(x float64) {
-	j.posicao.SetX(x)
+	j.GetPosicao().SetX(x)
 }
 func (j *Jogador) SetY(y float64) {
-	j.posicao.SetY(y)
+	j.GetPosicao().SetY(y)
 }
 func (j *Jogador) SetCor(cor color.Color) {
 	j.cor = cor

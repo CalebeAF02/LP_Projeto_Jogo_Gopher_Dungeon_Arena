@@ -25,19 +25,17 @@ type Bot struct {
 	Id          int64
 	cor         color.Color
 	movendo     interfaces.Movimentador
-	posicao     *geometria.Ponto
-	corpo       *geometria.Retangulo
 	Componentes map[string]interface{}
 }
 
 func NovoBot(cj interfaces.ICenaJogo, id int64) *Bot {
 
 	nEntidade := cj.CriarEntidade()
-	posicao := geometria.NovoPonto(0, 0)
-	nBot := Bot{cenaJogo: cj, entidadeID: nEntidade, Id: id, cor: cores.BRANCO, posicao: posicao, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)}
+	corpo := geometria.NovoRetangulo(0, 0, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
+	nBot := Bot{cenaJogo: cj, entidadeID: nEntidade, Id: id, cor: cores.BRANCO}
 
 	cj.SetEntidade(nEntidade, &nBot)
-	nBot.AdicionarComponente(componentes.CORPO.String(), nBot.corpo)
+	nBot.AdicionarComponente(componentes.CORPO.String(), corpo)
 	nBot.AdicionarComponente(componentes.SUB_TIPO.String(), &componentes.SubTipo{Valor: ""})
 	nBot.AdicionarComponente(componentes.VIDA.String(), &componentes.Vida{TipoOrganismo: entidades.BOT.String(), Status: true, Quantidade: 1, Sangue: 100})
 	nBot.AdicionarComponente(componentes.NIVEL.String(), &componentes.Nivel{Valor: 1, Progressao: 0})
@@ -56,7 +54,12 @@ func (b *Bot) ObterVida() *componentes.Vida {
 	}
 	return nil
 }
-
+func (b *Bot) ObterCorpo() *geometria.Retangulo {
+	if corpo_comp := b.GetComponente(componentes.CORPO.String()); corpo_comp != nil {
+		return corpo_comp.(*geometria.Retangulo)
+	}
+	return nil
+}
 func (b *Bot) ObterNivel() *componentes.Nivel {
 	if nivel_comp := b.GetComponente(componentes.NIVEL.String()); nivel_comp != nil {
 		return nivel_comp.(*componentes.Nivel)
@@ -77,7 +80,7 @@ func (b *Bot) CorrigeSangue() {
 }
 
 func (b *Bot) PerdeSangue(rit int) {
-	b.ObterVida().PerdeSangue(rit,b.ObterNivel().Valor)
+	b.ObterVida().PerdeSangue(rit, b.ObterNivel().Valor)
 }
 
 func (b *Bot) ResetaSangue() {
@@ -85,33 +88,30 @@ func (b *Bot) ResetaSangue() {
 }
 
 func (b *Bot) SetPosicao(x float64, y float64) {
-	b.posicao.SetPosicao(x, y)
-	b.corpo.SetX(x)
-	b.corpo.SetY(y)
+	b.ObterCorpo().SetX(x)
+	b.ObterCorpo().SetY(y)
 }
 
 func (b *Bot) GetEntidade() ecs.Entidade {
 	return b.entidade
 }
-func (b *Bot) GetCorpo() *geometria.Retangulo {
-	corpo := geometria.NovoRetangulo(b.GetX1(), b.GetY1(), b.GetLargura(), b.GetAltura())
-	return corpo
+func (b *Bot) GetPosicao() *geometria.Ponto {
+	return geometria.NovoPonto(b.ObterCorpo().GetX(), b.ObterCorpo().GetY())
 }
-
 func (b *Bot) GetX1() float64 {
-	return b.posicao.GetX()
+	return b.GetPosicao().GetX()
 }
 
 func (b *Bot) GetY1() float64 {
-	return b.posicao.GetY()
+	return b.GetPosicao().GetY()
 }
 
 func (b *Bot) GetX2() float64 {
-	return b.posicao.GetX() + utils.BOT_TAMANHO_MUNDO
+	return b.GetPosicao().GetX() + utils.BOT_TAMANHO_MUNDO
 }
 
 func (b *Bot) GetY2() float64 {
-	return b.posicao.GetY() + utils.BOT_TAMANHO_MUNDO
+	return b.GetPosicao().GetY() + utils.BOT_TAMANHO_MUNDO
 }
 func (b *Bot) GetLargura() float64 {
 	return utils.BOT_TAMANHO_MUNDO
@@ -164,8 +164,8 @@ func (b *Bot) SetNivelAleatorio() {
 }
 
 func (b *Bot) Mover(r *rand.Rand) {
-	posX := b.posicao.GetX()
-	posY := b.posicao.GetY()
+	posX := b.GetPosicao().GetX()
+	posY := b.GetPosicao().GetY()
 
 	if b.movendo != nil {
 		b.movendo.Mover(b.entidade, b.cenaJogo.GetSistemaColisao(), b.cenaJogo.GetMundo(), b, r)
