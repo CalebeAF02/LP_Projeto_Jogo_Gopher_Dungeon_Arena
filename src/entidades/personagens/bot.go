@@ -28,8 +28,12 @@ type Bot struct {
 	status      bool
 	movendo     interfaces.Movimentador
 	posicao     *geometria.Ponto
-	corpo   *geometria.Retangulo
+	corpo       *geometria.Retangulo
 	Componentes map[string]interface{}
+}
+
+type SubTipo struct{
+	Valor string
 }
 
 func NovoBot(game interfaces.IGame, id int64) *Bot {
@@ -41,6 +45,7 @@ func NovoBot(game interfaces.IGame, id int64) *Bot {
 	game.SetEntidade(nEntidade, &nBot)
 
 	nBot.AdicionarComponente(componentes.CORPO.String(), nBot.corpo)
+	nBot.AdicionarComponente(componentes.SUB_TIPO.String(), &SubTipo{Valor: ""})
 
 	return &nBot
 }
@@ -108,6 +113,10 @@ func (b *Bot) GetTipo() string {
 	return entidades.BOT.String()
 }
 
+func (b *Bot) GetSubTipo() string {
+	return b.movendo.GetTipo()
+}
+
 func (b *Bot) GetNivel() int {
 	return b.nivel
 }
@@ -154,6 +163,7 @@ func (b *Bot) Mover(r *rand.Rand) {
 
 func (b *Bot) SetMovimentacao(movendo interfaces.Movimentador) {
 	b.movendo = movendo
+	b.AlterarComponente(componentes.SUB_TIPO.String(), &SubTipo{Valor: movendo.GetTipo()})
 }
 
 func (b *Bot) Atualizar() {
@@ -176,5 +186,8 @@ func (e *Bot) AdicionarComponente(id string, comp interface{}) {
 	if e.Componentes == nil {
 		e.Componentes = make(map[string]interface{})
 	}
+	e.Componentes[id] = comp
+}
+func (e *Bot) AlterarComponente(id string, comp interface{}) {
 	e.Componentes[id] = comp
 }

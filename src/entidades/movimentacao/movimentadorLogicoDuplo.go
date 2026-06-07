@@ -60,7 +60,7 @@ func (mld *MovimentadorLogicoDuplo) Mover(game interfaces.IGame, mundo *geometri
 
 	// 3. Teste de Colisão Seca (Mundo + Outras Entidades)
 	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!game.VaiColidir(corpoAtual, proximoCorpo) {
+		!game.VaiColidir(corpoAtual, proximoCorpo).Status {
 		// Caminho inteiramente livre: Atualiza a posição do agente
 		objeto.SetPosicao(posX, posY)
 	} else {

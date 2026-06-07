@@ -39,7 +39,7 @@ func (mb *MovimentadorVertical) Mover(game interfaces.IGame, mundo *geometria.Re
 
 	// 4. Checagem final de impacto seco: Se livre, move. Se houver obstáculo, trava na hora!
 	if mundo.EstaDentroDireto(objeto.GetX1(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!game.VaiColidir(corpoAtual, proximoCorpo) {
+		!game.VaiColidir(corpoAtual, proximoCorpo).Status {
 		objeto.SetPosicao(objeto.GetX1(), posY)
 	}
 }

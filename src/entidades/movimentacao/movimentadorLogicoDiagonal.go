@@ -59,7 +59,7 @@ func (mld *MovimentadorLogicoDiagonal) Mover(game interfaces.IGame, mundo *geome
 
 	// 4. Teste de Colisão Seca (Mundo + Outras Entidades)
 	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!game.VaiColidir(corpoAtual, proximoCorpo) {
+		!game.VaiColidir(corpoAtual, proximoCorpo).Status {
 		// Caminho livre: Aplica a nova posição na diagonal
 		objeto.SetPosicao(posX, posY)
 	} else {

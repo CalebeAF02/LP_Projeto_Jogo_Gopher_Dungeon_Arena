@@ -66,7 +66,7 @@ func (mll *MovimentadorLogicoLinha) Mover(game interfaces.IGame, mundo *geometri
 
 		// 3. Teste de Colisão Rígida
 		if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-			!game.VaiColidir(corpoAtual, proximoCorpo) {
+			!game.VaiColidir(corpoAtual, proximoCorpo).Status {
 			// Caminho livre: atualiza a posição
 			objeto.SetPosicao(posX, posY)
 		} else {

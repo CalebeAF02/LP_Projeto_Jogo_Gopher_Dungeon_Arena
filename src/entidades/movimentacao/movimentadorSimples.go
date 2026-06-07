@@ -39,7 +39,7 @@ func (ms *MovimentadorSimples) Mover(game interfaces.IGame, mundo *geometria.Ret
 
 		// Teste de Colisão Seca em X
 		if mundo.EstaDentroDireto(posX, antesY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-			!game.VaiColidir(corpoAtual, proximoCorpo) {
+			!game.VaiColidir(corpoAtual, proximoCorpo).Status {
 			objeto.SetPosicao(posX, antesY)
 		}
 	} else {
@@ -61,7 +61,7 @@ func (ms *MovimentadorSimples) Mover(game interfaces.IGame, mundo *geometria.Ret
 
 		// Teste de Colisão Seca em Y
 		if mundo.EstaDentroDireto(antesX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-			!game.VaiColidir(corpoAtual, proximoCorpo) {
+			!game.VaiColidir(corpoAtual, proximoCorpo).Status {
 			objeto.SetPosicao(antesX, posY)
 		}
 	}

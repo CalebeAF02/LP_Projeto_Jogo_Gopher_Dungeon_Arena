@@ -45,7 +45,7 @@ func (mvc *MovimentadorVerticalConstante) Mover(game interfaces.IGame, mundo *ge
 
 	// 5. Teste de Colisão Seca (Mundo + Outras Entidades)
 	if mundo.EstaDentroDireto(objeto.GetX1(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!game.VaiColidir(corpoAtual, proximoCorpo) {
+		!game.VaiColidir(corpoAtual, proximoCorpo).Status {
 		// Caminho livre: Aplica o movimento vertical e incrementa o ciclo
 		objeto.SetPosicao(objeto.GetX1(), posY)
 		mvc.ciclos++

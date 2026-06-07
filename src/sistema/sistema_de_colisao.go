@@ -1,11 +1,19 @@
 package sistema
 
 import (
+	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
+	"Gopher_Dungeon_Arena/src/entidades/personagens"
 	"Gopher_Dungeon_Arena/src/enum/componentes"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/utils"
 )
+
+func CriarRespostaColisao(status bool, tipo string, subTipo string) *ecs.RespostaColisao {
+	nRespostaColisao := ecs.RespostaColisao{Status: status, Tipo: tipo, SubTipo: subTipo}
+	
+	return &nRespostaColisao
+}
 
 func OrganizaPosicaoAleatoriaBot(g *Game) *geometria.Ponto {
 	larguraBot := float64(utils.BOT_TAMANHO_MUNDO)
@@ -26,7 +34,7 @@ func OrganizaPosicaoAleatoriaBot(g *Game) *geometria.Ponto {
 	return nil
 }
 
-func (g *Game) VaiColidir(meuCorpoAtual *geometria.Retangulo, proximoCorpo *geometria.Retangulo) bool {
+func (g *Game) VaiColidir(meuCorpoAtual *geometria.Retangulo, proximoCorpo *geometria.Retangulo) *ecs.RespostaColisao {
 	for _, e := range g.GetEntidades() {
 		tipo := e.GetTipo()
 		if tipo == entidades.PAREDE.String() || tipo == entidades.JOGADOR.String() || tipo == entidades.BOT.String() {
@@ -45,12 +53,23 @@ func (g *Game) VaiColidir(meuCorpoAtual *geometria.Retangulo, proximoCorpo *geom
 					if meuCorpoAtual.Colide(corpo) {
 						continue
 					}
-					return true
+					if tipo == entidades.BOT.String() {
+						if sub_tipo := e.GetComponente(componentes.SUB_TIPO.String()); sub_tipo != nil {
+
+							sub_tipo_valor := sub_tipo.(*personagens.SubTipo)
+							return CriarRespostaColisao(true, tipo, sub_tipo_valor.Valor)
+						} else {
+							return CriarRespostaColisao(true, tipo, "")
+						}
+					} else {
+						return CriarRespostaColisao(true, tipo, "")
+
+					}
 				}
 			}
 		}
 	}
-	return false
+	return CriarRespostaColisao(false, "", "")
 }
 
 // ColideComTipo isola uma busca específica (útil para o Spawn ou lógicas de IA direcionadas)

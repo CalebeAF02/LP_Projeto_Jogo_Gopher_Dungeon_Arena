@@ -49,7 +49,7 @@ func (mhc *MovimentadorHorizontalConstante) Mover(game interfaces.IGame, mundo *
 
 	// 5. Teste de Colisão Seca (Mundo + Outras Entidades)
 	if mundo.EstaDentroDireto(posX, objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!game.VaiColidir(corpoAtual, proximoCorpo) {
+		!game.VaiColidir(corpoAtual, proximoCorpo).Status {
 		// Caminho livre: Aplica a nova posição
 		objeto.SetPosicao(posX, objeto.GetY1())
 	} else {

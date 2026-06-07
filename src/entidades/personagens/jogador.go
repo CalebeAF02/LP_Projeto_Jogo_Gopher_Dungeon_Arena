@@ -26,7 +26,7 @@ type Jogador struct {
 	cor         color.Color
 	Status      bool
 	posicao     *geometria.Ponto
-	corpo   *geometria.Retangulo
+	corpo       *geometria.Retangulo
 	Componentes map[string]interface{}
 }
 
@@ -34,7 +34,7 @@ func NovoJogador(game interfaces.IGame, n string) *Jogador {
 	nEntidade := game.CriarEntidade()
 
 	posicao := geometria.NovoPonto(0, 0)
-	nJogador := Jogador{game: game, entidade: nEntidade, nome: n, vida: 2, sangue: 100, cor: color.White, Status: true, posicao: posicao, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)}
+	nJogador := Jogador{game: game, entidade: nEntidade, nome: n, vida: 3, sangue: 100, cor: color.White, Status: true, posicao: posicao, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)}
 	game.SetEntidade(nEntidade, &nJogador)
 
 	nJogador.AdicionarComponente(componentes.CORPO.String(), nJogador.corpo)
@@ -43,11 +43,12 @@ func NovoJogador(game interfaces.IGame, n string) *Jogador {
 }
 
 func (j *Jogador) EstaVivo() bool {
-	if j.vida > 0 && j.sangue > 0 {
+	if j.vida > 0 {
 		j.Status = true
 		return j.Status
 	}
 	j.Status = false
+	j.SetCor(cores.CINZA_CLARO)
 	return j.Status
 }
 
@@ -80,6 +81,10 @@ func (j *Jogador) AcrescentaUmaVida() {
 	}
 }
 
+func (j *Jogador) Colisao() {
+	j.vida = 3
+}
+
 func (j *Jogador) ResetaVida() {
 	j.vida = 3
 }
@@ -90,6 +95,10 @@ func (j *Jogador) ResetaSangue() {
 
 func (j *Jogador) PerdeSangue(rit int) {
 	j.sangue -= rit
+
+	if j.sangue == 0 {
+		j.Renasce()
+	}
 }
 
 func (j *Jogador) GetCorpo() *geometria.Retangulo {
@@ -164,12 +173,18 @@ func (j *Jogador) Mover() {
 		for i := 0; i < totalPassosX; i++ {
 			proximoX := origemX + passoX
 			testeCorpoX := geometria.NovoRetangulo(proximoX, origemY, utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)
-
+			colisao := j.game.VaiColidir(corpoDeFiltro, testeCorpoX)
 			// Verifica se o PRÓXIMO pixel está livre
 			if j.game.GetMundo().EstaNaMargemInterna(testeCorpoX, utils.JOGADOR_TAMANHO_MUNDO) &&
-				!j.game.VaiColidir(corpoDeFiltro, testeCorpoX) {
+				!colisao.Status {
 				origemX = proximoX // Avança 1 pixel com segurança
 			} else {
+				if colisao.Status == true {
+					if colisao.Tipo == entidades.BOT.String() {
+						j.PerdeSangue(10)
+						fmt.Println(j.sangue)
+					}
+				}
 				break // Bateu seco! Para o loop imediatamente e cola no obstáculo
 			}
 		}
@@ -188,12 +203,19 @@ func (j *Jogador) Mover() {
 			proximoY := origemY + passoS
 			// Importante: Usa o origemX já processado para validar quinas corretamente
 			testeCorpoY := geometria.NovoRetangulo(origemX, proximoY, utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)
+			colisao := j.game.VaiColidir(corpoDeFiltro, testeCorpoY)
 
 			// Verifica se o PRÓXIMO pixel está livre
 			if j.game.GetMundo().EstaNaMargemInterna(testeCorpoY, utils.JOGADOR_TAMANHO_MUNDO) &&
-				!j.game.VaiColidir(corpoDeFiltro, testeCorpoY) {
+				!colisao.Status {
 				origemY = proximoY // Avança 1 pixel com segurança
 			} else {
+				if colisao.Status == true {
+					if colisao.Tipo == entidades.BOT.String() {
+						j.PerdeSangue(10)
+						fmt.Println(j.sangue)
+					}
+				}
 				break // Bateu seco! Para o loop imediatamente e cola no obstáculo
 			}
 		}
