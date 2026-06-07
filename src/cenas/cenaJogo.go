@@ -17,6 +17,7 @@ import (
 )
 
 type CenaJogo struct {
+	game             interfaces.IGame
 	proximo          int
 	mundo            *geometria.Retangulo
 	entidades        map[ecs.EntidadeID]ecs.Entidade
@@ -27,14 +28,14 @@ type CenaJogo struct {
 	sistemaDesenhar  []interfaces.ISistemaDesenhar
 }
 
-func NovoCenaJogo() *CenaJogo {
+func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 	mundo := geometria.NovoRetangulo(0, 0, config.MUNDO_LARGURA, config.MUNDO_ALTURA)
 	entidades := make(map[ecs.EntidadeID]ecs.Entidade)
 	camera := ecs.NovaCamera(mundo)
 	miniMapa := ecs.NovoMiniMapa(mundo, geometria.NovoPonto(config.POS_X_MAPA, config.POS_Y_MAPA), camera)
 	aleatorio := config.GeradorAleatorio()
 
-	cj := CenaJogo{mundo: mundo, entidades: entidades, aleatorio: aleatorio}
+	cj := CenaJogo{game: game, mundo: mundo, entidades: entidades, aleatorio: aleatorio}
 
 	cj.sistemaAtualizar = []interfaces.ISistemaAtualizar{
 		&sistema.SistemaInput{},
@@ -64,11 +65,14 @@ func NovoCenaJogo() *CenaJogo {
 	return &cj
 }
 
-
 func (cj *CenaJogo) CriarEntidade() ecs.EntidadeID {
 	entidade := ecs.EntidadeID(cj.proximo)
 	cj.proximo++
 	return entidade
+}
+
+func (cj *CenaJogo) GetGame() interfaces.IGame {
+	return cj.game
 }
 func (cj *CenaJogo) GetEntidades() map[ecs.EntidadeID]ecs.Entidade {
 	return cj.entidades
@@ -112,6 +116,9 @@ func (cj *CenaJogo) GetSistemaDesenhar() []interfaces.ISistemaDesenhar {
 	return cj.sistemaDesenhar
 }
 
+func (cj *CenaJogo) SetGame(game interfaces.IGame) {
+	cj.game = game
+}
 func (cj *CenaJogo) SetEntidade(nEntidade ecs.EntidadeID, posicao ecs.Entidade) {
 	cj.entidades[nEntidade] = posicao
 }
@@ -134,7 +141,14 @@ func (cj *CenaJogo) OrganizarCamera() {
 	}
 }
 
+func (cj *CenaJogo) Input() {
+	if ebiten.IsKeyPressed(ebiten.KeyP) {
+		cj.game.Pausar()
+	}
+}
+
 func (cj *CenaJogo) Update() error {
+	cj.Input()
 	cj.OrganizarCamera()
 	for _, sistema := range cj.sistemaAtualizar {
 		sistema.Atualizar(cj)
@@ -148,18 +162,8 @@ func (cj *CenaJogo) Draw(tela *ebiten.Image) {
 	}
 }
 
-func (cj *CenaJogo) Sair() {
-	// Limpando entidades
-	cj.entidades = nil
-
-	// Limpando estruturas principais
-	cj.mundo = nil
-	cj.camera = nil
-	cj.miniMapa = nil
-	cj.aleatorio = nil
-
-	// Zerando contadores
-	cj.proximo = 0
+func (cj *CenaJogo) Pausar() {
+	cj.game.Pausar()
 }
 
 func (cj *CenaJogo) CriarRespostaColisao(status bool, tipo string, subTipo string) *ecs.RespostaColisao {
@@ -250,4 +254,8 @@ func (cj *CenaJogo) ColideComJogador(eu *geometria.Retangulo) bool {
 
 func (cj *CenaJogo) ColideComBot(eu *geometria.Retangulo) bool {
 	return cj.ColideComTipo(eu, entidades.BOT.String())
+}
+
+func (cj *CenaJogo) GetNome() string {
+	return "CENA_JOGO"
 }

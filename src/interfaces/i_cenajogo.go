@@ -4,10 +4,15 @@ import (
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"math/rand"
+
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 type ICenaJogo interface {
+	GetNome() string
 	CriarEntidade() ecs.EntidadeID
+	GetGame() IGame
+	SetGame(game IGame)
 	GetEntidades() map[ecs.EntidadeID]ecs.Entidade
 	SetEntidade(nEntidade ecs.EntidadeID, e ecs.Entidade)
 	GetAleatorio() *rand.Rand
@@ -16,4 +21,6 @@ type ICenaJogo interface {
 	GetMiniMapa() *ecs.MiniMapa
 	VaiColidir(meuCorpoAtual *geometria.Retangulo, proximoCorpo *geometria.Retangulo) *ecs.RespostaColisao
 	OrganizaPosicaoAleatoriaBot() *geometria.Ponto
+	Update() error
+	Draw(tela *ebiten.Image)
 }

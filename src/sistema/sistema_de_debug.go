@@ -15,7 +15,10 @@ type SistemaDebug struct{}
 
 func (s *SistemaDebug) Atualizar(cj interfaces.ICenaJogo) {
 	// Atalho para debugar as entidades no terminal
+	s.Input(cj)
+}
 
+func (s *SistemaDebug) Input(cj interfaces.ICenaJogo) {
 	if ebiten.IsKeyPressed(ebiten.KeyF1) {
 		s.ListarPrincipaisEntidades(cj)
 	}
@@ -23,7 +26,6 @@ func (s *SistemaDebug) Atualizar(cj interfaces.ICenaJogo) {
 	if ebiten.IsKeyPressed(ebiten.KeyF2) {
 		s.ListarEntidadesOrdenadas(cj)
 	}
-
 }
 
 func (s *SistemaDebug) ListarEntidadesOrdenadas(cj interfaces.ICenaJogo) {
