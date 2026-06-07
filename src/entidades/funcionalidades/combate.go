@@ -29,11 +29,11 @@ func Combate_jogador_vs_bot(jogador ecs.Entidade, bot ecs.Entidade) {
 	fmt.Println("SANGUE_JOGADOR-> Possui : ", jogadorVidaOrigem.Sangue)
 	fmt.Println("SANGUE_JOGADOR-> Vivo  : ", jogadorVidaOrigem.Status)
 
-	if !botVidaOrigem.EstaVivo("BOT") {
+	if !botVidaOrigem.EstaVivo() {
 		botVidaOrigem.Status = false
 	}
 
-	if !jogadorVidaOrigem.EstaVivo("JOGADOR") {
+	if !jogadorVidaOrigem.EstaVivo() {
 		jogadorVidaOrigem.Status = false
 	}
 

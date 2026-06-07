@@ -42,7 +42,7 @@ type Nivel struct {
 	Progressao int
 }
 
-func (v *Vida) EstaVivo(tipo string) bool {
+func (v *Vida) EstaVivo() bool {
 	if v.TipoOrganismo == entidades.JOGADOR.String() {
 		if v.Quantidade > 0 {
 			v.Status = true
@@ -50,7 +50,7 @@ func (v *Vida) EstaVivo(tipo string) bool {
 		}
 		v.Status = false
 		return v.Status
-	} else if tipo == "BOT" {
+	} else if v.TipoOrganismo == entidades.BOT.String() {
 		if v.Sangue > 0 {
 			v.Status = true
 			return v.Status
@@ -74,7 +74,7 @@ func (v *Vida) PerdeSangue(rit int) {
 }
 
 func (v *Vida) Renasce(valor int) {
-	if v.EstaVivo("JOGADOR") {
+	if v.EstaVivo() {
 		v.TiraUmaVida()
 
 		if v.Quantidade > 0 {

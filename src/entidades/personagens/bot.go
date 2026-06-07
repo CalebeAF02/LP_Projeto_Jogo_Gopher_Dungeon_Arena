@@ -65,7 +65,7 @@ func (b *Bot) ObterNivel() *componentes.Nivel {
 }
 
 func (b *Bot) EstaVivo() bool {
-	if !b.ObterVida().EstaVivo("BOT") {
+	if !b.ObterVida().EstaVivo() {
 		b.SetCor(cores.CINZA_CLARO)
 		return false
 	}
@@ -183,7 +183,7 @@ func (b *Bot) SetMovimentacao(movendo interfaces.Movimentador) {
 }
 
 func (b *Bot) Atualizar() {
-	if b.ObterVida().EstaVivo("BOT") {
+	if b.ObterVida().EstaVivo() {
 		b.Mover(b.cenaJogo.GetAleatorio())
 	}
 }

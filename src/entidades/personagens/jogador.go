@@ -62,7 +62,7 @@ func (j *Jogador) ObterNivel() *componentes.Nivel {
 }
 
 func (j *Jogador) EstaVivo() bool {
-	resp := j.ObterVida().EstaVivo("JOGADOR")
+	resp := j.ObterVida().EstaVivo()
 	if !resp {
 		j.SetCor(cores.CINZA_CLARO)
 	}
