@@ -8,6 +8,8 @@ const (
 	JOGADOR
 	TIME
 	PAREDE
+	PORTAL_ENTRADA
+	PORTAL_SAIDA
 )
 
 func (t EntidadeTipo) String() string {
@@ -22,6 +24,10 @@ func (t EntidadeTipo) String() string {
 		return "TIME"
 	case PAREDE:
 		return "PAREDE"
+	case PORTAL_ENTRADA:
+		return "PORTAL_ENTRADA"
+	case PORTAL_SAIDA:
+		return "PORTAL_SAIDA"
 	default:
 		return "**DESCONHECIDO**"
 	}

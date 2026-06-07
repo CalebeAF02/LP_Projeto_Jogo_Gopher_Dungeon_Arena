@@ -1,18 +1,22 @@
-package cenas
+package portal
 
 import (
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
+	"Gopher_Dungeon_Arena/src/entidades/objeto"
 	"Gopher_Dungeon_Arena/src/entidades/outros"
 	"Gopher_Dungeon_Arena/src/enum/componentes"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/sistema"
 	"Gopher_Dungeon_Arena/src/utils"
+	portais "Gopher_Dungeon_Arena/src/utils/sprits"
+	"log"
 	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 type CenaJogo struct {
@@ -26,6 +30,7 @@ type CenaJogo struct {
 	sistemaAtualizar []interfaces.ISistemaAtualizar
 	sistemaDesenhar  []interfaces.ISistemaDesenhar
 	sistemaColisao   interfaces.ISistemaColisao
+	bancoPortais     *portais.SpriteSheetPortal // 2. ARMAZENAR O BANCO DE IMAGENS DOS PORTAIS
 }
 
 func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
@@ -54,6 +59,15 @@ func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 	cj.SetMiniMapa(miniMapa)
 	cj.SetCamera(camera)
 
+	// 3. CARREGAR A TEXTURA E INICIALIZAR O BANCO DE PORTAIS NA MEMÓRIA
+	// Certifique-se de ajustar o caminho do arquivo de acordo com a sua pasta de assets
+	// --- CORREÇÃO DO CAMINHO DOS ASSETS ---
+	imgImg, _, err := ebitenutil.NewImageFromFile("src/assets/sprits/portal/varios_portais.png")
+	if err != nil {
+		log.Fatal("Erro fatal ao carregar imagem dos portais: ", err)
+	}
+	cj.bancoPortais = portais.NovoSpriteSheetPortal(imgImg)
+
 	sistemaSpaw := sistema.SistemaSpawn{}
 	sistemaSpaw.SpawnJogadores(&cj)
 
@@ -63,7 +77,33 @@ func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 
 	sistemaSpaw.SpawnBotDeCadaTipo(&cj)
 
+	// 4. CRIAR OS PORTAIS NO MAPA USANDO O BANCO DE IMAGENS
+	cj.SpawnPortais()
+
 	return &cj
+}
+
+// Método auxiliar criado para instanciar e posicionar os portais usando os novos sprites fatiados
+func (cj *CenaJogo) SpawnPortais() {
+	// Exemplo de pontos aleatórios no mapa que não colidem com paredes
+	pontoEntrada := cj.OrganizaPosicaoAleatoriaBot()
+	pontoSaida := cj.OrganizaPosicaoAleatoriaBot()
+
+	if pontoEntrada != nil {
+		// Pega o sprite Laranja do banco e cria o PortalSpriteEntrada
+		spriteEntrada := cj.bancoPortais.ObterPortal(portais.PortalLaranja)
+		idEntrada := cj.CriarEntidade()
+		portalEntrada := objeto.NovoPortalSpriteEntrada(cj, int64(idEntrada), spriteEntrada)
+		portalEntrada.SetPosicao(pontoEntrada.GetX(), pontoEntrada.GetY())
+	}
+
+	if pontoSaida != nil {
+		// Pega o sprite Verde Claro do banco e cria o PortalSpriteSaida
+		spriteSaida := cj.bancoPortais.ObterPortal(portais.PortalVerdeClaro)
+		idSaida := cj.CriarEntidade()
+		portalSaida := objeto.NovoPortalSpriteSaida(cj, int64(idSaida), spriteSaida)
+		portalSaida.SetPosicao(pontoSaida.GetX(), pontoSaida.GetY())
+	}
 }
 
 func (cj *CenaJogo) CriarEntidade() ecs.EntidadeID {
@@ -122,6 +162,11 @@ func (cj *CenaJogo) GetSistemaDesenhar() []interfaces.ISistemaDesenhar {
 }
 func (cj *CenaJogo) GetSistemaColisao() interfaces.ISistemaColisao {
 	return cj.sistemaColisao
+}
+
+// Getter para caso algum sistema precise acessar o banco de portais externamente
+func (cj *CenaJogo) GetBancoPortais() *portais.SpriteSheetPortal {
+	return cj.bancoPortais
 }
 
 func (cj *CenaJogo) SetGame(game interfaces.IGame) {

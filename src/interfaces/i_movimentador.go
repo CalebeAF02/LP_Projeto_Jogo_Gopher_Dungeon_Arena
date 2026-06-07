@@ -1,6 +1,7 @@
 package interfaces
 
 import (
+	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"math/rand"
 )
@@ -12,6 +13,6 @@ type HabilidadeMovimentacao interface {
 }
 
 type Movimentador interface {
-	Mover(cenaJogo ICenaJogo, mundo *geometria.Retangulo, bot HabilidadeMovimentacao, r *rand.Rand)
+	Mover(entidade ecs.Entidade, sistemaColisao ISistemaColisao, mundo *geometria.Retangulo, bot HabilidadeMovimentacao, r *rand.Rand)
 	GetTipo() string
 }

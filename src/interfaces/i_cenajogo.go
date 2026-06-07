@@ -11,6 +11,7 @@ import (
 type ICenaJogo interface {
 	GetNome() string
 	CriarEntidade() ecs.EntidadeID
+	GetSistemaColisao() ISistemaColisao
 	GetGame() IGame
 	SetGame(game IGame)
 	GetEntidades() map[ecs.EntidadeID]ecs.Entidade
@@ -19,7 +20,6 @@ type ICenaJogo interface {
 	GetMundo() *geometria.Retangulo
 	GetCamera() *ecs.Camera
 	GetMiniMapa() *ecs.MiniMapa
-	VaiColidir(meuCorpoAtual *geometria.Retangulo, proximoCorpo *geometria.Retangulo) *ecs.RespostaColisao
 	OrganizaPosicaoAleatoriaBot() *geometria.Ponto
 	Update() error
 	Draw(tela *ebiten.Image)

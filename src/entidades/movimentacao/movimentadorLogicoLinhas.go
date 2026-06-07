@@ -1,6 +1,7 @@
 package movimentacao
 
 import (
+	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
@@ -15,7 +16,7 @@ type MovimentadorLogicoLinha struct {
 	direcaoY     float64
 }
 
-func (mll *MovimentadorLogicoLinha) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mll *MovimentadorLogicoLinha) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	mll.ciclos += 1
 	if mll.ciclos >= mll.ciclosMaximo {
 		mll.varia = true
@@ -66,7 +67,7 @@ func (mll *MovimentadorLogicoLinha) Mover(cenaJogo interfaces.ICenaJogo, mundo *
 
 		// 3. Teste de Colisão Rígida
 		if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-			!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
+			!sistemaColisao.VaiColidir("BOT", entidade, corpoAtual, proximoCorpo).Status {
 			// Caminho livre: atualiza a posição
 			objeto.SetPosicao(posX, posY)
 		} else {

@@ -20,51 +20,68 @@ import (
 
 type Bot struct {
 	cenaJogo    interfaces.ICenaJogo
-	entidade    ecs.EntidadeID
+	entidadeID  ecs.EntidadeID
+	entidade    ecs.Entidade
 	Id          int64
-	nivel       int
-	sangue      int
 	cor         color.Color
-	status      bool
 	movendo     interfaces.Movimentador
 	posicao     *geometria.Ponto
 	corpo       *geometria.Retangulo
 	Componentes map[string]interface{}
 }
 
-type SubTipo struct {
-	Valor string
-}
-
 func NovoBot(cj interfaces.ICenaJogo, id int64) *Bot {
 
 	nEntidade := cj.CriarEntidade()
 	posicao := geometria.NovoPonto(0, 0)
-	nBot := Bot{cenaJogo: cj, entidade: nEntidade, Id: id, nivel: 1, sangue: 100, cor: cores.BRANCO, status: true, posicao: posicao, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)}
+	nBot := Bot{cenaJogo: cj, entidadeID: nEntidade, Id: id, cor: cores.BRANCO, posicao: posicao, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)}
 
 	cj.SetEntidade(nEntidade, &nBot)
-
 	nBot.AdicionarComponente(componentes.CORPO.String(), nBot.corpo)
-	nBot.AdicionarComponente(componentes.SUB_TIPO.String(), &SubTipo{Valor: ""})
+	nBot.AdicionarComponente(componentes.SUB_TIPO.String(), &componentes.SubTipo{Valor: ""})
+	nBot.AdicionarComponente(componentes.VIDA.String(), &componentes.Vida{TipoOrganismo: entidades.BOT.String(), Status: true, Quantidade: 1, Sangue: 100})
+	nBot.AdicionarComponente(componentes.NIVEL.String(), &componentes.Nivel{Valor: 1, Progressao: 0})
 
+	nBot.entidade = &nBot
 	return &nBot
 }
 
-func (b *Bot) EstaVivo() bool {
-	if b.sangue > 0 {
-		b.status = true
-		return b.status
-	}
-	b.status = false
-	return b.status
+func (j *Bot) GetID() ecs.EntidadeID {
+	return j.entidadeID
 }
 
-func (b *Bot) ResetaSangue() {
-	b.sangue = 100 * b.nivel
+func (b *Bot) ObterVida() *componentes.Vida {
+	if sangue_comp := b.GetComponente(componentes.VIDA.String()); sangue_comp != nil {
+		return sangue_comp.(*componentes.Vida)
+	}
+	return nil
+}
+
+func (b *Bot) ObterNivel() *componentes.Nivel {
+	if nivel_comp := b.GetComponente(componentes.NIVEL.String()); nivel_comp != nil {
+		return nivel_comp.(*componentes.Nivel)
+	}
+	return nil
+}
+
+func (b *Bot) EstaVivo() bool {
+	if !b.ObterVida().EstaVivo("BOT") {
+		b.SetCor(cores.CINZA_CLARO)
+		return false
+	}
+	return true
+}
+
+func (b *Bot) CorrigeSangue() {
+	b.ObterVida().CorrigeSangue(b.ObterNivel().Valor)
 }
 
 func (b *Bot) PerdeSangue(rit int) {
-	b.sangue -= rit
+	b.ObterVida().PerdeSangue(rit)
+}
+
+func (b *Bot) ResetaSangue() {
+	b.ObterVida().ResetaSangue(b.ObterNivel().Valor)
 }
 
 func (b *Bot) SetPosicao(x float64, y float64) {
@@ -73,6 +90,9 @@ func (b *Bot) SetPosicao(x float64, y float64) {
 	b.corpo.SetY(y)
 }
 
+func (b *Bot) GetEntidade() ecs.Entidade {
+	return b.entidade
+}
 func (b *Bot) GetCorpo() *geometria.Retangulo {
 	corpo := geometria.NovoRetangulo(b.GetX1(), b.GetY1(), b.GetLargura(), b.GetAltura())
 	return corpo
@@ -118,7 +138,7 @@ func (b *Bot) GetSubTipo() string {
 }
 
 func (b *Bot) GetNivel() int {
-	return b.nivel
+	return b.ObterNivel().Valor
 }
 
 func (b *Bot) SetCor(c color.Color) {
@@ -126,7 +146,7 @@ func (b *Bot) SetCor(c color.Color) {
 }
 
 func (b *Bot) SetNivel(nivel int) {
-	b.nivel = nivel
+	b.ObterNivel().Valor = nivel
 	b.CorrigeSangue()
 }
 
@@ -134,17 +154,13 @@ func (b *Bot) SetNivelAleatorio() {
 	nivel := b.cenaJogo.GetAleatorio().Intn(100)
 	switch {
 	case nivel >= 70:
-		b.nivel = 3
+		b.ObterNivel().Valor = 3
 	case nivel >= 50:
-		b.nivel = 2
+		b.ObterNivel().Valor = 2
 	default:
-		b.nivel = 1
+		b.ObterNivel().Valor = 1
 	}
 	b.CorrigeSangue()
-}
-
-func (b *Bot) CorrigeSangue() {
-	b.sangue = 100 * b.nivel
 }
 
 func (b *Bot) Mover(r *rand.Rand) {
@@ -152,7 +168,7 @@ func (b *Bot) Mover(r *rand.Rand) {
 	posY := b.posicao.GetY()
 
 	if b.movendo != nil {
-		b.movendo.Mover(b.cenaJogo, b.cenaJogo.GetMundo(), b, r)
+		b.movendo.Mover(b.entidade, b.cenaJogo.GetSistemaColisao(), b.cenaJogo.GetMundo(), b, r)
 	}
 
 	if b.cenaJogo.GetMundo().EstaNaMargemInterna(geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO), utils.BOT_TAMANHO_MUNDO) {
@@ -163,14 +179,18 @@ func (b *Bot) Mover(r *rand.Rand) {
 
 func (b *Bot) SetMovimentacao(movendo interfaces.Movimentador) {
 	b.movendo = movendo
-	b.AlterarComponente(componentes.SUB_TIPO.String(), &SubTipo{Valor: movendo.GetTipo()})
+	b.AlterarComponente(componentes.SUB_TIPO.String(), &componentes.SubTipo{Valor: movendo.GetTipo()})
 }
 
 func (b *Bot) Atualizar() {
-	b.Mover(b.cenaJogo.GetAleatorio())
+	if b.ObterVida().EstaVivo("BOT") {
+		b.Mover(b.cenaJogo.GetAleatorio())
+	}
 }
 
 func (b *Bot) Desenhar(tela *ebiten.Image) {
+	ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1()-10, float64(b.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
+
 	ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO, b.GetCor())
 }
 
@@ -190,4 +210,9 @@ func (e *Bot) AdicionarComponente(id string, comp interface{}) {
 }
 func (e *Bot) AlterarComponente(id string, comp interface{}) {
 	e.Componentes[id] = comp
+}
+
+func (e *Bot) ExisteComponente(id string) bool {
+	_, existe := e.Componentes[id]
+	return existe
 }

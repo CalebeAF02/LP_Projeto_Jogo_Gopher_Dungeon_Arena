@@ -1,6 +1,7 @@
 package movimentacao
 
 import (
+	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
@@ -10,7 +11,7 @@ import (
 type MovimentadorVertical struct {
 }
 
-func (mb *MovimentadorVertical) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mb *MovimentadorVertical) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	posY := 0.0
 
 	tomadaDeDecicao := r.Intn(100)
@@ -39,7 +40,7 @@ func (mb *MovimentadorVertical) Mover(cenaJogo interfaces.ICenaJogo, mundo *geom
 
 	// 4. Checagem final de impacto seco: Se livre, move. Se houver obstáculo, trava na hora!
 	if mundo.EstaDentroDireto(objeto.GetX1(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
+		!sistemaColisao.VaiColidir("BOT", entidade, corpoAtual, proximoCorpo).Status {
 		objeto.SetPosicao(objeto.GetX1(), posY)
 	}
 }

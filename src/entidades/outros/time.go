@@ -14,7 +14,7 @@ import (
 
 type Time struct {
 	cenaJogo    interfaces.ICenaJogo
-	entidade    ecs.EntidadeID
+	entidadeID  ecs.EntidadeID
 	nome        string
 	jogadores   []*personagens.Jogador
 	cor         color.Color
@@ -23,9 +23,13 @@ type Time struct {
 
 func NovoTime(cenaJogo interfaces.ICenaJogo, n string, cor color.Color) *Time {
 	nEntidade := cenaJogo.CriarEntidade()
-	nTime := Time{cenaJogo: cenaJogo, entidade: nEntidade, nome: n, cor: cor}
+	nTime := Time{cenaJogo: cenaJogo, entidadeID: nEntidade, nome: n, cor: cor}
 	cenaJogo.SetEntidade(nEntidade, &nTime)
 	return &nTime
+}
+
+func (j *Time) GetID() ecs.EntidadeID {
+	return j.entidadeID
 }
 
 func (t *Time) Adicionnar(jogador *personagens.Jogador) {
@@ -35,7 +39,7 @@ func (t *Time) Adicionnar(jogador *personagens.Jogador) {
 
 func (t *Time) EstaVivo() bool {
 	for _, jogador := range t.jogadores {
-		if jogador.Status {
+		if jogador.ObterVida().Status {
 			return true
 		}
 	}
@@ -107,4 +111,9 @@ func (e *Time) AdicionarComponente(id string, comp interface{}) {
 		e.Componentes = make(map[string]interface{})
 	}
 	e.Componentes[id] = comp
+}
+
+func (e *Time) ExisteComponente(id string) bool {
+	_, existe := e.Componentes[id]
+	return existe
 }

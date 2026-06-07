@@ -1,7 +1,8 @@
 package ecs
 
 type RespostaColisao struct {
-	Status  bool
-	Tipo    string
-	SubTipo string
+	Status      bool
+	Tipo        string
+	SubTipo     string
+	ColididoCom *Entidade
 }

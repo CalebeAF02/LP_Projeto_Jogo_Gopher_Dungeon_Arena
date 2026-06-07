@@ -1,6 +1,7 @@
 package movimentacao
 
 import (
+	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
@@ -11,7 +12,7 @@ import (
 type MovimentadorDiagonal struct {
 }
 
-func (md *MovimentadorDiagonal) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (md *MovimentadorDiagonal) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	posX := 0.0
 	posY := 0.0
 
@@ -39,7 +40,7 @@ func (md *MovimentadorDiagonal) Mover(cenaJogo interfaces.ICenaJogo, mundo *geom
 
 	// 3. Checa de uma vez só: se a diagonal inteira estiver livre, ele se move.
 	// Se encostar em parede, jogador ou bot, a condição falha e ele FICA PARADO na posição atual (BATEU).
-	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
+	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) && !sistemaColisao.VaiColidir("BOT", entidade, corpoAtual, proximoCorpo).Status {
 		objeto.SetPosicao(posX, posY)
 	}
 

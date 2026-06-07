@@ -1,6 +1,7 @@
 package movimentacao
 
 import (
+	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
@@ -15,7 +16,7 @@ type MovimentadorLogicoDiagonal struct {
 	direcaoY     float64
 }
 
-func (mld *MovimentadorLogicoDiagonal) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mld *MovimentadorLogicoDiagonal) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 
 	mld.ciclos += 1
 	if mld.ciclos >= mld.ciclosMaximo {
@@ -59,7 +60,7 @@ func (mld *MovimentadorLogicoDiagonal) Mover(cenaJogo interfaces.ICenaJogo, mund
 
 	// 4. Teste de Colisão Seca (Mundo + Outras Entidades)
 	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
+		!sistemaColisao.VaiColidir("BOT", entidade, corpoAtual, proximoCorpo).Status {
 		// Caminho livre: Aplica a nova posição na diagonal
 		objeto.SetPosicao(posX, posY)
 	} else {

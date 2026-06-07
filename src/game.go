@@ -3,8 +3,8 @@ package src
 import (
 	"Gopher_Dungeon_Arena/src/cenas"
 	"Gopher_Dungeon_Arena/src/config"
+	"Gopher_Dungeon_Arena/src/entidades/objeto"
 	"Gopher_Dungeon_Arena/src/interfaces"
-	"fmt"
 	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -23,6 +23,13 @@ func NovoGame() *Game {
 
 	cenaCorrente.SetGame(&game)
 	game.SetCenaJogo(cenaJogo)
+
+	b := objeto.NovoPortalEntrada(cenaJogo, 0)
+	b.SetPosicao(200, 200)
+
+	bSaida := objeto.NovoPortalSaida(cenaJogo, 0)
+	bSaida.SetPosicao(500, 500)
+
 	return &game
 }
 
@@ -43,7 +50,7 @@ func (g *Game) SetCena(cena interfaces.ICena) {
 func (g *Game) Update() error {
 	g.CenaCorrente.Update()
 
-	fmt.Println(g.CenaCorrente.GetNome())
+	//fmt.Println(g.CenaCorrente.GetNome())
 
 	return nil
 }

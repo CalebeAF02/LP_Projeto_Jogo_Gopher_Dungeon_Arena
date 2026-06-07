@@ -15,7 +15,7 @@ import (
 
 type Parede struct {
 	cenaJogo    interfaces.ICenaJogo
-	entidade    ecs.EntidadeID
+	entidadeID  ecs.EntidadeID
 	estrutura   *geometria.Retangulo
 	Componentes map[string]interface{}
 }
@@ -23,13 +23,17 @@ type Parede struct {
 func NovaParede(cenaJogo interfaces.ICenaJogo, posicao *geometria.Ponto) *Parede {
 
 	nEntidade := cenaJogo.CriarEntidade()
-	nParede := Parede{cenaJogo: cenaJogo, entidade: nEntidade, estrutura: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.PAREDE_TAMANHO_MUNDO, utils.PAREDE_TAMANHO_MUNDO)}
+	nParede := Parede{cenaJogo: cenaJogo, entidadeID: nEntidade, estrutura: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.PAREDE_TAMANHO_MUNDO, utils.PAREDE_TAMANHO_MUNDO)}
 
 	cenaJogo.SetEntidade(nEntidade, &nParede)
 
 	nParede.AdicionarComponente(componentes.CORPO.String(), nParede.estrutura)
 
 	return &nParede
+}
+
+func (j *Parede) GetID() ecs.EntidadeID {
+	return j.entidadeID
 }
 
 func (b *Parede) GetX() float64 {
@@ -73,4 +77,9 @@ func (b *Parede) Desenhar(tela *ebiten.Image) {
 
 func (b *Parede) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
 	ebitenutil.DrawRect(tela, mapaX+(b.GetX()/config.PROPORCAO_MAPA), mapaY+(b.GetY()/config.PROPORCAO_MAPA), utils.PAREDE_TAMANHO_MAPA, utils.PAREDE_TAMANHO_MAPA, cores.PRETO)
+}
+
+func (e *Parede) ExisteComponente(id string) bool {
+	_, existe := e.Componentes[id]
+	return existe
 }

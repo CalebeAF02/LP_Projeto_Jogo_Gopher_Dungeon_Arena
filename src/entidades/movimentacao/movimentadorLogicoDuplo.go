@@ -1,6 +1,7 @@
 package movimentacao
 
 import (
+	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
@@ -15,7 +16,7 @@ type MovimentadorLogicoDuplo struct {
 	direcaoY     float64
 }
 
-func (mld *MovimentadorLogicoDuplo) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mld *MovimentadorLogicoDuplo) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	mld.ciclos += 1
 	if mld.ciclos >= mld.ciclosMaximo {
 		mld.varia = true
@@ -60,7 +61,7 @@ func (mld *MovimentadorLogicoDuplo) Mover(cenaJogo interfaces.ICenaJogo, mundo *
 
 	// 3. Teste de Colisão Seca (Mundo + Outras Entidades)
 	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
+		!sistemaColisao.VaiColidir("BOT", entidade, corpoAtual, proximoCorpo).Status {
 		// Caminho inteiramente livre: Atualiza a posição do agente
 		objeto.SetPosicao(posX, posY)
 	} else {

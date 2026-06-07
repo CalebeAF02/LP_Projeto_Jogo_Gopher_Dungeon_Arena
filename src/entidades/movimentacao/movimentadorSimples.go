@@ -1,6 +1,7 @@
 package movimentacao
 
 import (
+	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
@@ -10,7 +11,7 @@ import (
 type MovimentadorSimples struct {
 }
 
-func (ms *MovimentadorSimples) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (ms *MovimentadorSimples) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 
 	antesX := objeto.GetX1()
 	antesY := objeto.GetY1()
@@ -39,7 +40,7 @@ func (ms *MovimentadorSimples) Mover(cenaJogo interfaces.ICenaJogo, mundo *geome
 
 		// Teste de Colisão Seca em X
 		if mundo.EstaDentroDireto(posX, antesY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-			!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
+			!sistemaColisao.VaiColidir("BOT", entidade, corpoAtual, proximoCorpo).Status {
 			objeto.SetPosicao(posX, antesY)
 		}
 	} else {
@@ -61,7 +62,7 @@ func (ms *MovimentadorSimples) Mover(cenaJogo interfaces.ICenaJogo, mundo *geome
 
 		// Teste de Colisão Seca em Y
 		if mundo.EstaDentroDireto(antesX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-			!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
+			!sistemaColisao.VaiColidir("BOT", entidade, corpoAtual, proximoCorpo).Status {
 			objeto.SetPosicao(antesX, posY)
 		}
 	}
