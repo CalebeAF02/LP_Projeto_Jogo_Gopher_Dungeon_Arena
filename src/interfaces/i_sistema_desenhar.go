@@ -1,9 +1,9 @@
-package sistema
+package interfaces
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 type ISistemaDesenhar interface {
-	Desenhar(g *Game, tela *ebiten.Image)
+	Desenhar(cj ICenaJogo, tela *ebiten.Image)
 }

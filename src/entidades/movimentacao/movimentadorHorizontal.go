@@ -10,7 +10,7 @@ import (
 type MovimentadorHorizontal struct {
 }
 
-func (mh *MovimentadorHorizontal) Mover(game interfaces.IGame, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mh *MovimentadorHorizontal) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	posX := 0.0
 
 	tomadaDeDecicao := r.Intn(100)
@@ -40,7 +40,7 @@ func (mh *MovimentadorHorizontal) Mover(game interfaces.IGame, mundo *geometria.
 	// 4. Checagem final: Se a nova posição estiver dentro do mundo E não colidir com ninguém, ele anda.
 	// Se bater em parede, jogador ou outro bot, a condição falha e ele para seco no lugar!
 	if mundo.EstaDentroDireto(posX, objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!game.VaiColidir(corpoAtual, proximoCorpo).Status {
+		!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
 		objeto.SetPosicao(posX, objeto.GetY1())
 	}
 

@@ -15,7 +15,7 @@ type MovimentadorLogicoDuplo struct {
 	direcaoY     float64
 }
 
-func (mld *MovimentadorLogicoDuplo) Mover(game interfaces.IGame, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mld *MovimentadorLogicoDuplo) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	mld.ciclos += 1
 	if mld.ciclos >= mld.ciclosMaximo {
 		mld.varia = true
@@ -60,7 +60,7 @@ func (mld *MovimentadorLogicoDuplo) Mover(game interfaces.IGame, mundo *geometri
 
 	// 3. Teste de Colisão Seca (Mundo + Outras Entidades)
 	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!game.VaiColidir(corpoAtual, proximoCorpo).Status {
+		!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
 		// Caminho inteiramente livre: Atualiza a posição do agente
 		objeto.SetPosicao(posX, posY)
 	} else {

@@ -1,15 +1,15 @@
 package main
 
 import (
+	"Gopher_Dungeon_Arena/src"
 	"Gopher_Dungeon_Arena/src/config"
-	"Gopher_Dungeon_Arena/src/sistema"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 func main() {
-	game := sistema.NovoGame()
+	game := src.NovoGame()
 	ebiten.SetWindowSize(config.JANELA_LARGURA, config.JANELA_ALTURA)
 	ebiten.SetWindowTitle(config.NOME_JOGO)
 	ebiten.MaximizeWindow()

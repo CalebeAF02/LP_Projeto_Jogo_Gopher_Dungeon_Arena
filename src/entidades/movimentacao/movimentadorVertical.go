@@ -10,7 +10,7 @@ import (
 type MovimentadorVertical struct {
 }
 
-func (mb *MovimentadorVertical) Mover(game interfaces.IGame, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mb *MovimentadorVertical) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	posY := 0.0
 
 	tomadaDeDecicao := r.Intn(100)
@@ -39,7 +39,7 @@ func (mb *MovimentadorVertical) Mover(game interfaces.IGame, mundo *geometria.Re
 
 	// 4. Checagem final de impacto seco: Se livre, move. Se houver obstáculo, trava na hora!
 	if mundo.EstaDentroDireto(objeto.GetX1(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!game.VaiColidir(corpoAtual, proximoCorpo).Status {
+		!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
 		objeto.SetPosicao(objeto.GetX1(), posY)
 	}
 }

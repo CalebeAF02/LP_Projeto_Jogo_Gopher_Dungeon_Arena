@@ -125,6 +125,7 @@ func (c *Camera) SetVelocidadeY(dirX float64) {
 
 func (c *Camera) Atualizar() {
 	//c.OrganizarCamera()
+	
 }
 
 func (c *Camera) Desenhar(tela *ebiten.Image) {

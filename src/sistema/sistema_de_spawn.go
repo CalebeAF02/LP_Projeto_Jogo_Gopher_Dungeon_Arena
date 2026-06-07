@@ -3,17 +3,21 @@ package sistema
 import (
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/entidades/movimentacao"
+	"Gopher_Dungeon_Arena/src/entidades/objeto"
 	"Gopher_Dungeon_Arena/src/entidades/outros"
+
 	"Gopher_Dungeon_Arena/src/entidades/personagens"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/interfaces"
+
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 type SistemaSpawn struct {
 	framesGereacao int
 }
 
-func (s *SistemaSpawn) Atualizar(g *Game) {
+func (s *SistemaSpawn) Atualizar(cj interfaces.ICenaJogo) {
 	// --- LÓGICA DE TEMPO PARA BOTS ---
 	s.framesGereacao++
 
@@ -21,21 +25,25 @@ func (s *SistemaSpawn) Atualizar(g *Game) {
 	if s.framesGereacao >= 1860 {
 		s.framesGereacao = 0
 
-		if pos := OrganizaPosicaoAleatoriaBot(g); pos != nil {
-			SpawnarBotAleatorio(g, pos.GetX(), pos.GetY())
+		if pos := cj.OrganizaPosicaoAleatoriaBot(); pos != nil {
+			s.SpawnarBotAleatorio(cj, pos.GetX(), pos.GetY())
 		}
+	}
+
+	if ebiten.IsKeyPressed(ebiten.KeyB) {
+		s.SpawnarBotsAleatroiamenteNoMundo(cj)
 	}
 }
 
-func SpawnJogadores(g *Game) {
+func (s *SistemaSpawn) SpawnJogadores(cj interfaces.ICenaJogo) {
 	// Jogadores
-	j1 := personagens.NovoJogador(g, "Jogador 1")
-	//j2 := personagens.NovoJogador(&g, "Jogador 2")
-	//j3 := personagens.NovoJogador(&g, "Jogador 3")
+	j1 := personagens.NovoJogador(cj, "Jogador 1")
+	//j2 := personagens.NovoJogador(&cj, "Jogador 2")
+	//j3 := personagens.NovoJogador(&cj, "Jogador 3")
 
-	//j4 := personagens.NovoJogador(&g, "Jogador 4")
-	//j5 := personagens.NovoJogador(&g, "Jogador 5")
-	//j6 := personagens.NovoJogador(&g, "Jogador 6")
+	//j4 := personagens.NovoJogador(&cj, "Jogador 4")
+	//j5 := personagens.NovoJogador(&cj, "Jogador 5")
+	//j6 := personagens.NovoJogador(&cj, "Jogador 6")
 
 	j1.SetPosicao(100, 100)
 	//j2.SetPosicao(200, 300)
@@ -46,8 +54,8 @@ func SpawnJogadores(g *Game) {
 	//j6.SetPosicao(500, 300)
 
 	// Times
-	t1 := outros.NovoTime(g, "Vermelhao - Time_Azul", cores.AZUL)
-	//t2 := outros.NovoTime(&g, "Azulzinhos - Time_Vermelho", cores.VERMELHO)
+	t1 := outros.NovoTime(cj, "Vermelhao - Time_Azul", cores.AZUL)
+	//t2 := outros.NovoTime(&cj, "Azulzinhos - Time_Vermelho", cores.VERMELHO)
 
 	// Gerenciando
 	t1.Adicionnar(j1)
@@ -61,8 +69,8 @@ func SpawnJogadores(g *Game) {
 	//t2.Posicoes()
 }
 
-func SpawnarBot(g *Game, movendo interfaces.Movimentador, posicao *geometria.Ponto) {
-	b := personagens.NovoBot(g, 0)
+func (s *SistemaSpawn) SpawnarBot(cj interfaces.ICenaJogo, movendo interfaces.Movimentador, posicao *geometria.Ponto) {
+	b := personagens.NovoBot(cj, 0)
 	b.SetNivelAleatorio()
 	b.SetPosicao(posicao.GetX(), posicao.GetY())
 
@@ -93,7 +101,7 @@ func SpawnarBot(g *Game, movendo interfaces.Movimentador, posicao *geometria.Pon
 
 }
 
-func SpawnBotDeCadaTipo(g *Game) {
+func (s *SistemaSpawn) SpawnBotDeCadaTipo(cj interfaces.ICenaJogo) {
 	// Cria uma lista dos movimentadores desejados para iterar de forma limpa e segura
 	movimentadores := []interfaces.Movimentador{
 		&movimentacao.MovimentadorSimples{},
@@ -109,73 +117,73 @@ func SpawnBotDeCadaTipo(g *Game) {
 
 	// Varre a lista garantindo que cada bot receba uma posição válida individual
 	for _, mov := range movimentadores {
-		if pos := OrganizaPosicaoAleatoriaBot(g); pos != nil {
-			SpawnarBot(g, mov, pos)
+		if pos := cj.OrganizaPosicaoAleatoriaBot(); pos != nil {
+			s.SpawnarBot(cj, mov, pos)
 		}
 	}
 }
 
-func SpawnarBotAleatorio(g *Game, x float64, y float64) {
+func (s *SistemaSpawn) SpawnarBotAleatorio(cj interfaces.ICenaJogo, x float64, y float64) {
 	// Sorteia dinamicamente entre os 9 tipos de movimentadores que você possui
-	tipo := g.aleatorio.Intn(9)
+	tipo := cj.GetAleatorio().Intn(9)
 	posicao := geometria.NovoPonto(x, y)
 
 	switch tipo {
 	case 0:
-		SpawnarBot(g, &movimentacao.MovimentadorSimples{}, posicao)
+		s.SpawnarBot(cj, &movimentacao.MovimentadorSimples{}, posicao)
 	case 1:
-		SpawnarBot(g, &movimentacao.MovimentadorVertical{}, posicao)
+		s.SpawnarBot(cj, &movimentacao.MovimentadorVertical{}, posicao)
 	case 2:
-		SpawnarBot(g, &movimentacao.MovimentadorVerticalConstante{}, posicao)
+		s.SpawnarBot(cj, &movimentacao.MovimentadorVerticalConstante{}, posicao)
 	case 3:
-		SpawnarBot(g, &movimentacao.MovimentadorHorizontal{}, posicao)
+		s.SpawnarBot(cj, &movimentacao.MovimentadorHorizontal{}, posicao)
 	case 4:
-		SpawnarBot(g, &movimentacao.MovimentadorHorizontalConstante{}, posicao)
+		s.SpawnarBot(cj, &movimentacao.MovimentadorHorizontalConstante{}, posicao)
 	case 5:
-		SpawnarBot(g, &movimentacao.MovimentadorDiagonal{}, posicao)
+		s.SpawnarBot(cj, &movimentacao.MovimentadorDiagonal{}, posicao)
 	case 6:
-		SpawnarBot(g, &movimentacao.MovimentadorLogicoLinha{}, posicao)
+		s.SpawnarBot(cj, &movimentacao.MovimentadorLogicoLinha{}, posicao)
 	case 7:
-		SpawnarBot(g, &movimentacao.MovimentadorLogicoDiagonal{}, posicao)
+		s.SpawnarBot(cj, &movimentacao.MovimentadorLogicoDiagonal{}, posicao)
 	case 8:
-		SpawnarBot(g, &movimentacao.MovimentadorLogicoDuplo{}, posicao)
+		s.SpawnarBot(cj, &movimentacao.MovimentadorLogicoDuplo{}, posicao)
 	}
 }
 
-func SpawnarBotsAleatroiamenteNoMundo(g *Game) {
+func (s *SistemaSpawn) SpawnarBotsAleatroiamenteNoMundo(cj interfaces.ICenaJogo) {
 	for id := 0; id < 3; id++ {
-		if pos := OrganizaPosicaoAleatoriaBot(g); pos != nil {
-			SpawnarBotAleatorio(g, pos.GetX(), pos.GetY())
+		if pos := cj.OrganizaPosicaoAleatoriaBot(); pos != nil {
+			s.SpawnarBotAleatorio(cj, pos.GetX(), pos.GetY())
 		}
 	}
 }
 
-func SpawnParedesAoRedor(g *Game, passo float64) {
-	xMin := g.GetMundo().GetX()
-	yMin := g.GetMundo().GetY()
-	xMax := g.GetMundo().GetX() + g.GetMundo().GetLargura()
-	yMax := g.GetMundo().GetY() + g.GetMundo().GetAltura()
+func (s *SistemaSpawn) SpawnParedesAoRedor(cj interfaces.ICenaJogo, passo float64) {
+	xMin := cj.GetMundo().GetX()
+	yMin := cj.GetMundo().GetY()
+	xMax := cj.GetMundo().GetX() + cj.GetMundo().GetLargura()
+	yMax := cj.GetMundo().GetY() + cj.GetMundo().GetAltura()
 
 	// 1. Paredes Horizontais (Topo e Base)
 	for x := xMin; x < xMax; x += passo {
-		outros.NovaParede(g, geometria.NovoPonto(x, yMin))       // Linha de cima
-		outros.NovaParede(g, geometria.NovoPonto(x, yMax-passo)) // Linha de baixo
+		objeto.NovaParede(cj, geometria.NovoPonto(x, yMin))       // Linha de cima
+		objeto.NovaParede(cj, geometria.NovoPonto(x, yMax-passo)) // Linha de baixo
 	}
 
 	// 2. Paredes Verticais (Esquerda e Direita)
 	// Começamos em yMin + passo para não sobrepor os cantos já criados
 	for y := yMin + passo; y < yMax-passo; y += passo {
-		outros.NovaParede(g, geometria.NovoPonto(xMin, y))       // Lateral esquerda
-		outros.NovaParede(g, geometria.NovoPonto(xMax-passo, y)) // Lateral direita
+		objeto.NovaParede(cj, geometria.NovoPonto(xMin, y))       // Lateral esquerda
+		objeto.NovaParede(cj, geometria.NovoPonto(xMax-passo, y)) // Lateral direita
 	}
 }
 
-func SpawnLabirinto(g *Game) {
+func (s *SistemaSpawn) SpawnLabirinto(cj interfaces.ICenaJogo) {
 	// 1. Coleta os dados reais e dinâmicos do tamanho do mundo
-	mundoX := g.mundo.GetX()
-	mundoY := g.mundo.GetY()
-	mundoLargura := g.mundo.GetLargura()
-	mundoAltura := g.mundo.GetAltura()
+	mundoX := cj.GetMundo().GetX()
+	mundoY := cj.GetMundo().GetY()
+	mundoLargura := cj.GetMundo().GetLargura()
+	mundoAltura := cj.GetMundo().GetAltura()
 
 	// 2. Define o tamanho do Labirinto de forma proporcional ao mundo
 	// Aqui fazemos com que ele ocupe 80% da menor dimensão do mapa, por exemplo
@@ -197,16 +205,16 @@ func SpawnLabirinto(g *Game) {
 
 	for i := 0.0; i <= tamanho; i += passo {
 		// Topo e Base
-		outros.NovaParede(g, geometria.NovoPonto(inicioX+i, inicioY))
-		outros.NovaParede(g, geometria.NovoPonto(inicioX+i, inicioY+tamanho))
+		objeto.NovaParede(cj, geometria.NovoPonto(inicioX+i, inicioY))
+		objeto.NovaParede(cj, geometria.NovoPonto(inicioX+i, inicioY+tamanho))
 
 		// Lateral Direita
-		outros.NovaParede(g, geometria.NovoPonto(inicioX+tamanho, inicioY+i))
+		objeto.NovaParede(cj, geometria.NovoPonto(inicioX+tamanho, inicioY+i))
 
 		// Lateral Esquerda com abertura dinâmica para o jogador entrar
 		posAtualY := inicioY + i
 		if posAtualY < aberturaEntradaMin || posAtualY > aberturaEntradaMax {
-			outros.NovaParede(g, geometria.NovoPonto(inicioX, posAtualY))
+			objeto.NovaParede(cj, geometria.NovoPonto(inicioX, posAtualY))
 		}
 	}
 
@@ -219,7 +227,7 @@ func SpawnLabirinto(g *Game) {
 
 	for y := paredeCentralYMin; y <= paredeCentralYMax; y += passo {
 		if y < aberturaCentralMin || y > aberturaCentralMax { // Buraco dinâmico no meio para passar
-			outros.NovaParede(g, geometria.NovoPonto(centroX, y))
+			objeto.NovaParede(cj, geometria.NovoPonto(centroX, y))
 		}
 	}
 
@@ -232,12 +240,12 @@ func SpawnLabirinto(g *Game) {
 
 	// Uma barreira horizontal superior
 	for x := alaEsquerdaXMin; x <= alaEsquerdaXMax; x += passo {
-		outros.NovaParede(g, geometria.NovoPonto(x, barreiraSuperiorY))
+		objeto.NovaParede(cj, geometria.NovoPonto(x, barreiraSuperiorY))
 	}
 
 	// Uma barreira horizontal inferior
 	for x := alaEsquerdaXMin; x <= alaEsquerdaXMax; x += passo {
-		outros.NovaParede(g, geometria.NovoPonto(x, barreiraInferiorY))
+		objeto.NovaParede(cj, geometria.NovoPonto(x, barreiraInferiorY))
 	}
 
 	// --- Ala Direita (Setor de Desafio) ---
@@ -247,12 +255,12 @@ func SpawnLabirinto(g *Game) {
 	tY := inicioY + (tamanho * 0.35)
 
 	for x := tXMin; x <= tXMax; x += passo {
-		outros.NovaParede(g, geometria.NovoPonto(x, tY)) // Parte de cima do T
+		objeto.NovaParede(cj, geometria.NovoPonto(x, tY)) // Parte de cima do T
 	}
 	// Haste do T
 	centroT_X := tXMin + (tXMax-tXMin)/2
-	outros.NovaParede(g, geometria.NovoPonto(centroT_X, tY+passo))
-	outros.NovaParede(g, geometria.NovoPonto(centroT_X, tY+(passo*2)))
+	objeto.NovaParede(cj, geometria.NovoPonto(centroT_X, tY+passo))
+	objeto.NovaParede(cj, geometria.NovoPonto(centroT_X, tY+(passo*2)))
 
 	// Paredes tipo "Dentes de Pente" na lateral inferior direita
 	dentesYMin := inicioY + (tamanho * 0.6)
@@ -261,52 +269,52 @@ func SpawnLabirinto(g *Game) {
 	raiaEsquerdaX := centroX + (tamanho * 0.3)
 
 	for y := dentesYMin; y <= dentesYMax; y += passo {
-		outros.NovaParede(g, geometria.NovoPonto(raiaDireitaX, y))
-		outros.NovaParede(g, geometria.NovoPonto(raiaEsquerdaX, y))
+		objeto.NovaParede(cj, geometria.NovoPonto(raiaDireitaX, y))
+		objeto.NovaParede(cj, geometria.NovoPonto(raiaEsquerdaX, y))
 	}
 }
 
-func SpawnParedesEspecificas(g *Game) {
+func (s *SistemaSpawn) SpawnParedesEspecificas(cj interfaces.ICenaJogo) {
 	// --- LETRA L ---
-	outros.NovaParede(g, geometria.NovoPonto(200, 400))
-	outros.NovaParede(g, geometria.NovoPonto(200, 430))
-	outros.NovaParede(g, geometria.NovoPonto(200, 460))
-	outros.NovaParede(g, geometria.NovoPonto(200, 490))
-	outros.NovaParede(g, geometria.NovoPonto(230, 490))
-	outros.NovaParede(g, geometria.NovoPonto(260, 490))
+	objeto.NovaParede(cj, geometria.NovoPonto(200, 400))
+	objeto.NovaParede(cj, geometria.NovoPonto(200, 430))
+	objeto.NovaParede(cj, geometria.NovoPonto(200, 460))
+	objeto.NovaParede(cj, geometria.NovoPonto(200, 490))
+	objeto.NovaParede(cj, geometria.NovoPonto(230, 490))
+	objeto.NovaParede(cj, geometria.NovoPonto(260, 490))
 
 	// --- LETRA U ---
-	outros.NovaParede(g, geometria.NovoPonto(320, 400))
-	outros.NovaParede(g, geometria.NovoPonto(320, 430))
-	outros.NovaParede(g, geometria.NovoPonto(320, 460))
-	outros.NovaParede(g, geometria.NovoPonto(320, 490))
-	outros.NovaParede(g, geometria.NovoPonto(350, 490))
-	outros.NovaParede(g, geometria.NovoPonto(380, 490))
-	outros.NovaParede(g, geometria.NovoPonto(380, 460))
-	outros.NovaParede(g, geometria.NovoPonto(380, 430))
-	outros.NovaParede(g, geometria.NovoPonto(380, 400))
+	objeto.NovaParede(cj, geometria.NovoPonto(320, 400))
+	objeto.NovaParede(cj, geometria.NovoPonto(320, 430))
+	objeto.NovaParede(cj, geometria.NovoPonto(320, 460))
+	objeto.NovaParede(cj, geometria.NovoPonto(320, 490))
+	objeto.NovaParede(cj, geometria.NovoPonto(350, 490))
+	objeto.NovaParede(cj, geometria.NovoPonto(380, 490))
+	objeto.NovaParede(cj, geometria.NovoPonto(380, 460))
+	objeto.NovaParede(cj, geometria.NovoPonto(380, 430))
+	objeto.NovaParede(cj, geometria.NovoPonto(380, 400))
 
 	// --- LETRA A ---
-	outros.NovaParede(g, geometria.NovoPonto(440, 490))
-	outros.NovaParede(g, geometria.NovoPonto(440, 460))
-	outros.NovaParede(g, geometria.NovoPonto(440, 430))
-	outros.NovaParede(g, geometria.NovoPonto(470, 400))
-	outros.NovaParede(g, geometria.NovoPonto(500, 400))
-	outros.NovaParede(g, geometria.NovoPonto(530, 430))
-	outros.NovaParede(g, geometria.NovoPonto(530, 460))
-	outros.NovaParede(g, geometria.NovoPonto(530, 490))
-	outros.NovaParede(g, geometria.NovoPonto(470, 450))
-	outros.NovaParede(g, geometria.NovoPonto(500, 450))
+	objeto.NovaParede(cj, geometria.NovoPonto(440, 490))
+	objeto.NovaParede(cj, geometria.NovoPonto(440, 460))
+	objeto.NovaParede(cj, geometria.NovoPonto(440, 430))
+	objeto.NovaParede(cj, geometria.NovoPonto(470, 400))
+	objeto.NovaParede(cj, geometria.NovoPonto(500, 400))
+	objeto.NovaParede(cj, geometria.NovoPonto(530, 430))
+	objeto.NovaParede(cj, geometria.NovoPonto(530, 460))
+	objeto.NovaParede(cj, geometria.NovoPonto(530, 490))
+	objeto.NovaParede(cj, geometria.NovoPonto(470, 450))
+	objeto.NovaParede(cj, geometria.NovoPonto(500, 450))
 
 	// --- LETRA N ---
-	outros.NovaParede(g, geometria.NovoPonto(590, 490))
-	outros.NovaParede(g, geometria.NovoPonto(590, 460))
-	outros.NovaParede(g, geometria.NovoPonto(590, 430))
-	outros.NovaParede(g, geometria.NovoPonto(590, 400))
-	outros.NovaParede(g, geometria.NovoPonto(620, 430))
-	outros.NovaParede(g, geometria.NovoPonto(650, 460))
-	outros.NovaParede(g, geometria.NovoPonto(680, 400))
-	outros.NovaParede(g, geometria.NovoPonto(680, 430))
-	outros.NovaParede(g, geometria.NovoPonto(680, 460))
-	outros.NovaParede(g, geometria.NovoPonto(680, 490))
+	objeto.NovaParede(cj, geometria.NovoPonto(590, 490))
+	objeto.NovaParede(cj, geometria.NovoPonto(590, 460))
+	objeto.NovaParede(cj, geometria.NovoPonto(590, 430))
+	objeto.NovaParede(cj, geometria.NovoPonto(590, 400))
+	objeto.NovaParede(cj, geometria.NovoPonto(620, 430))
+	objeto.NovaParede(cj, geometria.NovoPonto(650, 460))
+	objeto.NovaParede(cj, geometria.NovoPonto(680, 400))
+	objeto.NovaParede(cj, geometria.NovoPonto(680, 430))
+	objeto.NovaParede(cj, geometria.NovoPonto(680, 460))
+	objeto.NovaParede(cj, geometria.NovoPonto(680, 490))
 }

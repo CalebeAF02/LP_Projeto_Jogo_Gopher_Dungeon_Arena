@@ -15,7 +15,7 @@ type MovimentadorLogicoDiagonal struct {
 	direcaoY     float64
 }
 
-func (mld *MovimentadorLogicoDiagonal) Mover(game interfaces.IGame, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mld *MovimentadorLogicoDiagonal) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 
 	mld.ciclos += 1
 	if mld.ciclos >= mld.ciclosMaximo {
@@ -59,7 +59,7 @@ func (mld *MovimentadorLogicoDiagonal) Mover(game interfaces.IGame, mundo *geome
 
 	// 4. Teste de Colisão Seca (Mundo + Outras Entidades)
 	if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!game.VaiColidir(corpoAtual, proximoCorpo).Status {
+		!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
 		// Caminho livre: Aplica a nova posição na diagonal
 		objeto.SetPosicao(posX, posY)
 	} else {

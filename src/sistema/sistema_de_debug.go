@@ -2,6 +2,7 @@ package sistema
 
 import (
 	"Gopher_Dungeon_Arena/src/ecs"
+	"Gopher_Dungeon_Arena/src/interfaces"
 	"fmt"
 	"reflect"
 	"sort"
@@ -12,28 +13,25 @@ import (
 
 type SistemaDebug struct{}
 
-func (s *SistemaDebug) Atualizar(g *Game) {
+func (s *SistemaDebug) Atualizar(cj interfaces.ICenaJogo) {
 	// Atalho para debugar as entidades no terminal
 
 	if ebiten.IsKeyPressed(ebiten.KeyF1) {
-		ListarPrincipaisEntidades(g)
+		s.ListarPrincipaisEntidades(cj)
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyF2) {
-		ListarEntidadesOrdenadas(g)
+		s.ListarEntidadesOrdenadas(cj)
 	}
 
-	if ebiten.IsKeyPressed(ebiten.KeyB) {
-		SpawnarBotsAleatroiamenteNoMundo(g)
-	}
 }
 
-func ListarEntidadesOrdenadas(g *Game) {
+func (s *SistemaDebug) ListarEntidadesOrdenadas(cj interfaces.ICenaJogo) {
 	fmt.Println("\n" + strings.Repeat("=", 40))
 	fmt.Println("   RELATÓRIO DE ENTIDADES (ORDENADO POR ID)")
 	fmt.Println(strings.Repeat("=", 40))
 
-	entidades := g.GetEntidades()
+	entidades := cj.GetEntidades()
 	if len(entidades) == 0 {
 		fmt.Println("O mundo está vazio.")
 		return
@@ -77,8 +75,8 @@ func ListarEntidadesOrdenadas(g *Game) {
 	fmt.Println("\n" + strings.Repeat("=", 40))
 }
 
-func ListarPrincipaisEntidades(g *Game) {
-	entidades := g.GetEntidades()
+func (s *SistemaDebug) ListarPrincipaisEntidades(cj interfaces.ICenaJogo) {
+	entidades := cj.GetEntidades()
 	if len(entidades) == 0 {
 		fmt.Println("O mundo está vazio.")
 		return

@@ -1,4 +1,4 @@
-package outros
+package objeto
 
 import (
 	"Gopher_Dungeon_Arena/src/config"
@@ -14,18 +14,18 @@ import (
 )
 
 type Parede struct {
-	game        interfaces.IGame
+	cenaJogo    interfaces.ICenaJogo
 	entidade    ecs.EntidadeID
 	estrutura   *geometria.Retangulo
 	Componentes map[string]interface{}
 }
 
-func NovaParede(game interfaces.IGame, posicao *geometria.Ponto) *Parede {
+func NovaParede(cenaJogo interfaces.ICenaJogo, posicao *geometria.Ponto) *Parede {
 
-	nEntidade := game.CriarEntidade()
-	nParede := Parede{game: game, entidade: nEntidade, estrutura: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.PAREDE_TAMANHO_MUNDO, utils.PAREDE_TAMANHO_MUNDO)}
+	nEntidade := cenaJogo.CriarEntidade()
+	nParede := Parede{cenaJogo: cenaJogo, entidade: nEntidade, estrutura: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.PAREDE_TAMANHO_MUNDO, utils.PAREDE_TAMANHO_MUNDO)}
 
-	game.SetEntidade(nEntidade, &nParede)
+	cenaJogo.SetEntidade(nEntidade, &nParede)
 
 	nParede.AdicionarComponente(componentes.CORPO.String(), nParede.estrutura)
 
@@ -68,7 +68,7 @@ func (e *Parede) AdicionarComponente(id string, comp interface{}) {
 }
 
 func (b *Parede) Desenhar(tela *ebiten.Image) {
-	ebitenutil.DrawRect(tela, b.game.GetCamera().GetX()+b.GetX(), b.game.GetCamera().GetY()+b.GetY(), utils.PAREDE_TAMANHO_MUNDO, utils.PAREDE_TAMANHO_MUNDO, cores.PRETO)
+	ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX(), b.cenaJogo.GetCamera().GetY()+b.GetY(), utils.PAREDE_TAMANHO_MUNDO, utils.PAREDE_TAMANHO_MUNDO, cores.PRETO)
 }
 
 func (b *Parede) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {

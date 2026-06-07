@@ -6,11 +6,11 @@ import (
 	"Gopher_Dungeon_Arena/src/enum/componentes"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
+	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
 
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 
-	"Gopher_Dungeon_Arena/src/interfaces"
 	"image/color"
 	"math/rand"
 
@@ -19,7 +19,7 @@ import (
 )
 
 type Bot struct {
-	game        interfaces.IGame
+	cenaJogo    interfaces.ICenaJogo
 	entidade    ecs.EntidadeID
 	Id          int64
 	nivel       int
@@ -32,17 +32,17 @@ type Bot struct {
 	Componentes map[string]interface{}
 }
 
-type SubTipo struct{
+type SubTipo struct {
 	Valor string
 }
 
-func NovoBot(game interfaces.IGame, id int64) *Bot {
+func NovoBot(cj interfaces.ICenaJogo, id int64) *Bot {
 
-	nEntidade := game.CriarEntidade()
+	nEntidade := cj.CriarEntidade()
 	posicao := geometria.NovoPonto(0, 0)
-	nBot := Bot{game: game, entidade: nEntidade, Id: id, nivel: 1, sangue: 100, cor: cores.BRANCO, status: true, posicao: posicao, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)}
+	nBot := Bot{cenaJogo: cj, entidade: nEntidade, Id: id, nivel: 1, sangue: 100, cor: cores.BRANCO, status: true, posicao: posicao, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)}
 
-	game.SetEntidade(nEntidade, &nBot)
+	cj.SetEntidade(nEntidade, &nBot)
 
 	nBot.AdicionarComponente(componentes.CORPO.String(), nBot.corpo)
 	nBot.AdicionarComponente(componentes.SUB_TIPO.String(), &SubTipo{Valor: ""})
@@ -131,7 +131,7 @@ func (b *Bot) SetNivel(nivel int) {
 }
 
 func (b *Bot) SetNivelAleatorio() {
-	nivel := b.game.GetAleatorio().Intn(100)
+	nivel := b.cenaJogo.GetAleatorio().Intn(100)
 	switch {
 	case nivel >= 70:
 		b.nivel = 3
@@ -152,10 +152,10 @@ func (b *Bot) Mover(r *rand.Rand) {
 	posY := b.posicao.GetY()
 
 	if b.movendo != nil {
-		b.movendo.Mover(b.game, b.game.GetMundo(), b, r)
+		b.movendo.Mover(b.cenaJogo, b.cenaJogo.GetMundo(), b, r)
 	}
 
-	if b.game.GetMundo().EstaNaMargemInterna(geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO), utils.BOT_TAMANHO_MUNDO) {
+	if b.cenaJogo.GetMundo().EstaNaMargemInterna(geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO), utils.BOT_TAMANHO_MUNDO) {
 		//b.SetPosicao(posX, posY)
 		//fmt.Println("Bot Passou nesta funcao !")
 	}
@@ -167,11 +167,11 @@ func (b *Bot) SetMovimentacao(movendo interfaces.Movimentador) {
 }
 
 func (b *Bot) Atualizar() {
-	b.Mover(b.game.GetAleatorio())
+	b.Mover(b.cenaJogo.GetAleatorio())
 }
 
 func (b *Bot) Desenhar(tela *ebiten.Image) {
-	ebitenutil.DrawRect(tela, b.game.GetCamera().GetX()+b.GetX1(), b.game.GetCamera().GetY()+b.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO, b.GetCor())
+	ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO, b.GetCor())
 }
 
 func (b *Bot) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {

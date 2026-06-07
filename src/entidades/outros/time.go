@@ -13,7 +13,7 @@ import (
 )
 
 type Time struct {
-	game        interfaces.IGame
+	cenaJogo    interfaces.ICenaJogo
 	entidade    ecs.EntidadeID
 	nome        string
 	jogadores   []*personagens.Jogador
@@ -21,10 +21,10 @@ type Time struct {
 	Componentes map[string]interface{}
 }
 
-func NovoTime(game interfaces.IGame, n string, cor color.Color) *Time {
-	nEntidade := game.CriarEntidade()
-	nTime := Time{game: game, entidade: nEntidade, nome: n, cor: cor}
-	game.SetEntidade(nEntidade, &nTime)
+func NovoTime(cenaJogo interfaces.ICenaJogo, n string, cor color.Color) *Time {
+	nEntidade := cenaJogo.CriarEntidade()
+	nTime := Time{cenaJogo: cenaJogo, entidade: nEntidade, nome: n, cor: cor}
+	cenaJogo.SetEntidade(nEntidade, &nTime)
 	return &nTime
 }
 
@@ -51,7 +51,7 @@ func (t *Time) GetJogador(id int) *personagens.Jogador {
 func (t *Time) GetJogadores() []*personagens.Jogador {
 	listaJogadore := []*personagens.Jogador{}
 
-	for _, e := range t.game.GetEntidades() {
+	for _, e := range t.cenaJogo.GetEntidades() {
 		if e.GetTipo() == "JOGADOR" {
 			listaJogadore = append(listaJogadore, e.(*personagens.Jogador))
 		}

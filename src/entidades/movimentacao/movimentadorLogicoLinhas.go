@@ -15,7 +15,7 @@ type MovimentadorLogicoLinha struct {
 	direcaoY     float64
 }
 
-func (mll *MovimentadorLogicoLinha) Mover(game interfaces.IGame, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mll *MovimentadorLogicoLinha) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	mll.ciclos += 1
 	if mll.ciclos >= mll.ciclosMaximo {
 		mll.varia = true
@@ -66,7 +66,7 @@ func (mll *MovimentadorLogicoLinha) Mover(game interfaces.IGame, mundo *geometri
 
 		// 3. Teste de Colisão Rígida
 		if mundo.EstaDentroDireto(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-			!game.VaiColidir(corpoAtual, proximoCorpo).Status {
+			!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
 			// Caminho livre: atualiza a posição
 			objeto.SetPosicao(posX, posY)
 		} else {

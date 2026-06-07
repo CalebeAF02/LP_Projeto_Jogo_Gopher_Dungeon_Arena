@@ -12,6 +12,6 @@ type HabilidadeMovimentacao interface {
 }
 
 type Movimentador interface {
-	Mover(game IGame, mundo *geometria.Retangulo, bot HabilidadeMovimentacao, r *rand.Rand)
+	Mover(cenaJogo ICenaJogo, mundo *geometria.Retangulo, bot HabilidadeMovimentacao, r *rand.Rand)
 	GetTipo() string
 }

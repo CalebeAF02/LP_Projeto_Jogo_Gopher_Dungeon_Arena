@@ -12,7 +12,7 @@ type MovimentadorHorizontalConstante struct {
 	ciclos  int
 }
 
-func (mhc *MovimentadorHorizontalConstante) Mover(game interfaces.IGame, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mhc *MovimentadorHorizontalConstante) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 
 	// 1. Início de ciclo ou inicialização (garante direção aleatória no começo)
 	if mhc.ciclos >= utils.BOT_CICLOS_REPETICAO || (mhc.ciclos == 0 && mhc.direcao == 0) {
@@ -49,7 +49,7 @@ func (mhc *MovimentadorHorizontalConstante) Mover(game interfaces.IGame, mundo *
 
 	// 5. Teste de Colisão Seca (Mundo + Outras Entidades)
 	if mundo.EstaDentroDireto(posX, objeto.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!game.VaiColidir(corpoAtual, proximoCorpo).Status {
+		!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
 		// Caminho livre: Aplica a nova posição
 		objeto.SetPosicao(posX, objeto.GetY1())
 	} else {

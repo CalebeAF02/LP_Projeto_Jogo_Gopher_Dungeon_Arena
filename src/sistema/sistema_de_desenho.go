@@ -4,6 +4,7 @@ import (
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/enum/cores"
+	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -11,15 +12,15 @@ import (
 
 type SistemaDesenhar struct{}
 
-func (s *SistemaDesenhar) Desenhar(g *Game, tela *ebiten.Image) {
+func (s *SistemaDesenhar) Desenhar(cj interfaces.ICenaJogo, tela *ebiten.Image) {
 
 	tela.Fill(cores.BRANCO)
 
 	margemMundo := geometria.NovoRetangulo(
-		g.GetCamera().GetX()+g.GetMundo().GetX(),
-		g.GetCamera().GetY()+g.GetMundo().GetY(),
-		g.GetMundo().GetLargura(),
-		g.GetMundo().GetAltura(),
+		cj.GetCamera().GetX()+cj.GetMundo().GetX(),
+		cj.GetCamera().GetY()+cj.GetMundo().GetY(),
+		cj.GetMundo().GetLargura(),
+		cj.GetMundo().GetAltura(),
 	)
 
 	utils.MargemInterna(
@@ -29,19 +30,19 @@ func (s *SistemaDesenhar) Desenhar(g *Game, tela *ebiten.Image) {
 		cores.PRETO,
 	)
 
-	for _, entidade := range g.GetEntidades() {
+	for _, entidade := range cj.GetEntidades() {
 		entidade.Desenhar(tela)
 	}
 
 	if config.PROPORCAO_MUNDO > 1 {
 
-		g.GetMiniMapa().Desenhar(tela)
+		cj.GetMiniMapa().Desenhar(tela)
 
-		for _, entidade := range g.GetEntidades() {
+		for _, entidade := range cj.GetEntidades() {
 			entidade.DesenharMapa(
 				tela,
-				g.GetMiniMapa().GetX(),
-				g.GetMiniMapa().GetY(),
+				cj.GetMiniMapa().GetX(),
+				cj.GetMiniMapa().GetY(),
 			)
 		}
 	}

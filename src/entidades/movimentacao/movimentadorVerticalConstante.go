@@ -12,7 +12,7 @@ type MovimentadorVerticalConstante struct {
 	ciclos  int
 }
 
-func (mvc *MovimentadorVerticalConstante) Mover(game interfaces.IGame, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (mvc *MovimentadorVerticalConstante) Mover(cenaJogo interfaces.ICenaJogo, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	// 1. Definir a direção inicial se for um novo ciclo
 	if mvc.ciclos == 0 {
 		// Garante que não seja 0 para não ficar parado
@@ -45,7 +45,7 @@ func (mvc *MovimentadorVerticalConstante) Mover(game interfaces.IGame, mundo *ge
 
 	// 5. Teste de Colisão Seca (Mundo + Outras Entidades)
 	if mundo.EstaDentroDireto(objeto.GetX1(), posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO) &&
-		!game.VaiColidir(corpoAtual, proximoCorpo).Status {
+		!cenaJogo.VaiColidir(corpoAtual, proximoCorpo).Status {
 		// Caminho livre: Aplica o movimento vertical e incrementa o ciclo
 		objeto.SetPosicao(objeto.GetX1(), posY)
 		mvc.ciclos++

@@ -18,7 +18,7 @@ import (
 )
 
 type Jogador struct {
-	game        interfaces.IGame
+	cenaJogo    interfaces.ICenaJogo
 	entidade    ecs.EntidadeID
 	nome        string
 	vida        int
@@ -30,12 +30,12 @@ type Jogador struct {
 	Componentes map[string]interface{}
 }
 
-func NovoJogador(game interfaces.IGame, n string) *Jogador {
-	nEntidade := game.CriarEntidade()
+func NovoJogador(cj interfaces.ICenaJogo, n string) *Jogador {
+	nEntidade := cj.CriarEntidade()
 
 	posicao := geometria.NovoPonto(0, 0)
-	nJogador := Jogador{game: game, entidade: nEntidade, nome: n, vida: 3, sangue: 100, cor: color.White, Status: true, posicao: posicao, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)}
-	game.SetEntidade(nEntidade, &nJogador)
+	nJogador := Jogador{cenaJogo: cj, entidade: nEntidade, nome: n, vida: 3, sangue: 100, cor: color.White, Status: true, posicao: posicao, corpo: geometria.NovoRetangulo(posicao.GetX(), posicao.GetY(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)}
+	cj.SetEntidade(nEntidade, &nJogador)
 
 	nJogador.AdicionarComponente(componentes.CORPO.String(), nJogador.corpo)
 
@@ -173,9 +173,9 @@ func (j *Jogador) Mover() {
 		for i := 0; i < totalPassosX; i++ {
 			proximoX := origemX + passoX
 			testeCorpoX := geometria.NovoRetangulo(proximoX, origemY, utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)
-			colisao := j.game.VaiColidir(corpoDeFiltro, testeCorpoX)
+			colisao := j.cenaJogo.VaiColidir(corpoDeFiltro, testeCorpoX)
 			// Verifica se o PRÓXIMO pixel está livre
-			if j.game.GetMundo().EstaNaMargemInterna(testeCorpoX, utils.JOGADOR_TAMANHO_MUNDO) &&
+			if j.cenaJogo.GetMundo().EstaNaMargemInterna(testeCorpoX, utils.JOGADOR_TAMANHO_MUNDO) &&
 				!colisao.Status {
 				origemX = proximoX // Avança 1 pixel com segurança
 			} else {
@@ -203,10 +203,10 @@ func (j *Jogador) Mover() {
 			proximoY := origemY + passoS
 			// Importante: Usa o origemX já processado para validar quinas corretamente
 			testeCorpoY := geometria.NovoRetangulo(origemX, proximoY, utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)
-			colisao := j.game.VaiColidir(corpoDeFiltro, testeCorpoY)
+			colisao := j.cenaJogo.VaiColidir(corpoDeFiltro, testeCorpoY)
 
 			// Verifica se o PRÓXIMO pixel está livre
-			if j.game.GetMundo().EstaNaMargemInterna(testeCorpoY, utils.JOGADOR_TAMANHO_MUNDO) &&
+			if j.cenaJogo.GetMundo().EstaNaMargemInterna(testeCorpoY, utils.JOGADOR_TAMANHO_MUNDO) &&
 				!colisao.Status {
 				origemY = proximoY // Avança 1 pixel com segurança
 			} else {
@@ -238,7 +238,7 @@ func (j *Jogador) Atualizar() {
 
 func (j *Jogador) Desenhar(tela *ebiten.Image) {
 
-	ebitenutil.DrawRect(tela, j.game.GetCamera().GetX()+j.GetX1(), j.game.GetCamera().GetY()+j.GetY1(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO, j.GetCor())
+	ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1(), j.cenaJogo.GetCamera().GetY()+j.GetY1(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO, j.GetCor())
 
 	//ebitenutil.DrawRect(tela, j.game.GetCamera().GetX()+j.GetX()+5, j.game.GetCamera().GetY()+j.GetY()+5, JOGADOR_TAMANHO_INTERNO, JOGADOR_TAMANHO_INTERNO, color.White)
 	//ebitenutil.DrawRect(tela, j.game.GetCamera().GetX()+j.GetX()+10, j.game.GetCamera().GetY()+j.GetY()+5, JOGADOR_TAMANHO_INTERNO, JOGADOR_TAMANHO_INTERNO, color.White)
