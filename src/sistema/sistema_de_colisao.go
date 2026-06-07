@@ -76,9 +76,9 @@ func (s *SistemaColisao) VaiColidir(origem string, origemEntidade ecs.Entidade, 
 
 					if funcionalidades.Simetria(origem, colididoTipo, entidades.JOGADOR.String(), entidades.BOT.String()) {
 						if origem == entidades.BOT.String() && colididoTipo == entidades.JOGADOR.String() {
-							funcionalidades.Combate_jogador_vs_bot(entidadeColidida, origemEntidade)
+							funcionalidades.CombateJogadorBot(entidadeColidida, origemEntidade)
 						} else if origem == entidades.JOGADOR.String() && colididoTipo == entidades.BOT.String() {
-							funcionalidades.Combate_jogador_vs_bot(origemEntidade, entidadeColidida)
+							funcionalidades.CombateJogadorBot(origemEntidade, entidadeColidida)
 						}
 					} else if funcionalidades.Simetria(origem, colididoTipo, entidades.BOT.String(), entidades.PORTAL_ENTRADA.String()) {
 

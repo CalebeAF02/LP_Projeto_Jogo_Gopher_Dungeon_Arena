@@ -53,6 +53,8 @@ func (s *SistemaSpawn) SpawnJogadores(cj interfaces.ICenaJogo) {
 	//j5.SetPosicao(300, 200)
 	//j6.SetPosicao(500, 300)
 
+	j1.SetNivel(1)
+
 	// Times
 	t1 := outros.NovoTime(cj, "Vermelhao - Time_Azul", cores.AZUL)
 	//t2 := outros.NovoTime(&cj, "Azulzinhos - Time_Vermelho", cores.VERMELHO)

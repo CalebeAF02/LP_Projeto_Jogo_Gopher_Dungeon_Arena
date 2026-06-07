@@ -77,7 +77,7 @@ func (b *Bot) CorrigeSangue() {
 }
 
 func (b *Bot) PerdeSangue(rit int) {
-	b.ObterVida().PerdeSangue(rit)
+	b.ObterVida().PerdeSangue(rit,b.ObterNivel().Valor)
 }
 
 func (b *Bot) ResetaSangue() {

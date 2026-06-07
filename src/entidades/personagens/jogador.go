@@ -37,6 +37,7 @@ func NovoJogador(cj interfaces.ICenaJogo, n string) *Jogador {
 
 	nJogador.AdicionarComponente(componentes.CORPO.String(), nJogador.corpo)
 	nJogador.AdicionarComponente(componentes.VIDA.String(), &componentes.Vida{TipoOrganismo: entidades.JOGADOR.String(), Status: true, Quantidade: 3, Sangue: 100})
+	nJogador.AdicionarComponente(componentes.NIVEL.String(), &componentes.Nivel{Valor: 1, Progressao: 0})
 
 	nJogador.entidade = &nJogador
 
@@ -69,8 +70,12 @@ func (j *Jogador) EstaVivo() bool {
 	return resp
 }
 
+func (j *Jogador) CorrigeSangue() {
+	j.ObterVida().CorrigeSangue(j.ObterNivel().Valor)
+}
+
 func (j *Jogador) Renasce() {
-	j.ObterVida().Renasce(3)
+	j.ObterVida().Renasce(j.ObterNivel().Valor)
 }
 
 func (j *Jogador) TiraUmaVida() {
@@ -88,11 +93,11 @@ func (j *Jogador) ResetaVida() {
 }
 
 func (j *Jogador) ResetaSangue() {
-	j.ObterVida().ResetaSangue(3)
+	j.ObterVida().ResetaSangue(j.ObterNivel().Valor)
 }
 
 func (j *Jogador) PerdeSangue(rit int) {
-	j.ObterVida().PerdeSangue(rit)
+	j.ObterVida().PerdeSangue(rit, j.ObterNivel().Valor)
 
 	if j.ObterVida().Sangue <= 0 {
 		j.Renasce()
@@ -151,6 +156,10 @@ func (j *Jogador) SetY(y float64) {
 }
 func (j *Jogador) SetCor(cor color.Color) {
 	j.cor = cor
+}
+func (j *Jogador) SetNivel(nivel int) {
+	j.ObterNivel().Valor = nivel
+	j.CorrigeSangue()
 }
 
 func (j *Jogador) Mover() {

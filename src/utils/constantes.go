@@ -25,3 +25,8 @@ const (
 
 	PORTAL_ENTRADA_TAMANHO = 50
 )
+
+const (
+	COMBATE_BOT_RIT = 10
+	COMBATE_JOGADOR_RIT = 30
+)

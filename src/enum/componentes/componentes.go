@@ -65,20 +65,20 @@ func (v *Vida) CorrigeSangue(nivel int) {
 	v.Sangue = 100 * nivel
 }
 
-func (v *Vida) PerdeSangue(rit int) {
+func (v *Vida) PerdeSangue(rit int, nivel int) {
 	v.Sangue -= rit
 
 	if v.Sangue <= 0 && v.TipoOrganismo == entidades.JOGADOR.String() {
-		v.Renasce(3)
+		v.Renasce(nivel)
 	}
 }
 
-func (v *Vida) Renasce(valor int) {
+func (v *Vida) Renasce(nivel int) {
 	if v.EstaVivo() {
 		v.TiraUmaVida()
 
 		if v.Quantidade > 0 {
-			v.ResetaSangue(valor)
+			v.ResetaSangue(nivel)
 		} else {
 			//fmt.Println("O jogador " + v.nome + " morreu!")
 		}
