@@ -34,6 +34,12 @@ func (r *Retangulo) SetY(y float64) {
 	r.y = y
 
 }
+
+func (r *Retangulo) SetPosicao(x float64, y float64) {
+	r.x = x
+	r.y = y
+}
+
 func (r *Retangulo) SetLargura(l float64) {
 	r.largura = l
 

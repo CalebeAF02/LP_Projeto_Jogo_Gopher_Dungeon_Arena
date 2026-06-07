@@ -84,6 +84,12 @@ func (s *SistemaColisao) VaiColidir(origem string, origemEntidade ecs.Entidade, 
 
 						fmt.Printf("Bot bateu no portal de Entrada !!!1 #slc\n")
 
+						if origem == entidades.BOT.String() && colididoTipo == entidades.PORTAL_ENTRADA.String() {
+							funcionalidades.TeleTransporta(entidadeColidida, origemEntidade)
+						} else if origem == entidades.PORTAL_ENTRADA.String() && colididoTipo == entidades.BOT.String() {
+							funcionalidades.TeleTransporta(origemEntidade, entidadeColidida)
+						}
+
 					} else if funcionalidades.Simetria(origem, colididoTipo, entidades.BOT.String(), entidades.PORTAL_SAIDA.String()) {
 
 					}

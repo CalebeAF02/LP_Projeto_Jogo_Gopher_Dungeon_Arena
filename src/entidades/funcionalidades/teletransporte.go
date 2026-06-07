@@ -1,0 +1,28 @@
+package funcionalidades
+
+import (
+	"Gopher_Dungeon_Arena/src/ecs"
+	"Gopher_Dungeon_Arena/src/enum/componentes"
+	"fmt"
+)
+
+func TeleTransporta(portalEntrada ecs.Entidade, bot ecs.Entidade) {
+
+	portalTransporte_com := portalEntrada.GetComponente(componentes.ENVIANDO_TELETRANSPORTE.String())
+	teletransporte := portalTransporte_com.(*componentes.EnviandoTeletransporte)
+
+	if teletransporte.TemBot {
+		fmt.Printf("Já tem bot !!!\n")
+	} else {
+		fmt.Printf("Guardar bot ....\n")
+
+		teletransporte.TemBot = true
+		teletransporte.Bot = bot
+		teletransporte.Contagem = 150
+
+		liberdade_comp := bot.GetComponente(componentes.LIBERDADE.String())
+		liberdade := liberdade_comp.(*componentes.Liberdade)
+		liberdade.Status = false
+
+	}
+}

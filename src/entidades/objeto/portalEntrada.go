@@ -1,6 +1,7 @@
 package objeto
 
 import (
+	"Gopher_Dungeon_Arena/src/assets"
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
@@ -9,10 +10,13 @@ import (
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
+	"fmt"
 	"image/color"
+	"strconv"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/text/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 )
 
@@ -36,6 +40,7 @@ func NovoPortalEntrada(cj interfaces.ICenaJogo, id int64) *PortalEntrada {
 
 	cj.SetEntidade(nEntidade, &nBot)
 	nBot.AdicionarComponente(componentes.CORPO.String(), nBot.corpo)
+	nBot.AdicionarComponente(componentes.ENVIANDO_TELETRANSPORTE.String(), &componentes.EnviandoTeletransporte{TemBot: false, Bot: nil})
 
 	nBot.entidade = &nBot
 	return &nBot
@@ -72,6 +77,53 @@ func (b *PortalEntrada) Atualizar() {
 	if b.anguloRotacao >= 1.0 {
 		b.anguloRotacao -= 1.0
 	}
+
+	if b.ObterTeleTransporte().TemBot {
+		if b.ObterTeleTransporte().Contagem > 0 {
+			fmt.Printf("\t ++ Vou fazer teletransporte\n")
+			b.ObterTeleTransporte().Contagem -= 1
+
+			if b.ObterTeleTransporte().Contagem == 0 {
+				fmt.Printf("\t ++ Teletransportar AGORAAAAAAAAAAAAAAA\n")
+
+				//portal_saida_corpo_comp := b.ObterTeleTransporte().ConectadoSaida.GetComponente(componentes.CORPO.String())
+				//portal_saida := portal_saida_corpo_comp.(*geometria.Retangulo)
+
+				portal_saida_recebendo_teletransporte_comp := b.ObterTeleTransporte().ConectadoSaida.GetComponente(componentes.RECEBENDO_TELETRANSPORTE.String())
+				portal_recebendo_teletransporte := portal_saida_recebendo_teletransporte_comp.(*componentes.RecebendoTeletransporte)
+
+				if !portal_recebendo_teletransporte.TemBot {
+
+					portal_recebendo_teletransporte.TemBot = true
+					portal_recebendo_teletransporte.Contagem = 200
+
+					botTele := b.ObterTeleTransporte().Bot
+
+					portal_recebendo_teletransporte.Bot = botTele
+					b.ObterTeleTransporte().TemBot = false
+
+				} else {
+					fmt.Printf("\t Nao tem como sair do teletransporte !!!")
+					b.ObterTeleTransporte().Contagem = 200
+
+				}
+
+			}
+
+		}
+	}
+
+}
+
+func (b *PortalEntrada) ObterTeleTransporte() *componentes.EnviandoTeletransporte {
+	if tele_comp := b.GetComponente(componentes.ENVIANDO_TELETRANSPORTE.String()); tele_comp != nil {
+		return tele_comp.(*componentes.EnviandoTeletransporte)
+	}
+	return nil
+}
+
+func (b *PortalEntrada) ConectarSaida(portalSaida *PortalSaida) {
+	b.ObterTeleTransporte().ConectadoSaida = portalSaida.entidade
 }
 
 func (b *PortalEntrada) Desenhar(tela *ebiten.Image) {
@@ -153,6 +205,33 @@ func (b *PortalEntrada) Desenhar(tela *ebiten.Image) {
 	centroX := float32(posXX) + (tamanho / 2.0)
 	centroY := float32(posY) + (tamanho / 2.0)
 	vector.DrawFilledCircle(tela, centroX, centroY, raioCirculo, cores.PRETO, true)
+
+	portalTransporte_com := b.GetComponente(componentes.ENVIANDO_TELETRANSPORTE.String())
+	teletransporte := portalTransporte_com.(*componentes.EnviandoTeletransporte)
+
+	if teletransporte.TemBot {
+		vector.DrawFilledCircle(tela, centroX, centroY, raioCirculo, cores.AMARELO, true)
+
+		titulo := &text.GoTextFace{
+			Source: assets.Fonte,
+			Size:   15,
+		}
+
+		opTitulo := &text.DrawOptions{}
+		opTitulo.GeoM.Translate(float64(centroX)-10, float64(centroY)-10)
+		opTitulo.ColorScale.ScaleWithColor(cores.PRETO)
+
+		texto_valor := strconv.Itoa(teletransporte.Contagem)
+
+		text.Draw(
+			tela,
+			texto_valor,
+			titulo,
+			opTitulo,
+		)
+
+	}
+
 }
 
 func (b *PortalEntrada) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {

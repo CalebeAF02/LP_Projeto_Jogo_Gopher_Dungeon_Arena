@@ -9,6 +9,7 @@ import (
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
+	"fmt"
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -36,6 +37,7 @@ func NovoPortalSaida(cj interfaces.ICenaJogo, id int64) *PortalSaida {
 
 	cj.SetEntidade(nEntidade, &nBot)
 	nBot.AdicionarComponente(componentes.CORPO.String(), nBot.corpo)
+	nBot.AdicionarComponente(componentes.RECEBENDO_TELETRANSPORTE.String(), &componentes.RecebendoTeletransporte{TemBot: false, Bot: nil, Contagem: 0})
 
 	nBot.entidade = &nBot
 	return &nBot
@@ -64,6 +66,20 @@ func (e *PortalSaida) ExisteComponente(id string) bool {
 	return existe
 }
 
+func (b *PortalSaida) ObterCorpo() *geometria.Retangulo {
+	if corpo_comp := b.GetComponente(componentes.CORPO.String()); corpo_comp != nil {
+		return corpo_comp.(*geometria.Retangulo)
+	}
+	return nil
+}
+
+func (b *PortalSaida) ObterRecebendoTeletransporte() *componentes.RecebendoTeletransporte {
+	if tele_comp := b.GetComponente(componentes.RECEBENDO_TELETRANSPORTE.String()); tele_comp != nil {
+		return tele_comp.(*componentes.RecebendoTeletransporte)
+	}
+	return nil
+}
+
 func (b *PortalSaida) Atualizar() {
 	b.anguloRotacao += 0.002
 
@@ -71,6 +87,37 @@ func (b *PortalSaida) Atualizar() {
 	if b.anguloRotacao >= 1.0 {
 		b.anguloRotacao -= 1.0
 	}
+
+	if b.ObterRecebendoTeletransporte().TemBot {
+
+		if b.ObterRecebendoTeletransporte().Contagem > 0 {
+			b.ObterRecebendoTeletransporte().Contagem -= 1
+			fmt.Printf("Recebendo Teletransporte !!!\n")
+
+		}
+
+		if b.ObterRecebendoTeletransporte().Contagem == 0 {
+
+			bot_corpo_comp := b.ObterRecebendoTeletransporte().Bot.GetComponente(componentes.CORPO.String())
+			bot_corpo := bot_corpo_comp.(*geometria.Retangulo)
+
+			liberdade_comp := b.ObterRecebendoTeletransporte().Bot.GetComponente(componentes.LIBERDADE.String())
+			liberdade := liberdade_comp.(*componentes.Liberdade)
+			liberdade.Status = true
+
+			bot_corpo.SetPosicao(b.ObterCorpo().GetX()+70, b.ObterCorpo().GetY()+70)
+			//b.ObterTeleTransporte().TemBot = false
+
+			fmt.Printf("\tSai X \n", b.ObterCorpo().GetX()+70)
+			fmt.Printf("\tSai Y \n", b.ObterCorpo().GetY()+70)
+
+			b.ObterRecebendoTeletransporte().TemBot = false
+			fmt.Printf("Saindo do teletransporte AGORAAAAAAAAAAAAAAAA !!!\n")
+
+		}
+
+	}
+
 }
 
 func (b *PortalSaida) Desenhar(tela *ebiten.Image) {
@@ -152,6 +199,14 @@ func (b *PortalSaida) Desenhar(tela *ebiten.Image) {
 	centroX := float32(posXX) + (tamanho / 2.0)
 	centroY := float32(posY) + (tamanho / 2.0)
 	vector.DrawFilledCircle(tela, centroX, centroY, raioCirculo, cores.PRETO, true)
+
+	recebendoTeletransporte_comp := b.GetComponente(componentes.RECEBENDO_TELETRANSPORTE.String())
+	recebendoTeletransporte := recebendoTeletransporte_comp.(*componentes.RecebendoTeletransporte)
+
+	if recebendoTeletransporte.TemBot {
+		vector.DrawFilledCircle(tela, centroX, centroY, raioCirculo, cores.AMARELO, true)
+	}
+
 }
 
 func (b *PortalSaida) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {

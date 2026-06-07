@@ -24,11 +24,13 @@ func NovoGame() *Game {
 	cenaCorrente.SetGame(&game)
 	game.SetCenaJogo(cenaJogo)
 
-	b := objeto.NovoPortalEntrada(cenaJogo, 0)
-	b.SetPosicao(200, 200)
+	bEntrada := objeto.NovoPortalEntrada(cenaJogo, 0)
+	bEntrada.SetPosicao(40, 40)
 
 	bSaida := objeto.NovoPortalSaida(cenaJogo, 0)
 	bSaida.SetPosicao(500, 500)
+
+	bEntrada.ConectarSaida(bSaida)
 
 	return &game
 }

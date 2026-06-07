@@ -1,14 +1,20 @@
 package componentes
 
-import "Gopher_Dungeon_Arena/src/enum/entidades"
+import (
+	"Gopher_Dungeon_Arena/src/ecs"
+	"Gopher_Dungeon_Arena/src/enum/entidades"
+)
 
 type ComponenteTipo int
 
 const (
-	CORPO    ComponenteTipo = iota
-	SUB_TIPO ComponenteTipo = iota
-	VIDA     ComponenteTipo = iota
-	NIVEL    ComponenteTipo = iota
+	CORPO                    ComponenteTipo = iota
+	SUB_TIPO                 ComponenteTipo = iota
+	VIDA                     ComponenteTipo = iota
+	NIVEL                    ComponenteTipo = iota
+	ENVIANDO_TELETRANSPORTE  ComponenteTipo = iota
+	LIBERDADE                ComponenteTipo = iota
+	RECEBENDO_TELETRANSPORTE ComponenteTipo = iota
 )
 
 func (t ComponenteTipo) String() string {
@@ -21,6 +27,12 @@ func (t ComponenteTipo) String() string {
 		return "VIDA"
 	case NIVEL:
 		return "NIVEL"
+	case ENVIANDO_TELETRANSPORTE:
+		return "ENVIANDO_TELETRANSPORTE"
+	case RECEBENDO_TELETRANSPORTE:
+		return "RECEBENDO_TELETRANSPORTE"
+	case LIBERDADE:
+		return "LIBERDADE"
 	default:
 		return "**DESCONHECIDO**"
 	}
@@ -40,6 +52,23 @@ type Vida struct {
 type Nivel struct {
 	Valor      int
 	Progressao int
+}
+
+type EnviandoTeletransporte struct {
+	TemBot         bool
+	Bot            ecs.Entidade
+	Contagem       int
+	ConectadoSaida ecs.Entidade
+}
+
+type Liberdade struct {
+	Status bool
+}
+
+type RecebendoTeletransporte struct {
+	TemBot   bool
+	Bot      ecs.Entidade
+	Contagem int
 }
 
 func (v *Vida) EstaVivo() bool {

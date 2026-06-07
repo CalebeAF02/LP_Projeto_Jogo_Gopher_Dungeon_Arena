@@ -39,6 +39,7 @@ func NovoBot(cj interfaces.ICenaJogo, id int64) *Bot {
 	nBot.AdicionarComponente(componentes.SUB_TIPO.String(), &componentes.SubTipo{Valor: ""})
 	nBot.AdicionarComponente(componentes.VIDA.String(), &componentes.Vida{TipoOrganismo: entidades.BOT.String(), Status: true, Quantidade: 1, Sangue: 100})
 	nBot.AdicionarComponente(componentes.NIVEL.String(), &componentes.Nivel{Valor: 1, Progressao: 0})
+	nBot.AdicionarComponente(componentes.LIBERDADE.String(), &componentes.Liberdade{Status: true})
 
 	nBot.entidade = &nBot
 	return &nBot
@@ -67,12 +68,23 @@ func (b *Bot) ObterNivel() *componentes.Nivel {
 	return nil
 }
 
+func (b *Bot) ObterLiberdade() *componentes.Liberdade {
+	if nivel_comp := b.GetComponente(componentes.LIBERDADE.String()); nivel_comp != nil {
+		return nivel_comp.(*componentes.Liberdade)
+	}
+	return nil
+}
+
 func (b *Bot) EstaVivo() bool {
 	if !b.ObterVida().EstaVivo() {
 		b.SetCor(cores.CINZA_CLARO)
 		return false
 	}
 	return true
+}
+
+func (b *Bot) PossoMeMover() bool {
+	return b.ObterLiberdade().Status
 }
 
 func (b *Bot) CorrigeSangue() {
@@ -183,19 +195,23 @@ func (b *Bot) SetMovimentacao(movendo interfaces.Movimentador) {
 }
 
 func (b *Bot) Atualizar() {
-	if b.ObterVida().EstaVivo() {
+	if b.PossoMeMover() && b.ObterVida().EstaVivo() {
 		b.Mover(b.cenaJogo.GetAleatorio())
 	}
 }
 
 func (b *Bot) Desenhar(tela *ebiten.Image) {
-	ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1()-10, float64(b.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
 
-	ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO, b.GetCor())
+	if b.PossoMeMover() {
+		ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1()-10, float64(b.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
+		ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO, b.GetCor())
+	}
 }
 
 func (b *Bot) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
-	ebitenutil.DrawRect(tela, mapaX+(b.GetX1()/config.PROPORCAO_MAPA), mapaY+(b.GetY1()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
+	if b.PossoMeMover() {
+		ebitenutil.DrawRect(tela, mapaX+(b.GetX1()/config.PROPORCAO_MAPA), mapaY+(b.GetY1()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
+	}
 }
 
 func (e *Bot) GetComponente(id string) interface{} {
