@@ -24,10 +24,27 @@ func (s *SistemaColisao) CriarRespostaColisao(status bool, tipo string, subTipo 
 	return &nRespostaColisao
 }
 
+func (s *SistemaColisao) EsseTipoColide(tipo string) bool {
+
+	switch tipo {
+	case entidades.PAREDE.String():
+		return true
+	case entidades.JOGADOR.String():
+		return true
+	case entidades.BOT.String():
+		return true
+	case entidades.PORTAL_ENTRADA.String():
+		return true
+	case entidades.PORTAL_SAIDA.String():
+		return true
+	}
+	return false
+}
+
 func (s *SistemaColisao) VaiColidir(origem string, origemEntidade ecs.Entidade, meuCorpoAtual *geometria.Retangulo, proximoCorpo *geometria.Retangulo) *ecs.RespostaColisao {
 	for _, entidadeColidida := range s.cenaJogo.GetEntidades() {
 		colididoTipo := entidadeColidida.GetTipo()
-		if colididoTipo == entidades.PAREDE.String() || colididoTipo == entidades.JOGADOR.String() || colididoTipo == entidades.BOT.String() || colididoTipo == entidades.PORTAL_ENTRADA.String() || colididoTipo == entidades.PORTAL_SAIDA.String() {
+		if s.EsseTipoColide(colididoTipo) {
 
 			estaVivo := true
 
