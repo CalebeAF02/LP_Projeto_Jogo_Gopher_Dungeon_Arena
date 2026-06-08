@@ -12,11 +12,9 @@ import (
 	"Gopher_Dungeon_Arena/src/utils"
 	"fmt"
 	"image/color"
-	"strconv"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	"github.com/hajimehoshi/ebiten/v2/text/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 )
 
@@ -71,17 +69,17 @@ func (e *PortalEntrada) ExisteComponente(id string) bool {
 
 func (b *PortalEntrada) Atualizar() {
 
-	b.anguloRotacao += 0.002
-
-	// Mantém o progresso sempre dentro do limite de 0.0 a 1.0 de forma eterna
-	if b.anguloRotacao >= 1.0 {
-		b.anguloRotacao -= 1.0
-	}
-
 	if b.ObterTeleTransporte().TemBot {
 		if b.ObterTeleTransporte().Contagem > 0 {
 			fmt.Printf("\t ++ Vou fazer teletransporte\n")
 			b.ObterTeleTransporte().Contagem -= 1
+
+			b.anguloRotacao += 0.002
+
+			// Mantém o progresso sempre dentro do limite de 0.0 a 1.0 de forma eterna
+			if b.anguloRotacao >= 1.0 {
+				b.anguloRotacao -= 1.0
+			}
 
 			if b.ObterTeleTransporte().Contagem == 0 {
 				fmt.Printf("\t ++ Teletransportar AGORAAAAAAAAAAAAAAA\n")
@@ -212,23 +210,7 @@ func (b *PortalEntrada) Desenhar(tela *ebiten.Image) {
 	if teletransporte.TemBot {
 		vector.DrawFilledCircle(tela, centroX, centroY, raioCirculo, cores.AMARELO, true)
 
-		titulo := &text.GoTextFace{
-			Source: assets.Fonte,
-			Size:   15,
-		}
-
-		opTitulo := &text.DrawOptions{}
-		opTitulo.GeoM.Translate(float64(centroX)-10, float64(centroY)-10)
-		opTitulo.ColorScale.ScaleWithColor(cores.PRETO)
-
-		texto_valor := strconv.Itoa(teletransporte.Contagem)
-
-		text.Draw(
-			tela,
-			texto_valor,
-			titulo,
-			opTitulo,
-		)
+		assets.EscreverNumero(tela, float64(centroX-10), float64(centroY-10), teletransporte.Contagem, 15, cores.PRETO)
 
 	}
 

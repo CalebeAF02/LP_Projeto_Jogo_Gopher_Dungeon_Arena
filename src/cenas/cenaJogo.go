@@ -11,21 +11,23 @@ import (
 	"Gopher_Dungeon_Arena/src/sistema"
 	"Gopher_Dungeon_Arena/src/utils"
 	"math/rand"
+	"strconv"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 type CenaJogo struct {
-	game             interfaces.IGame
-	proximo          int
-	mundo            *geometria.Retangulo
-	entidades        map[ecs.EntidadeID]ecs.Entidade
-	camera           *ecs.Camera
-	miniMapa         *ecs.MiniMapa
-	aleatorio        *rand.Rand
-	sistemaAtualizar []interfaces.ISistemaAtualizar
-	sistemaDesenhar  []interfaces.ISistemaDesenhar
-	sistemaColisao   interfaces.ISistemaColisao
+	game               interfaces.IGame
+	proximo            int
+	mundo              *geometria.Retangulo
+	entidades          map[ecs.EntidadeID]ecs.Entidade
+	camera             *ecs.Camera
+	miniMapa           *ecs.MiniMapa
+	aleatorio          *rand.Rand
+	sistemaAtualizar   []interfaces.ISistemaAtualizar
+	sistemaDesenhar    []interfaces.ISistemaDesenhar
+	sistemaColisao     interfaces.ISistemaColisao
+	contadorBotsMortos int
 }
 
 func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
@@ -35,9 +37,10 @@ func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 	miniMapa := ecs.NovoMiniMapa(mundo, geometria.NovoPonto(config.POS_X_MAPA, config.POS_Y_MAPA), camera)
 	aleatorio := config.GeradorAleatorio()
 
-	cj := CenaJogo{game: game, mundo: mundo, entidades: entidades, aleatorio: aleatorio, sistemaColisao: &sistema.SistemaColisao{}}
+	cj := CenaJogo{game: game, mundo: mundo, entidades: entidades, aleatorio: aleatorio, sistemaColisao: &sistema.SistemaColisao{}, contadorBotsMortos: 0}
 
 	cj.sistemaColisao.SetCenaJogo(&cj)
+
 	cj.sistemaAtualizar = []interfaces.ISistemaAtualizar{
 		&sistema.SistemaInput{},
 		&sistema.SistemaIA{},
@@ -56,6 +59,8 @@ func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 
 	sistemaSpaw := sistema.SistemaSpawn{}
 	sistemaSpaw.SpawnJogadores(&cj)
+
+	sistemaSpaw.SpawnarPortais(&cj)
 
 	sistemaSpaw.SpawnParedesAoRedor(&cj, 20)
 	//SpawnParedesEspecificas(&g)
@@ -205,10 +210,21 @@ func (cj *CenaJogo) RemoverEntidadesMortas() {
 
 			if !vida.Status {
 				cj.RemoverEntidade(entidade.GetID())
+
+				if vida.TipoOrganismo == "BOT" {
+					cj.ContarEntidadesMortas()
+				}
 			}
 
 		}
 	}
+}
+func (cj *CenaJogo) GetContadorMortos() string {
+	return strconv.Itoa(cj.contadorBotsMortos)
+}
+
+func (cj *CenaJogo) ContarEntidadesMortas() {
+	cj.contadorBotsMortos += 1
 }
 
 func (cj *CenaJogo) GetNome() string {

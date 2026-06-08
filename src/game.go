@@ -3,7 +3,6 @@ package src
 import (
 	"Gopher_Dungeon_Arena/src/cenas"
 	"Gopher_Dungeon_Arena/src/config"
-	"Gopher_Dungeon_Arena/src/entidades/objeto"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"os"
 
@@ -23,14 +22,6 @@ func NovoGame() *Game {
 
 	cenaCorrente.SetGame(&game)
 	game.SetCenaJogo(cenaJogo)
-
-	bEntrada := objeto.NovoPortalEntrada(cenaJogo, 0)
-	bEntrada.SetPosicao(40, 40)
-
-	bSaida := objeto.NovoPortalSaida(cenaJogo, 0)
-	bSaida.SetPosicao(500, 500)
-
-	bEntrada.ConectarSaida(bSaida)
 
 	return &game
 }

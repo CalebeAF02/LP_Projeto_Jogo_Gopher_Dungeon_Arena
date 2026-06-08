@@ -160,6 +160,53 @@ func (s *SistemaSpawn) SpawnarBotsAleatroiamenteNoMundo(cj interfaces.ICenaJogo)
 	}
 }
 
+func (s *SistemaSpawn) SpawnarPortais(cj interfaces.ICenaJogo) {
+	// Par 1
+	bEntrada1 := objeto.NovoPortalEntrada(cj, 0)
+	bEntrada1.SetPosicao(100, 100)
+
+	bSaida1 := objeto.NovoPortalSaida(cj, 0)
+	bSaida1.SetPosicao(1255, 100)
+
+	bEntrada1.ConectarSaida(bSaida1)
+
+	// Par 2
+	bEntrada2 := objeto.NovoPortalEntrada(cj, 0)
+	bEntrada2.SetPosicao(2410, 100)
+
+	bSaida2 := objeto.NovoPortalSaida(cj, 0)
+	bSaida2.SetPosicao(1255, 1290)
+
+	bEntrada2.ConectarSaida(bSaida2)
+
+	// Par 3
+	bEntrada3 := objeto.NovoPortalEntrada(cj, 0)
+	bEntrada3.SetPosicao(100, 1290)
+
+	bSaida3 := objeto.NovoPortalSaida(cj, 0)
+	bSaida3.SetPosicao(100, 695)
+
+	bEntrada3.ConectarSaida(bSaida3)
+
+	// Par 4
+	bEntrada4 := objeto.NovoPortalEntrada(cj, 0)
+	bEntrada4.SetPosicao(2410, 1290)
+
+	bSaida4 := objeto.NovoPortalSaida(cj, 0)
+	bSaida4.SetPosicao(2410, 695)
+
+	bEntrada4.ConectarSaida(bSaida4)
+
+	// Par 5
+	bEntrada5 := objeto.NovoPortalEntrada(cj, 0)
+	bEntrada5.SetPosicao(1255, 695)
+
+	bSaida5 := objeto.NovoPortalSaida(cj, 0)
+	bSaida5.SetPosicao(1800, 930)
+
+	bEntrada5.ConectarSaida(bSaida5)
+}
+
 func (s *SistemaSpawn) SpawnParedesAoRedor(cj interfaces.ICenaJogo, passo float64) {
 	xMin := cj.GetMundo().GetX()
 	yMin := cj.GetMundo().GetY()
@@ -179,100 +226,172 @@ func (s *SistemaSpawn) SpawnParedesAoRedor(cj interfaces.ICenaJogo, passo float6
 		objeto.NovaParede(cj, geometria.NovoPonto(xMax-passo, y)) // Lateral direita
 	}
 }
-
 func (s *SistemaSpawn) SpawnLabirinto(cj interfaces.ICenaJogo) {
-	// 1. Coleta os dados reais e dinâmicos do tamanho do mundo
-	mundoX := cj.GetMundo().GetX()
-	mundoY := cj.GetMundo().GetY()
-	mundoLargura := cj.GetMundo().GetLargura()
-	mundoAltura := cj.GetMundo().GetAltura()
 
-	// 2. Define o tamanho do Labirinto de forma proporcional ao mundo
-	// Aqui fazemos com que ele ocupe 80% da menor dimensão do mapa, por exemplo
-	tamanho := mundoLargura * 0.8
-	if mundoAltura < mundoLargura {
-		tamanho = mundoAltura * 0.8
-	}
+	s.spawnContorno(cj)
+
+	s.spawnSetorNorte(cj)
+
+	s.spawnSetorSul(cj)
+
+	s.spawnSetorLeste(cj)
+
+	s.spawnSetorOeste(cj)
+
+	s.spawnCorredores(cj)
+}
+
+func (s *SistemaSpawn) criarParede(
+	cj interfaces.ICenaJogo,
+	x float64,
+	y float64,
+) {
+	objeto.NovaParede(
+		cj,
+		geometria.NovoPonto(x, y),
+	)
+}
+
+func (s *SistemaSpawn) spawnSetorNorte(cj interfaces.ICenaJogo) {
 
 	passo := 30.0
 
-	// 3. Centraliza o Labirinto dinamicamente no meio do mundo
-	inicioX := mundoX + (mundoLargura-tamanho)/2
-	inicioY := mundoY + (mundoAltura-tamanho)/2
+	for x := 300.0; x <= 2200; x += passo {
 
-	// --- Contorno do Labirinto (Gerado com base no novo início dinâmico) ---
-	// Calculamos onde ficam as aberturas de forma proporcional ao tamanho
-	aberturaEntradaMin := inicioY + (tamanho * 0.4) // Abertura centralizada na lateral
-	aberturaEntradaMax := aberturaEntradaMin + (passo * 2)
-
-	for i := 0.0; i <= tamanho; i += passo {
-		// Topo e Base
-		objeto.NovaParede(cj, geometria.NovoPonto(inicioX+i, inicioY))
-		objeto.NovaParede(cj, geometria.NovoPonto(inicioX+i, inicioY+tamanho))
-
-		// Lateral Direita
-		objeto.NovaParede(cj, geometria.NovoPonto(inicioX+tamanho, inicioY+i))
-
-		// Lateral Esquerda com abertura dinâmica para o jogador entrar
-		posAtualY := inicioY + i
-		if posAtualY < aberturaEntradaMin || posAtualY > aberturaEntradaMax {
-			objeto.NovaParede(cj, geometria.NovoPonto(inicioX, posAtualY))
+		if x > 900 && x < 1200 {
+			continue
 		}
+
+		s.criarParede(cj, x, 250)
 	}
 
-	// --- Grande Parede Vertical Central (Divide o labirinto exatamente ao meio) ---
-	centroX := inicioX + (tamanho / 2)
-	paredeCentralYMin := inicioY + (tamanho * 0.15)
-	paredeCentralYMax := inicioY + (tamanho * 0.85)
-	aberturaCentralMin := inicioY + (tamanho * 0.45)
-	aberturaCentralMax := aberturaCentralMin + (passo * 2)
+	for x := 500.0; x <= 1800; x += passo {
 
-	for y := paredeCentralYMin; y <= paredeCentralYMax; y += passo {
-		if y < aberturaCentralMin || y > aberturaCentralMax { // Buraco dinâmico no meio para passar
-			objeto.NovaParede(cj, geometria.NovoPonto(centroX, y))
+		if x > 1300 && x < 1600 {
+			continue
 		}
+
+		s.criarParede(cj, x, 400)
+	}
+}
+
+func (s *SistemaSpawn) spawnSetorSul(cj interfaces.ICenaJogo) {
+
+	passo := 30.0
+
+	for x := 400.0; x <= 2100; x += passo {
+
+		if x > 1000 && x < 1300 {
+			continue
+		}
+
+		s.criarParede(cj, x, 1050)
 	}
 
-	// --- Ala Esquerda (Setor de Entrada - Barreiras Horizontais Proporcionais) ---
-	alaEsquerdaXMin := inicioX + (tamanho * 0.1)
-	alaEsquerdaXMax := centroX - (tamanho * 0.1)
+	for x := 600.0; x <= 2000; x += passo {
 
-	barreiraSuperiorY := inicioY + (tamanho * 0.25)
-	barreiraInferiorY := inicioY + (tamanho * 0.75)
+		if x > 1600 && x < 1800 {
+			continue
+		}
 
-	// Uma barreira horizontal superior
-	for x := alaEsquerdaXMin; x <= alaEsquerdaXMax; x += passo {
-		objeto.NovaParede(cj, geometria.NovoPonto(x, barreiraSuperiorY))
+		s.criarParede(cj, x, 1200)
+	}
+}
+
+func (s *SistemaSpawn) spawnSetorOeste(cj interfaces.ICenaJogo) {
+
+	passo := 30.0
+
+	for y := 350.0; y <= 1000; y += passo {
+
+		if y > 600 && y < 750 {
+			continue
+		}
+
+		s.criarParede(cj, 500, y)
 	}
 
-	// Uma barreira horizontal inferior
-	for x := alaEsquerdaXMin; x <= alaEsquerdaXMax; x += passo {
-		objeto.NovaParede(cj, geometria.NovoPonto(x, barreiraInferiorY))
+	for y := 450.0; y <= 1100; y += passo {
+
+		if y > 850 && y < 950 {
+			continue
+		}
+
+		s.criarParede(cj, 700, y)
+	}
+}
+
+func (s *SistemaSpawn) spawnSetorLeste(cj interfaces.ICenaJogo) {
+
+	passo := 30.0
+
+	for y := 300.0; y <= 1100; y += passo {
+
+		if y > 500 && y < 700 {
+			continue
+		}
+
+		s.criarParede(cj, 1900, y)
 	}
 
-	// --- Ala Direita (Setor de Desafio) ---
-	// Obstáculo em forma de 'T' proporcional
-	tXMin := centroX + (tamanho * 0.15)
-	tXMax := inicioX + (tamanho * 0.85)
-	tY := inicioY + (tamanho * 0.35)
+	for y := 400.0; y <= 1000; y += passo {
 
-	for x := tXMin; x <= tXMax; x += passo {
-		objeto.NovaParede(cj, geometria.NovoPonto(x, tY)) // Parte de cima do T
+		if y > 800 && y < 950 {
+			continue
+		}
+
+		s.criarParede(cj, 2150, y)
 	}
-	// Haste do T
-	centroT_X := tXMin + (tXMax-tXMin)/2
-	objeto.NovaParede(cj, geometria.NovoPonto(centroT_X, tY+passo))
-	objeto.NovaParede(cj, geometria.NovoPonto(centroT_X, tY+(passo*2)))
+}
 
-	// Paredes tipo "Dentes de Pente" na lateral inferior direita
-	dentesYMin := inicioY + (tamanho * 0.6)
-	dentesYMax := inicioY + (tamanho * 0.85)
-	raiaDireitaX := inicioX + (tamanho * 0.85)
-	raiaEsquerdaX := centroX + (tamanho * 0.3)
+func (s *SistemaSpawn) spawnCorredores(cj interfaces.ICenaJogo) {
 
-	for y := dentesYMin; y <= dentesYMax; y += passo {
-		objeto.NovaParede(cj, geometria.NovoPonto(raiaDireitaX, y))
-		objeto.NovaParede(cj, geometria.NovoPonto(raiaEsquerdaX, y))
+	passo := 30.0
+
+	for x := 850.0; x <= 1700; x += passo {
+
+		if x > 1180 && x < 1380 {
+			continue
+		}
+
+		s.criarParede(cj, x, 550)
+	}
+
+	for x := 850.0; x <= 1700; x += passo {
+
+		if x > 1180 && x < 1380 {
+			continue
+		}
+
+		s.criarParede(cj, x, 900)
+	}
+}
+
+func (s *SistemaSpawn) spawnPracaCentral(
+	cj interfaces.ICenaJogo,
+) {
+	// propositalmente vazia
+}
+
+func (s *SistemaSpawn) spawnContorno(cj interfaces.ICenaJogo) {
+
+	passo := 30.0
+
+	largura := cj.GetMundo().GetLargura()
+	altura := cj.GetMundo().GetAltura()
+
+	for x := 0.0; x <= largura; x += passo {
+
+		s.criarParede(cj, x, 0)
+
+		s.criarParede(cj, x, altura)
+	}
+
+	for y := 0.0; y <= altura; y += passo {
+
+		s.criarParede(cj, 0, y)
+
+		s.criarParede(cj, largura, y)
 	}
 }
 

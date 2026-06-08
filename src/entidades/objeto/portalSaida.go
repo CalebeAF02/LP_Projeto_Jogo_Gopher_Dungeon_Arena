@@ -1,6 +1,7 @@
 package objeto
 
 import (
+	"Gopher_Dungeon_Arena/src/assets"
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
@@ -81,14 +82,15 @@ func (b *PortalSaida) ObterRecebendoTeletransporte() *componentes.RecebendoTelet
 }
 
 func (b *PortalSaida) Atualizar() {
-	b.anguloRotacao += 0.002
-
-	// Mantém o progresso sempre dentro do limite de 0.0 a 1.0 de forma eterna
-	if b.anguloRotacao >= 1.0 {
-		b.anguloRotacao -= 1.0
-	}
 
 	if b.ObterRecebendoTeletransporte().TemBot {
+
+		b.anguloRotacao += 0.002
+
+		// Mantém o progresso sempre dentro do limite de 0.0 a 1.0 de forma eterna
+		if b.anguloRotacao >= 1.0 {
+			b.anguloRotacao -= 1.0
+		}
 
 		if b.ObterRecebendoTeletransporte().Contagem > 0 {
 			b.ObterRecebendoTeletransporte().Contagem -= 1
@@ -205,6 +207,9 @@ func (b *PortalSaida) Desenhar(tela *ebiten.Image) {
 
 	if recebendoTeletransporte.TemBot {
 		vector.DrawFilledCircle(tela, centroX, centroY, raioCirculo, cores.AMARELO, true)
+
+		assets.EscreverNumero(tela, float64(centroX-10), float64(centroY-10), recebendoTeletransporte.Contagem, 15, cores.PRETO)
+
 	}
 
 }

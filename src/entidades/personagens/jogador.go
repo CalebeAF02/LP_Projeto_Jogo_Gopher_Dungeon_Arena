@@ -233,19 +233,25 @@ func (j *Jogador) Atualizar() {
 }
 
 func (j *Jogador) Desenhar(tela *ebiten.Image) {
-	ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1(), j.cenaJogo.GetCamera().GetY()+j.GetY1()-10, float64(j.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
 
-	ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1(), j.cenaJogo.GetCamera().GetY()+j.GetY1(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO, j.GetCor())
-	ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1()+2, j.cenaJogo.GetCamera().GetY()+j.GetY1()+2, utils.JOGADOR_TAMANHO_MUNDO-4, utils.JOGADOR_TAMANHO_MUNDO-4, cores.BRANCO)
-	ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1()+4, j.cenaJogo.GetCamera().GetY()+j.GetY1()+4, utils.JOGADOR_TAMANHO_MUNDO-8, utils.JOGADOR_TAMANHO_MUNDO-8, j.GetCor())
+	if j.entidade == nil {
+		
+	} else {
+		ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1(), j.cenaJogo.GetCamera().GetY()+j.GetY1()-10, float64(j.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
 
-	//ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1(), j.cenaJogo.GetCamera().GetY()+j.GetY1(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO, j.GetCor())
+		ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1(), j.cenaJogo.GetCamera().GetY()+j.GetY1(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO, j.GetCor())
+		ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1()+2, j.cenaJogo.GetCamera().GetY()+j.GetY1()+2, utils.JOGADOR_TAMANHO_MUNDO-4, utils.JOGADOR_TAMANHO_MUNDO-4, cores.BRANCO)
+		ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1()+4, j.cenaJogo.GetCamera().GetY()+j.GetY1()+4, utils.JOGADOR_TAMANHO_MUNDO-8, utils.JOGADOR_TAMANHO_MUNDO-8, j.GetCor())
 
-	//ebitenutil.DrawRect(tela, j.game.GetCamera().GetX()+j.GetX()+5, j.game.GetCamera().GetY()+j.GetY()+5, JOGADOR_TAMANHO_INTERNO, JOGADOR_TAMANHO_INTERNO, color.White)
-	//ebitenutil.DrawRect(tela, j.game.GetCamera().GetX()+j.GetX()+10, j.game.GetCamera().GetY()+j.GetY()+5, JOGADOR_TAMANHO_INTERNO, JOGADOR_TAMANHO_INTERNO, color.White)
+		//ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1(), j.cenaJogo.GetCamera().GetY()+j.GetY1(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO, j.GetCor())
 
-	//ebitenutil.DrawRect(tela, j.game.GetCamera().GetX()+j.GetX()+5, j.game.GetCamera().GetY()+j.GetY()+10, JOGADOR_TAMANHO_INTERNO, JOGADOR_TAMANHO_INTERNO, color.White)
-	//ebitenutil.DrawRect(tela, j.game.GetCamera().GetX()+j.GetX()+10, j.game.GetCamera().GetY()+j.GetY()+10, JOGADOR_TAMANHO_INTERNO, JOGADOR_TAMANHO_INTERNO, color.White)
+		//ebitenutil.DrawRect(tela, j.game.GetCamera().GetX()+j.GetX()+5, j.game.GetCamera().GetY()+j.GetY()+5, JOGADOR_TAMANHO_INTERNO, JOGADOR_TAMANHO_INTERNO, color.White)
+		//ebitenutil.DrawRect(tela, j.game.GetCamera().GetX()+j.GetX()+10, j.game.GetCamera().GetY()+j.GetY()+5, JOGADOR_TAMANHO_INTERNO, JOGADOR_TAMANHO_INTERNO, color.White)
+
+		//ebitenutil.DrawRect(tela, j.game.GetCamera().GetX()+j.GetX()+5, j.game.GetCamera().GetY()+j.GetY()+10, JOGADOR_TAMANHO_INTERNO, JOGADOR_TAMANHO_INTERNO, color.White)
+		//ebitenutil.DrawRect(tela, j.game.GetCamera().GetX()+j.GetX()+10, j.game.GetCamera().GetY()+j.GetY()+10, JOGADOR_TAMANHO_INTERNO, JOGADOR_TAMANHO_INTERNO, color.White)
+
+	}
 
 }
 

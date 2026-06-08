@@ -12,6 +12,7 @@ type ICenaJogo interface {
 	GetNome() string
 	CriarEntidade() ecs.EntidadeID
 	GetSistemaColisao() ISistemaColisao
+	GetContadorMortos() string
 	GetGame() IGame
 	SetGame(game IGame)
 	GetEntidades() map[ecs.EntidadeID]ecs.Entidade

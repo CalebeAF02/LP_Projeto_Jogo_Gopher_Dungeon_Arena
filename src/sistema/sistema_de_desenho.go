@@ -1,8 +1,10 @@
 package sistema
 
 import (
+	"Gopher_Dungeon_Arena/src/assets"
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
+	"Gopher_Dungeon_Arena/src/entidades/personagens"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
@@ -30,8 +32,17 @@ func (s *SistemaDesenhar) Desenhar(cj interfaces.ICenaJogo, tela *ebiten.Image) 
 		cores.PRETO,
 	)
 
+	jogadoresVivos := 0
+
 	for _, entidade := range cj.GetEntidades() {
+
 		entidade.Desenhar(tela)
+
+		if jogador, ok := entidade.(*personagens.Jogador); ok {
+			if jogador.GetEntidade() != nil {
+				jogadoresVivos++
+			}
+		}
 	}
 
 	if config.PROPORCAO_MUNDO > 1 {
@@ -45,5 +56,26 @@ func (s *SistemaDesenhar) Desenhar(cj interfaces.ICenaJogo, tela *ebiten.Image) 
 				cj.GetMiniMapa().GetY(),
 			)
 		}
+	}
+
+	if jogadoresVivos == 0 {
+
+		assets.EscreverTexto(
+			tela,
+			"Você Morreu !!!",
+			(config.JANELA_LARGURA / 9),
+			(config.JANELA_ALTURA/10)*2,
+			150,
+			cores.VERMELHO,
+		)
+
+		assets.EscreverTexto(
+			tela,
+			"Teve uma sequencia de "+cj.GetContadorMortos()+" bots mortos",
+			(config.JANELA_LARGURA/9)*2,
+			(config.JANELA_ALTURA/10)*6,
+			50,
+			cores.VERMELHO,
+		)
 	}
 }
