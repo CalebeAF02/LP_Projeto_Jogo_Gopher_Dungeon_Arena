@@ -38,69 +38,25 @@ func (s *SistemaSpawn) Atualizar(cj interfaces.ICenaJogo) {
 func (s *SistemaSpawn) SpawnJogadores(cj interfaces.ICenaJogo) {
 	// Jogadores
 	j1 := personagens.NovoJogador(cj, "Jogador 1")
-	//j2 := personagens.NovoJogador(&cj, "Jogador 2")
-	//j3 := personagens.NovoJogador(&cj, "Jogador 3")
 
-	//j4 := personagens.NovoJogador(&cj, "Jogador 4")
-	//j5 := personagens.NovoJogador(&cj, "Jogador 5")
-	//j6 := personagens.NovoJogador(&cj, "Jogador 6")
-
-	j1.SetPosicao(100, 100)
-	//j2.SetPosicao(200, 300)
-	//j3.SetPosicao(300, 500)
-
-	//j4.SetPosicao(500, 100)
-	//j5.SetPosicao(300, 200)
-	//j6.SetPosicao(500, 300)
+	j1.SetPosicao(300, 300)
 
 	j1.SetNivel(1)
 
 	// Times
 	t1 := outros.NovoTime(cj, "Vermelhao - Time_Azul", cores.AZUL)
-	//t2 := outros.NovoTime(&cj, "Azulzinhos - Time_Vermelho", cores.VERMELHO)
 
 	// Gerenciando
 	t1.Adicionnar(j1)
-	//t1.Adicionnar(j2)
-	//t1.Adicionnar(j3)
-	//t1.Posicoes()
 
-	//t2.Adicionnar(j4)
-	//t2.Adicionnar(j5)
-	//t2.Adicionnar(j6)
-	//t2.Posicoes()
 }
 
 func (s *SistemaSpawn) SpawnarBot(cj interfaces.ICenaJogo, movendo interfaces.Movimentador, posicao *geometria.Ponto) {
 	b := personagens.NovoBot(cj, 0)
 	b.SetNivelAleatorio()
 	b.SetPosicao(posicao.GetX(), posicao.GetY())
-
-	// Define as cores com base estrita na assinatura de tipo do movimento injetado
-	switch movendo.GetTipo() {
-	case "LOGICO_LINHA":
-		b.SetCor(cores.AMARELO)
-	case "LOGICO_DIAGONAL":
-		b.SetCor(cores.VERDE)
-	case "LOGICO_DUPLO":
-		b.SetCor(cores.AZUL)
-	case "SIMPLES":
-		b.SetCor(cores.VERDE_LIMAO)
-	case "VERTICAL":
-		b.SetCor(cores.AMARELO_CLARO)
-	case "VERTICAL_CONSTANTE":
-		b.SetCor(cores.AMARELO_ESCURO)
-	case "HORIZONTAL":
-		b.SetCor(cores.MARROM)
-	case "HORIZONTAL_CONSTANTE":
-		b.SetCor(cores.MARROM_ESCURO)
-	case "DIAGONAL":
-		b.SetCor(cores.ROSA)
-	}
-
 	b.SetMovimentacao(movendo)
 	//fmt.Printf("BOT <%s> | X: %f | Y: %f\n", b.GetMovendoTipo(), b.GetX(), b.GetY())
-
 }
 
 func (s *SistemaSpawn) SpawnBotDeCadaTipo(cj interfaces.ICenaJogo) {

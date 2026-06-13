@@ -3,8 +3,10 @@ package movimentacao
 import (
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
+	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
+	"image/color"
 	"math/rand"
 )
 
@@ -114,4 +116,8 @@ func (mld *MovimentadorLogicoDiagonal) bateu() {
 
 func (mld *MovimentadorLogicoDiagonal) GetTipo() string {
 	return "LOGICO_DIAGONAL"
+}
+
+func (mld *MovimentadorLogicoDiagonal) GetCor() color.Color {
+	return cores.VERDE
 }

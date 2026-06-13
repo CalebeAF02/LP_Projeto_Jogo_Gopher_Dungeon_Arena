@@ -103,9 +103,9 @@ func (b *PortalSaida) Atualizar() {
 			bot_corpo_comp := b.ObterRecebendoTeletransporte().Bot.GetComponente(componentes.CORPO.String())
 			bot_corpo := bot_corpo_comp.(*geometria.Retangulo)
 
-			liberdade_comp := b.ObterRecebendoTeletransporte().Bot.GetComponente(componentes.LIBERDADE.String())
-			liberdade := liberdade_comp.(*componentes.Liberdade)
-			liberdade.Status = true
+			liberdade_comp := b.ObterRecebendoTeletransporte().Bot.GetComponente(componentes.ATIVIDADE.String())
+			liberdade := liberdade_comp.(*componentes.Atividade)
+			liberdade.Acao = componentes.AIVIDADE_MOVIMENTO
 
 			bot_corpo.SetPosicao(b.ObterCorpo().GetX()+70, b.ObterCorpo().GetY()+70)
 			//b.ObterTeleTransporte().TemBot = false

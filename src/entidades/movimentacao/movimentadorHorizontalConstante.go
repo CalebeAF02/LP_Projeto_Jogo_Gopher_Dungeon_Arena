@@ -3,8 +3,10 @@ package movimentacao
 import (
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
+	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
+	"image/color"
 	"math/rand"
 )
 
@@ -63,4 +65,8 @@ func (mhc *MovimentadorHorizontalConstante) Mover(entidade ecs.Entidade, sistema
 }
 func (mhc *MovimentadorHorizontalConstante) GetTipo() string {
 	return "HORIZONTAL_CONSTANTE"
+}
+
+func (mhc *MovimentadorHorizontalConstante) GetCor() color.Color {
+	return cores.MARROM_ESCURO
 }

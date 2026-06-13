@@ -23,8 +23,6 @@ type Bot struct {
 	entidadeID  ecs.EntidadeID
 	entidade    ecs.Entidade
 	Id          int64
-	cor         color.Color
-	movendo     interfaces.Movimentador
 	Componentes map[string]interface{}
 }
 
@@ -32,14 +30,15 @@ func NovoBot(cj interfaces.ICenaJogo, id int64) *Bot {
 
 	nEntidade := cj.CriarEntidade()
 	corpo := geometria.NovoRetangulo(0, 0, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO)
-	nBot := Bot{cenaJogo: cj, entidadeID: nEntidade, Id: id, cor: cores.BRANCO}
+	nBot := Bot{cenaJogo: cj, entidadeID: nEntidade, Id: id}
 
 	cj.SetEntidade(nEntidade, &nBot)
 	nBot.AdicionarComponente(componentes.CORPO.String(), corpo)
 	nBot.AdicionarComponente(componentes.SUB_TIPO.String(), &componentes.SubTipo{Valor: ""})
 	nBot.AdicionarComponente(componentes.VIDA.String(), &componentes.Vida{TipoOrganismo: entidades.BOT.String(), Status: true, Quantidade: 1, Sangue: 100})
 	nBot.AdicionarComponente(componentes.NIVEL.String(), &componentes.Nivel{Valor: 1, Progressao: 0})
-	nBot.AdicionarComponente(componentes.LIBERDADE.String(), &componentes.Liberdade{Status: true})
+	nBot.AdicionarComponente(componentes.ATIVIDADE.String(), &componentes.Atividade{Acao: componentes.AIVIDADE_MOVIMENTO})
+	nBot.AdicionarComponente(componentes.MOVIMENTO.String(), &componentes.Movimento{Tipo: nil, Cor: cores.PRETO})
 
 	nBot.entidade = &nBot
 	return &nBot
@@ -68,9 +67,16 @@ func (b *Bot) ObterNivel() *componentes.Nivel {
 	return nil
 }
 
-func (b *Bot) ObterLiberdade() *componentes.Liberdade {
-	if nivel_comp := b.GetComponente(componentes.LIBERDADE.String()); nivel_comp != nil {
-		return nivel_comp.(*componentes.Liberdade)
+func (b *Bot) ObterAtividade() *componentes.Atividade {
+	if nivel_comp := b.GetComponente(componentes.ATIVIDADE.String()); nivel_comp != nil {
+		return nivel_comp.(*componentes.Atividade)
+	}
+	return nil
+}
+
+func (b *Bot) ObterMovimento() *componentes.Movimento {
+	if mov_comp := b.GetComponente(componentes.MOVIMENTO.String()); mov_comp != nil {
+		return mov_comp.(*componentes.Movimento)
 	}
 	return nil
 }
@@ -84,7 +90,7 @@ func (b *Bot) EstaVivo() bool {
 }
 
 func (b *Bot) PossoMeMover() bool {
-	return b.ObterLiberdade().Status
+	return b.ObterAtividade().Acao == componentes.AIVIDADE_MOVIMENTO
 }
 
 func (b *Bot) CorrigeSangue() {
@@ -134,11 +140,11 @@ func (b *Bot) GetAltura() float64 {
 }
 
 func (b *Bot) GetCor() color.Color {
-	return b.cor
+	return b.ObterMovimento().Cor
 }
 
 func (b *Bot) GetMovendoTipo() string {
-	return b.movendo.GetTipo()
+	return b.ObterMovimento().Tipo.GetTipo()
 }
 
 func (b *Bot) GetTipo() string {
@@ -146,7 +152,7 @@ func (b *Bot) GetTipo() string {
 }
 
 func (b *Bot) GetSubTipo() string {
-	return b.movendo.GetTipo()
+	return b.ObterMovimento().Tipo.GetTipo()
 }
 
 func (b *Bot) GetNivel() int {
@@ -154,7 +160,7 @@ func (b *Bot) GetNivel() int {
 }
 
 func (b *Bot) SetCor(c color.Color) {
-	b.cor = c
+	b.ObterMovimento().Cor = c
 }
 
 func (b *Bot) SetNivel(nivel int) {
@@ -179,8 +185,8 @@ func (b *Bot) Mover(r *rand.Rand) {
 	posX := b.GetPosicao().GetX()
 	posY := b.GetPosicao().GetY()
 
-	if b.movendo != nil {
-		b.movendo.Mover(b.entidade, b.cenaJogo.GetSistemaColisao(), b.cenaJogo.GetMundo(), b, r)
+	if b.ObterMovimento().Tipo != nil {
+		b.ObterMovimento().Tipo.Mover(b.entidade, b.cenaJogo.GetSistemaColisao(), b.cenaJogo.GetMundo(), b, r)
 	}
 
 	if b.cenaJogo.GetMundo().EstaNaMargemInterna(geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO), utils.BOT_TAMANHO_MUNDO) {
@@ -190,7 +196,8 @@ func (b *Bot) Mover(r *rand.Rand) {
 }
 
 func (b *Bot) SetMovimentacao(movendo interfaces.Movimentador) {
-	b.movendo = movendo
+	b.ObterMovimento().Tipo = movendo
+	b.AlterarComponente(componentes.MOVIMENTO.String(), &componentes.Movimento{Tipo: movendo, Cor: movendo.GetCor()})
 	b.AlterarComponente(componentes.SUB_TIPO.String(), &componentes.SubTipo{Valor: movendo.GetTipo()})
 }
 
@@ -203,7 +210,9 @@ func (b *Bot) Atualizar() {
 func (b *Bot) Desenhar(tela *ebiten.Image) {
 
 	if b.PossoMeMover() {
-		ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1()-10, float64(b.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
+		if b.ObterVida().Sangue < (100 * b.ObterNivel().Valor) {
+			ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1()-10, float64(b.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
+		}
 		ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO, b.GetCor())
 	}
 }

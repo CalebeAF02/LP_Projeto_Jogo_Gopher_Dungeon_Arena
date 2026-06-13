@@ -3,8 +3,10 @@ package movimentacao
 import (
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
+	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
+	"image/color"
 
 	"math/rand"
 )
@@ -48,4 +50,8 @@ func (md *MovimentadorDiagonal) Mover(entidade ecs.Entidade, sistemaColisao inte
 
 func (md *MovimentadorDiagonal) GetTipo() string {
 	return "DIAGONAL"
+}
+
+func (md *MovimentadorDiagonal) GetCor() color.Color {
+	return cores.ROSA
 }

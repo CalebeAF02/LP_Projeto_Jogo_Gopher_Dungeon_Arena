@@ -20,9 +20,9 @@ func TeleTransporta(portalEntrada ecs.Entidade, bot ecs.Entidade) {
 		teletransporte.Bot = bot
 		teletransporte.Contagem = 150
 
-		liberdade_comp := bot.GetComponente(componentes.LIBERDADE.String())
-		liberdade := liberdade_comp.(*componentes.Liberdade)
-		liberdade.Status = false
+		liberdade_comp := bot.GetComponente(componentes.ATIVIDADE.String())
+		liberdade := liberdade_comp.(*componentes.Atividade)
+		liberdade.Acao = componentes.AIVIDADE_TELETRANSPORTE
 
 	}
 }

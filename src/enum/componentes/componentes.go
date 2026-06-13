@@ -3,6 +3,8 @@ package componentes
 import (
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
+	"Gopher_Dungeon_Arena/src/interfaces"
+	"image/color"
 )
 
 type ComponenteTipo int
@@ -13,8 +15,14 @@ const (
 	VIDA                     ComponenteTipo = iota
 	NIVEL                    ComponenteTipo = iota
 	ENVIANDO_TELETRANSPORTE  ComponenteTipo = iota
-	LIBERDADE                ComponenteTipo = iota
+	ATIVIDADE                ComponenteTipo = iota
 	RECEBENDO_TELETRANSPORTE ComponenteTipo = iota
+	MOVIMENTO                ComponenteTipo = iota
+)
+
+const (
+	AIVIDADE_MOVIMENTO      int = iota
+	AIVIDADE_TELETRANSPORTE int = iota
 )
 
 func (t ComponenteTipo) String() string {
@@ -31,8 +39,10 @@ func (t ComponenteTipo) String() string {
 		return "ENVIANDO_TELETRANSPORTE"
 	case RECEBENDO_TELETRANSPORTE:
 		return "RECEBENDO_TELETRANSPORTE"
-	case LIBERDADE:
-		return "LIBERDADE"
+	case ATIVIDADE:
+		return "ATIVIDADE"
+	case MOVIMENTO:
+		return "MOVIMENTO"
 	default:
 		return "**DESCONHECIDO**"
 	}
@@ -61,14 +71,19 @@ type EnviandoTeletransporte struct {
 	ConectadoSaida ecs.Entidade
 }
 
-type Liberdade struct {
-	Status bool
+type Atividade struct {
+	Acao int
 }
 
 type RecebendoTeletransporte struct {
 	TemBot   bool
 	Bot      ecs.Entidade
 	Contagem int
+}
+
+type Movimento struct {
+	Tipo interfaces.Movimentador
+	Cor  color.Color
 }
 
 func (v *Vida) EstaVivo() bool {
