@@ -3,7 +3,6 @@ package cenas
 import (
 	"Gopher_Dungeon_Arena/src/assets"
 	"Gopher_Dungeon_Arena/src/interfaces"
-	"fmt"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
@@ -31,12 +30,12 @@ func (cmp *CenaMenuPause) Sair() {
 
 func (cmp *CenaMenuPause) Input() {
 	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
-		fmt.Println("estou precionando o esc na cena pause !")
+		//fmt.Println("estou precionando o esc na cena pause !")
 		cmp.Sair()
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeySpace) {
-		fmt.Println("estou precionando o space na cena pause !")
+		//fmt.Println("estou precionando o space na cena pause !")
 		cmp.Voltar()
 	}
 }

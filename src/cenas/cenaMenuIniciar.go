@@ -3,7 +3,6 @@ package cenas
 import (
 	"Gopher_Dungeon_Arena/src/assets"
 	"Gopher_Dungeon_Arena/src/interfaces"
-	"fmt"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
@@ -27,13 +26,13 @@ func (cmi *CenaMenuIniciar) SetGame(game interfaces.IGame) {
 
 func (cmi *CenaMenuIniciar) Input() {
 	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
-		fmt.Println("estou precionando o esc na cena menu !")
+		//fmt.Println("estou precionando o esc na cena menu !")
 
 		cmi.game.Sair()
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyEnter) {
-		fmt.Println("estou precionando o enter na cena menu !")
+		//fmt.Println("estou precionando o enter na cena menu !")
 
 		cmi.game.IniciarJogo()
 	}

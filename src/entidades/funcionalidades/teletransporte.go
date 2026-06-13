@@ -3,8 +3,9 @@ package funcionalidades
 import (
 	"Gopher_Dungeon_Arena/src/componentes"
 	"Gopher_Dungeon_Arena/src/ecs"
-	"fmt"
 )
+
+
 
 func TeleTransporta(portalEntrada ecs.Entidade, bot ecs.Entidade) {
 
@@ -12,9 +13,9 @@ func TeleTransporta(portalEntrada ecs.Entidade, bot ecs.Entidade) {
 	teletransporte := portalTransporte_com.(*componentes.EnviandoTeletransporte)
 
 	if teletransporte.TemBot {
-		fmt.Printf("Já tem bot !!!\n")
+		//fmt.Printf("Já tem bot !!!\n")
 	} else {
-		fmt.Printf("Guardar bot ....\n")
+		//fmt.Printf("Guardar bot ....\n")
 
 		teletransporte.TemBot = true
 		teletransporte.Bot = bot

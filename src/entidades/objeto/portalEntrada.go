@@ -2,15 +2,14 @@ package objeto
 
 import (
 	"Gopher_Dungeon_Arena/src/assets"
+	"Gopher_Dungeon_Arena/src/componentes"
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
-	"Gopher_Dungeon_Arena/src/componentes"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
-	"fmt"
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -71,7 +70,7 @@ func (b *PortalEntrada) Atualizar() {
 
 	if b.ObterTeleTransporte().TemBot {
 		if b.ObterTeleTransporte().Contagem > 0 {
-			fmt.Printf("\t ++ Vou fazer teletransporte\n")
+			//fmt.Printf("\t ++ Vou fazer teletransporte\n")
 			b.ObterTeleTransporte().Contagem -= 1
 
 			b.anguloRotacao += 0.002
@@ -82,7 +81,7 @@ func (b *PortalEntrada) Atualizar() {
 			}
 
 			if b.ObterTeleTransporte().Contagem == 0 {
-				fmt.Printf("\t ++ Teletransportar AGORAAAAAAAAAAAAAAA\n")
+				//	fmt.Printf("\t ++ Teletransportar AGORAAAAAAAAAAAAAAA\n")
 
 				//portal_saida_corpo_comp := b.ObterTeleTransporte().ConectadoSaida.GetComponente(componentes.CORPO.String())
 				//portal_saida := portal_saida_corpo_comp.(*geometria.Retangulo)
@@ -101,7 +100,7 @@ func (b *PortalEntrada) Atualizar() {
 					b.ObterTeleTransporte().TemBot = false
 
 				} else {
-					fmt.Printf("\t Nao tem como sair do teletransporte !!!")
+					//	fmt.Printf("\t Nao tem como sair do teletransporte !!!")
 					b.ObterTeleTransporte().Contagem = 200
 
 				}

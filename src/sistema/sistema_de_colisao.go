@@ -7,7 +7,6 @@ import (
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/interfaces"
-	"fmt"
 )
 
 type SistemaColisao struct {
@@ -82,7 +81,7 @@ func (s *SistemaColisao) VaiColidir(origem string, origemEntidade ecs.Entidade, 
 						}
 					} else if funcionalidades.Simetria(origem, colididoTipo, entidades.BOT.String(), entidades.PORTAL_ENTRADA.String()) {
 
-						fmt.Printf("Bot bateu no portal de Entrada !!!1 #slc\n")
+						//	fmt.Printf("Bot bateu no portal de Entrada !!!1 #slc\n")
 
 						if origem == entidades.BOT.String() && colididoTipo == entidades.PORTAL_ENTRADA.String() {
 							funcionalidades.TeleTransporta(entidadeColidida, origemEntidade)

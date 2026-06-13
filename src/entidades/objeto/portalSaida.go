@@ -2,10 +2,10 @@ package objeto
 
 import (
 	"Gopher_Dungeon_Arena/src/assets"
+	"Gopher_Dungeon_Arena/src/componentes"
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
-	"Gopher_Dungeon_Arena/src/componentes"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/interfaces"
@@ -94,7 +94,7 @@ func (b *PortalSaida) Atualizar() {
 
 		if b.ObterRecebendoTeletransporte().Contagem > 0 {
 			b.ObterRecebendoTeletransporte().Contagem -= 1
-			fmt.Printf("Recebendo Teletransporte !!!\n")
+			//fmt.Printf("Recebendo Teletransporte !!!\n")
 
 		}
 
@@ -114,7 +114,7 @@ func (b *PortalSaida) Atualizar() {
 			fmt.Printf("\tSai Y \n", b.ObterCorpo().GetY()+70)
 
 			b.ObterRecebendoTeletransporte().TemBot = false
-			fmt.Printf("Saindo do teletransporte AGORAAAAAAAAAAAAAAAA !!!\n")
+			//	fmt.Printf("Saindo do teletransporte AGORAAAAAAAAAAAAAAAA !!!\n")
 
 		}
 
