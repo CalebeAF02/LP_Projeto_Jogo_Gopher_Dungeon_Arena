@@ -1,11 +1,11 @@
 package cenas
 
 import (
+	"Gopher_Dungeon_Arena/src/componentes"
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/entidades/outros"
-	"Gopher_Dungeon_Arena/src/enum/componentes"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/sistema"

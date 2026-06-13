@@ -1,8 +1,8 @@
 package funcionalidades
 
 import (
+	"Gopher_Dungeon_Arena/src/componentes"
 	"Gopher_Dungeon_Arena/src/ecs"
-	"Gopher_Dungeon_Arena/src/enum/componentes"
 	"Gopher_Dungeon_Arena/src/utils"
 )
 

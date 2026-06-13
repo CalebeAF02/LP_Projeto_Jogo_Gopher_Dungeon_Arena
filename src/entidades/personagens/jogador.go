@@ -1,10 +1,10 @@
 package personagens
 
 import (
+	"Gopher_Dungeon_Arena/src/componentes"
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
-	"Gopher_Dungeon_Arena/src/enum/componentes"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/interfaces"
@@ -235,7 +235,7 @@ func (j *Jogador) Atualizar() {
 func (j *Jogador) Desenhar(tela *ebiten.Image) {
 
 	if j.entidade == nil {
-		
+
 	} else {
 		ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1(), j.cenaJogo.GetCamera().GetY()+j.GetY1()-10, float64(j.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
 
