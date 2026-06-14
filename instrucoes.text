@@ -1,0 +1,11 @@
+
+-- para bildadr o jogo
+./build.ps1
+
+
+-- para atualizar e executar 
+air
+
+-- para executar pelo terminal 
+go run .
+
