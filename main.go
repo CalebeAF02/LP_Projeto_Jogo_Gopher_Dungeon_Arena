@@ -2,6 +2,7 @@ package main
 
 import (
 	"Gopher_Dungeon_Arena/src"
+	"Gopher_Dungeon_Arena/src/assets/imagens"
 	"Gopher_Dungeon_Arena/src/config"
 	"log"
 
@@ -15,6 +16,8 @@ func main() {
 	ebiten.MaximizeWindow()
 	//ebiten.SetTPS(ebiten.SyncWithFPS) // sincroniza lógica com FPS
 	//ebiten.SetTPS(1)                  // força 60 ticks por segundo
+
+	imagens.AplicarIconeJanela()
 
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)

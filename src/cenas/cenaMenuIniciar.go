@@ -2,6 +2,8 @@ package cenas
 
 import (
 	"Gopher_Dungeon_Arena/src/assets"
+	"Gopher_Dungeon_Arena/src/assets/imagens"
+	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/interfaces"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -52,15 +54,20 @@ func (cmi *CenaMenuIniciar) Update() error {
 
 func (cmi *CenaMenuIniciar) Draw(tela *ebiten.Image) {
 
-	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Titulo, 180, "GOPHER DUNGEON ARENA")
-	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Subtitulo, 250, "Arena Paralela de Sobrevivencia")
+	imagens.DesenharImagemPreencherTela(
+		tela,
+		imagens.ImagemMenu,
+		config.JANELA_LARGURA,
+		config.JANELA_ALTURA,
+	)
 
-	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 390, "[ ENTER ]  INICIAR")
-	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 450, "[ P ]    PROGRESSO")
-	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 490, "[ ESC ]    SAIR")
+	//assets.EscreverTextoCentralizado(tela, cmi.fontecache.Titulo, 180, "GOPHER DUNGEON ARENA")
+	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 510, "[ ENTER ]            INICIAR")
+	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 570, "[ P ]            PROGRESSO")
+	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 640, "[ ESC ]            SAIR")
 
-	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Rodape, 640, "Linguagens de Programação - LP")
-	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Rodape, 680, "Universidade de Brasilia")
+	//assets.EscreverTextoCentralizado(tela, cmi.fontecache.Rodape, 640, "Linguagens de Programação - LP")
+	//assets.EscreverTextoCentralizado(tela, cmi.fontecache.Rodape, 680, "Universidade de Brasilia")
 }
 
 func (cmi *CenaMenuIniciar) GetNome() string {

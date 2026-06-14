@@ -127,5 +127,5 @@ func (mll *MovimentadorLogicoLinha) GetTipo() string {
 }
 
 func (mll *MovimentadorLogicoLinha) GetCor() color.Color {
-	return cores.AMARELO
+	return cores.LARANJA
 }

@@ -52,5 +52,5 @@ func (mb *MovimentadorVertical) GetTipo() string {
 }
 
 func (mb *MovimentadorVertical) GetCor() color.Color {
-	return cores.AMARELO_CLARO
+	return cores.AMARELO
 }

@@ -119,5 +119,5 @@ func (mld *MovimentadorLogicoDiagonal) GetTipo() string {
 }
 
 func (mld *MovimentadorLogicoDiagonal) GetCor() color.Color {
-	return cores.VERDE
+	return cores.ROSA_ESCURO
 }

@@ -155,5 +155,5 @@ func (mld *MovimentadorLogicoDuplo) GetTipo() string {
 }
 
 func (mld *MovimentadorLogicoDuplo) GetCor() color.Color {
-	return cores.AZUL
+	return cores.VERMELHO
 }
