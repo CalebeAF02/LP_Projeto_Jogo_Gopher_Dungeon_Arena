@@ -10,6 +10,7 @@ const (
 	PAREDE
 	PORTAL_ENTRADA
 	PORTAL_SAIDA
+	COMIDA
 )
 
 func (t EntidadeTipo) String() string {
@@ -28,6 +29,8 @@ func (t EntidadeTipo) String() string {
 		return "PORTAL_ENTRADA"
 	case PORTAL_SAIDA:
 		return "PORTAL_SAIDA"
+	case COMIDA:
+		return "COMIDA"
 	default:
 		return "**DESCONHECIDO**"
 	}

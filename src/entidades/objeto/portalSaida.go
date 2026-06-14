@@ -10,8 +10,8 @@ import (
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/interfaces"
 	"Gopher_Dungeon_Arena/src/utils"
-	"fmt"
 	"image/color"
+	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
@@ -27,6 +27,7 @@ type PortalSaida struct {
 	posicao       *geometria.Ponto
 	corpo         *geometria.Retangulo
 	anguloRotacao float64 // Adicione este campo
+	offsetBarras  float64
 	Componentes   map[string]interface{}
 }
 
@@ -82,24 +83,30 @@ func (b *PortalSaida) ObterRecebendoTeletransporte() *componentes.RecebendoTelet
 }
 
 func (b *PortalSaida) Atualizar() {
-
 	if b.ObterRecebendoTeletransporte().TemBot {
 
+		// Avança o progresso da animação
 		b.anguloRotacao += 0.002
-
-		// Mantém o progresso sempre dentro do limite de 0.0 a 1.0 de forma eterna
 		if b.anguloRotacao >= 1.0 {
 			b.anguloRotacao -= 1.0
 		}
 
+		// --- NOVO: calcula deslocamento vertical das barras laterais ---
+		// Usamos seno para dar movimento suave (vai e volta)
+		// Valor oscila entre -1 e +1
+		osc := math.Sin(b.anguloRotacao * 2 * math.Pi)
+
+		// Multiplica por uma amplitude (pixels de deslocamento)
+		amplitude := 10.0
+		b.offsetBarras = osc * amplitude
+		// Agora em Desenhar você usa posY + b.offsetBarras para desenhar as barras
+
+		// --- Lógica de teletransporte continua igual ---
 		if b.ObterRecebendoTeletransporte().Contagem > 0 {
 			b.ObterRecebendoTeletransporte().Contagem -= 1
-			//fmt.Printf("Recebendo Teletransporte !!!\n")
-
 		}
 
 		if b.ObterRecebendoTeletransporte().Contagem == 0 {
-
 			bot_corpo_comp := b.ObterRecebendoTeletransporte().Bot.GetComponente(componentes.CORPO.String())
 			bot_corpo := bot_corpo_comp.(*geometria.Retangulo)
 
@@ -108,18 +115,10 @@ func (b *PortalSaida) Atualizar() {
 			liberdade.Acao = componentes.AIVIDADE_MOVIMENTO
 
 			bot_corpo.SetPosicao(b.ObterCorpo().GetX()+70, b.ObterCorpo().GetY()+70)
-			//b.ObterTeleTransporte().TemBot = false
-
-			fmt.Printf("\tSai X \n", b.ObterCorpo().GetX()+70)
-			fmt.Printf("\tSai Y \n", b.ObterCorpo().GetY()+70)
 
 			b.ObterRecebendoTeletransporte().TemBot = false
-			//	fmt.Printf("Saindo do teletransporte AGORAAAAAAAAAAAAAAAA !!!\n")
-
 		}
-
 	}
-
 }
 
 func (b *PortalSaida) Desenhar(tela *ebiten.Image) {
@@ -128,75 +127,32 @@ func (b *PortalSaida) Desenhar(tela *ebiten.Image) {
 	posY := b.cenaJogo.GetCamera().GetY() + b.GetY1()
 	tamanho := float32(utils.PORTAL_ENTRADA_TAMANHO)
 
-	// 2. Desenha o quadrado maior original (Laranja)
+	// 2. Desenha o quadrado central (Verde)
 	ebitenutil.DrawRect(tela, posXX, posY, float64(tamanho), float64(tamanho), cores.VERDE)
 
-	// 3. Configurações dos quadradinhos das quinas
-	tamQuina := float64(tamanho / 5.0)
+	// 3. Configurações dos retângulos laterais
+	larguraRet := float64(tamanho / 5.0) // largura dos retângulos
+	alturaRet := float64(tamanho * 1.2)  // altura maior que o quadrado
+	offsetY := (alturaRet - float64(tamanho)) / 2.0
 
-	// Margens externas exatas onde os quadradinhos devem deslizar
-	minX := posXX - tamQuina
-	maxX := posXX + float64(tamanho)
-	minY := posY - tamQuina
-	maxY := posY + float64(tamanho)
+	// Esquerda (afasta/aproxima no eixo X)
+	ebitenutil.DrawRect(tela,
+		posXX-larguraRet-b.offsetBarras, posY-offsetY,
+		larguraRet, alturaRet,
+		cores.PRETO)
 
-	// Desenha as 4 quinas
-	for i := 0; i < 4; i++ {
-		// Distribui as 4 quinas igualmente
-		progresso := b.anguloRotacao + (float64(i) * 0.25)
-		if progresso >= 1.0 {
-			progresso -= 1.0
-		}
+	ebitenutil.DrawRect(tela,
+		(posXX-larguraRet-b.offsetBarras)+3, (posY-offsetY)+3,
+		larguraRet-6, alturaRet-6,
+		cores.VERDE)
 
-		var quinaX, quinaY float64
+	// Direita (afasta/aproxima no eixo X, em sentido contrário)
+	ebitenutil.DrawRect(tela,
+		posXX+float64(tamanho)+b.offsetBarras, posY-offsetY,
+		larguraRet, alturaRet,
+		cores.PRETO)
 
-		// Máquina de estados para garantir o trilho perfeito do quadrado
-		if progresso < 0.25 { // 1. Lado Superior (Esquerda para a Direita)
-			t := progresso / 0.25
-			if t > 1.0 {
-				t = 1.0
-			}
-			quinaX = minX + (t * (maxX - minX))
-			quinaY = minY
-		} else if progresso < 0.50 { // 2. Lado Direito (Cima para Baixo)
-			t := (progresso - 0.25) / 0.25
-			if t > 1.0 {
-				t = 1.0
-			}
-			quinaX = maxX
-			quinaY = minY + (t * (maxY - minY))
-		} else if progresso < 0.75 { // 3. Lado Inferior (Direita para a Esquerda)
-			t := (progresso - 0.50) / 0.25
-			if t > 1.0 {
-				t = 1.0
-			}
-			quinaX = maxX - (t * (maxX - minX))
-			quinaY = maxY
-		} else { // 4. Lado Esquerdo (Baixo para Cima)
-			t := (progresso - 0.75) / 0.25
-			if t > 1.0 {
-				t = 1.0
-			}
-			quinaX = minX
-			quinaY = maxY - (t * (maxY - minY))
-		}
-
-		// A) Desenha o quadradinho preto que se move
-		ebitenutil.DrawRect(tela, quinaX, quinaY, tamQuina, tamQuina, cores.PRETO)
-
-		// B) CALCULA O CENTRO E O RAIO DO CÍRCULO INTERNO DA QUINA
-		// Raio do circulozinho (metade da quina dividida por 2 para deixar uma borda preta)
-		raioQuina := float32(tamQuina / 4.0)
-
-		// Centro real: posição inicial da quina + metade do tamanho dela
-		centroQuinaX := float32(quinaX + (tamQuina / 2.0))
-		centroQuinaY := float32(quinaY + (tamQuina / 2.0))
-
-		// C) Desenha o círculo laranja centralizado dentro do quadradinho preto
-		vector.DrawFilledCircle(tela, centroQuinaX, centroQuinaY, raioQuina, cores.VERDE, true)
-	}
-
-	// 4. Desenha o círculo preto centralizado estático no meio do portal
+	// 4. Desenha o círculo centralizado no meio do portal
 	raioCirculo := tamanho / 4.0
 	centroX := float32(posXX) + (tamanho / 2.0)
 	centroY := float32(posY) + (tamanho / 2.0)
@@ -207,11 +163,8 @@ func (b *PortalSaida) Desenhar(tela *ebiten.Image) {
 
 	if recebendoTeletransporte.TemBot {
 		vector.DrawFilledCircle(tela, centroX, centroY, raioCirculo, cores.AMARELO, true)
-
 		assets.EscreverNumero(tela, float64(centroX-10), float64(centroY-10), recebendoTeletransporte.Contagem, 15, cores.PRETO)
-
 	}
-
 }
 
 func (b *PortalSaida) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {

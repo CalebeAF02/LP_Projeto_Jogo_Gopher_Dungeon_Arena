@@ -8,4 +8,6 @@ type IGame interface {
 	Pausar()
 	Voltar()
 	Sair()
+	MudarTelaMenuIniciar()
+	MudarTelaProgresso()
 }

@@ -5,15 +5,15 @@ import (
 	"Gopher_Dungeon_Arena/src/interfaces"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
 type CenaMenuIniciar struct {
-	game interfaces.IGame
+	game       interfaces.IGame
+	fontecache assets.FonteCache
 }
 
-func NovaCenaMenuIniciar(game interfaces.IGame) *CenaMenuIniciar {
-	return &CenaMenuIniciar{game: game}
+func (cmi *CenaMenuIniciar) SetFonteCache(cache assets.FonteCache) {
+	cmi.fontecache = cache
 }
 
 func (cmi *CenaMenuIniciar) GetGame() interfaces.IGame {
@@ -36,7 +36,14 @@ func (cmi *CenaMenuIniciar) Input() {
 
 		cmi.game.IniciarJogo()
 	}
+
+	if ebiten.IsKeyPressed(ebiten.KeyP) {
+		//fmt.Println("estou precionando o enter na cena menu !")
+
+		cmi.game.MudarTelaProgresso()
+	}
 }
+
 func (cmi *CenaMenuIniciar) Update() error {
 	cmi.Input()
 	return nil
@@ -45,79 +52,15 @@ func (cmi *CenaMenuIniciar) Update() error {
 
 func (cmi *CenaMenuIniciar) Draw(tela *ebiten.Image) {
 
-	titulo := &text.GoTextFace{
-		Source: assets.Fonte,
-		Size:   72,
-	}
+	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Titulo, 180, "GOPHER DUNGEON ARENA")
+	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Subtitulo, 250, "Arena Paralela de Sobrevivencia")
 
-	subtitulo := &text.GoTextFace{
-		Source: assets.Fonte,
-		Size:   20,
-	}
+	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 390, "[ ENTER ]  INICIAR")
+	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 450, "[ P ]    PROGRESSO")
+	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 490, "[ ESC ]    SAIR")
 
-	menu := &text.GoTextFace{
-		Source: assets.Fonte,
-		Size:   30,
-	}
-
-	rodape := &text.GoTextFace{
-		Source: assets.Fonte,
-		Size:   16,
-	}
-
-	// Título
-	opTitulo := &text.DrawOptions{}
-	opTitulo.GeoM.Translate(180, 180)
-
-	text.Draw(
-		tela,
-		"GOPHER DUNGEON ARENA",
-		titulo,
-		opTitulo,
-	)
-
-	// Subtítulo
-	opSub := &text.DrawOptions{}
-	opSub.GeoM.Translate(420, 250)
-
-	text.Draw(
-		tela,
-		"Arena Paralela de Sobrevivencia",
-		subtitulo,
-		opSub,
-	)
-
-	// Menu
-	opJogar := &text.DrawOptions{}
-	opJogar.GeoM.Translate(470, 390)
-
-	text.Draw(
-		tela,
-		"[ ENTER ]  INICIAR",
-		menu,
-		opJogar,
-	)
-
-	opSair := &text.DrawOptions{}
-	opSair.GeoM.Translate(500, 450)
-
-	text.Draw(
-		tela,
-		"[ ESC ]    SAIR",
-		menu,
-		opSair,
-	)
-
-	// Rodapé
-	opRodape := &text.DrawOptions{}
-	opRodape.GeoM.Translate(420, 680)
-
-	text.Draw(
-		tela,
-		"Universidade de Brasilia",
-		rodape,
-		opRodape,
-	)
+	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Rodape, 640, "Linguagens de Programação - LP")
+	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Rodape, 680, "Universidade de Brasilia")
 }
 
 func (cmi *CenaMenuIniciar) GetNome() string {

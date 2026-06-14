@@ -1,6 +1,7 @@
 package assets
 
 import (
+	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/enum/cores"
 	"bytes"
 	"image/color"
@@ -12,6 +13,38 @@ import (
 )
 
 var Fonte *text.GoTextFaceSource
+
+type FonteCache struct {
+	Titulo    *text.GoTextFace
+	Subtitulo *text.GoTextFace
+	Normal    *text.GoTextFace
+	Rodape    *text.GoTextFace
+}
+
+func FonteCacheCriar() *FonteCache {
+
+	titulo := &text.GoTextFace{
+		Source: Fonte,
+		Size:   72,
+	}
+
+	subtitulo := &text.GoTextFace{
+		Source: Fonte,
+		Size:   20,
+	}
+
+	normal := &text.GoTextFace{
+		Source: Fonte,
+		Size:   30,
+	}
+
+	rodape := &text.GoTextFace{
+		Source: Fonte,
+		Size:   16,
+	}
+
+	return &FonteCache{Titulo: titulo, Subtitulo: subtitulo, Normal: normal, Rodape: rodape}
+}
 
 func init() {
 	var err error
@@ -70,4 +103,20 @@ func EscreverTexto(
 		fonte,
 		op,
 	)
+}
+
+func EscreverTextoCentralizado(tela *ebiten.Image, fonte *text.GoTextFace, py float64, texto string) {
+
+	opTexto := &text.DrawOptions{}
+	opTexto.PrimaryAlign = text.AlignCenter
+	opTexto.SecondaryAlign = text.AlignCenter
+	opTexto.GeoM.Translate(config.JANELA_LARGURA/2, py)
+
+	text.Draw(
+		tela,
+		texto,
+		fonte,
+		opTexto,
+	)
+
 }

@@ -24,9 +24,9 @@ func (ms *MovimentadorSimples) Mover(entidade ecs.Entidade, sistemaColisao inter
 	tomadaDeDecicao := r.Intn(100)
 
 	if tomadaDeDecicao > 50 {
-		dX := r.Intn(utils.BOT_VELOCIDADE_MAXIMA)
+		dX := r.Intn(100)
 		posX := 0.0
-		if dX >= 5 {
+		if dX >= 50 {
 			posX = objeto.GetX1() + utils.BOT_VELOCIDADE_NORMAL
 		} else {
 			posX = objeto.GetX1() - utils.BOT_VELOCIDADE_NORMAL
@@ -46,9 +46,9 @@ func (ms *MovimentadorSimples) Mover(entidade ecs.Entidade, sistemaColisao inter
 			objeto.SetPosicao(posX, antesY)
 		}
 	} else {
-		dY := r.Intn(utils.BOT_VELOCIDADE_MAXIMA)
+		dY := r.Intn(100)
 		posY := 0.0
-		if dY >= 5 {
+		if dY >= 50 {
 			posY = objeto.GetY1() + utils.BOT_VELOCIDADE_NORMAL
 		} else {
 			posY = objeto.GetY1() - utils.BOT_VELOCIDADE_NORMAL

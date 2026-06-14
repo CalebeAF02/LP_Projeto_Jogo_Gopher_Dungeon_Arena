@@ -36,7 +36,10 @@ func (s *SistemaColisao) EsseTipoColide(tipo string) bool {
 		return true
 	case entidades.PORTAL_SAIDA.String():
 		return true
+	case entidades.COMIDA.String():
+		return true
 	}
+
 	return false
 }
 
@@ -79,6 +82,15 @@ func (s *SistemaColisao) VaiColidir(origem string, origemEntidade ecs.Entidade, 
 						} else if origem == entidades.JOGADOR.String() && colididoTipo == entidades.BOT.String() {
 							funcionalidades.CombateJogadorBot(origemEntidade, entidadeColidida)
 						}
+
+					} else if funcionalidades.Simetria(origem, colididoTipo, entidades.JOGADOR.String(), entidades.COMIDA.String()) {
+
+						if origem == entidades.COMIDA.String() && colididoTipo == entidades.JOGADOR.String() {
+							funcionalidades.EncherBucho(entidadeColidida, origemEntidade)
+						} else if origem == entidades.JOGADOR.String() && colididoTipo == entidades.COMIDA.String() {
+							funcionalidades.EncherBucho(origemEntidade, entidadeColidida)
+						}
+
 					} else if funcionalidades.Simetria(origem, colididoTipo, entidades.BOT.String(), entidades.PORTAL_ENTRADA.String()) {
 
 						//	fmt.Printf("Bot bateu no portal de Entrada !!!1 #slc\n")
@@ -88,8 +100,6 @@ func (s *SistemaColisao) VaiColidir(origem string, origemEntidade ecs.Entidade, 
 						} else if origem == entidades.PORTAL_ENTRADA.String() && colididoTipo == entidades.BOT.String() {
 							funcionalidades.TeleTransporta(origemEntidade, entidadeColidida)
 						}
-
-					} else if funcionalidades.Simetria(origem, colididoTipo, entidades.BOT.String(), entidades.PORTAL_SAIDA.String()) {
 
 					}
 

@@ -1,10 +1,12 @@
 package cenas
 
 import (
+	"Gopher_Dungeon_Arena/src/assets"
 	"Gopher_Dungeon_Arena/src/componentes"
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
+	"Gopher_Dungeon_Arena/src/entidades/objeto"
 	"Gopher_Dungeon_Arena/src/entidades/outros"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/interfaces"
@@ -68,7 +70,16 @@ func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 
 	sistemaSpaw.SpawnBotDeCadaTipo(&cj)
 
+	objeto.NovaComida(&cj, geometria.NovoPonto(150, 200))
+	objeto.NovaComida(&cj, geometria.NovoPonto(300, 450))
+	objeto.NovaComida(&cj, geometria.NovoPonto(500, 650))
+	objeto.NovaComida(&cj, geometria.NovoPonto(600, 700))
+	objeto.NovaComida(&cj, geometria.NovoPonto(800, 950))
+
 	return &cj
+}
+
+func (cp *CenaJogo) SetFonteCache(cache assets.FonteCache) {
 }
 
 func (cj *CenaJogo) CriarEntidade() ecs.EntidadeID {
@@ -215,7 +226,14 @@ func (cj *CenaJogo) RemoverEntidadesMortas() {
 					cj.ContarEntidadesMortas()
 				}
 			}
+		} else if entidade.ExisteComponente(componentes.ENERGIA.String()) {
 
+			energiaComp := entidade.GetComponente(componentes.ENERGIA.String())
+			energia := energiaComp.(*componentes.Energia)
+
+			if !energia.Status {
+				cj.RemoverEntidade(entidade.GetID())
+			}
 		}
 	}
 }

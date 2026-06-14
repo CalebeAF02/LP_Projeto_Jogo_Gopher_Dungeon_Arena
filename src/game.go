@@ -1,6 +1,7 @@
 package src
 
 import (
+	"Gopher_Dungeon_Arena/src/assets"
 	"Gopher_Dungeon_Arena/src/cenas"
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/interfaces"
@@ -21,6 +22,7 @@ func NovoGame() *Game {
 	cenaJogo := cenas.NovoCenaJogo(&game)
 
 	cenaCorrente.SetGame(&game)
+	cenaCorrente.SetFonteCache(*assets.FonteCacheCriar())
 	game.SetCenaJogo(cenaJogo)
 
 	return &game
@@ -57,6 +59,20 @@ func (g *Game) Layout(l, a int) (int, int) {
 
 func (g *Game) IniciarJogo() {
 	g.CenaCorrente = g.CenaJogo
+}
+
+func (g *Game) MudarTelaMenuIniciar() {
+	cenaCorrente := cenas.CenaMenuIniciar{}
+	cenaCorrente.SetFonteCache(*assets.FonteCacheCriar())
+	cenaCorrente.SetGame(g)
+	g.SetCena(&cenaCorrente)
+}
+
+func (g *Game) MudarTelaProgresso() {
+	cenaCorrente := cenas.CenaProgresso{}
+	cenaCorrente.SetFonteCache(*assets.FonteCacheCriar())
+	cenaCorrente.SetGame(g)
+	g.SetCena(&cenaCorrente)
 }
 
 func (g *Game) Pausar() {

@@ -1,7 +1,7 @@
 package sistema
 
 import (
-	"Gopher_Dungeon_Arena/src/assets"
+	"Gopher_Dungeon_Arena/src/cenas/informativos"
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/entidades/personagens"
@@ -60,22 +60,7 @@ func (s *SistemaDesenhar) Desenhar(cj interfaces.ICenaJogo, tela *ebiten.Image) 
 
 	if jogadoresVivos == 0 {
 
-		assets.EscreverTexto(
-			tela,
-			"Você Morreu !!!",
-			(config.JANELA_LARGURA / 9),
-			(config.JANELA_ALTURA/10)*2,
-			150,
-			cores.VERMELHO,
-		)
+		informativos.InformativoPerdeu(cj, tela)
 
-		assets.EscreverTexto(
-			tela,
-			"Teve uma sequencia de "+cj.GetContadorMortos()+" bots mortos",
-			(config.JANELA_LARGURA/9)*2,
-			(config.JANELA_ALTURA/10)*6,
-			50,
-			cores.VERMELHO,
-		)
 	}
 }

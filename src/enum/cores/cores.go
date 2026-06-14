@@ -9,6 +9,7 @@ var (
 
 	PRETO = rgb(33, 33, 33)
 
+	AMBAR          = rgb(255, 193, 37)
 	AMARELO        = rgb(255, 238, 88)
 	AMARELO_CLARO  = rgb(255, 241, 118)
 	AMARELO_ESCURO = rgb(251, 192, 45)

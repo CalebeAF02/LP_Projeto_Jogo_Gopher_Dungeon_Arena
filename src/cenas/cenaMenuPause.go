@@ -12,6 +12,9 @@ type CenaMenuPause struct {
 	game interfaces.IGame
 }
 
+func (cp *CenaMenuPause) SetFonteCache(cache assets.FonteCache) {
+}
+
 func (cmp *CenaMenuPause) GetGame() interfaces.IGame {
 	return cmp.game
 }

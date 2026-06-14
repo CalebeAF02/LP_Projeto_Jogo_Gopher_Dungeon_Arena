@@ -1,6 +1,10 @@
 package interfaces
 
-import "github.com/hajimehoshi/ebiten/v2"
+import (
+	"Gopher_Dungeon_Arena/src/assets"
+
+	"github.com/hajimehoshi/ebiten/v2"
+)
 
 type ICena interface {
 	GetNome() string
@@ -8,4 +12,5 @@ type ICena interface {
 	SetGame(game IGame)
 	Update() error
 	Draw(tela *ebiten.Image)
+	SetFonteCache(cache assets.FonteCache)
 }

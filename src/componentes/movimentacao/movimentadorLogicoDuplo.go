@@ -79,7 +79,7 @@ func (mld *MovimentadorLogicoDuplo) MovimentoLinear(r *rand.Rand) {
 	//fmt.Printf("Tomada de Decisao :: %d\n", tomadaDeDecicaoCiclo)
 
 	if tomadaDeDecicaoCiclo < 50 {
-		mld.ciclosMaximo = 30
+		mld.ciclosMaximo = 100
 
 	} else {
 		mld.ciclosMaximo = tomadaDeDecicaoCiclo
@@ -114,7 +114,7 @@ func (mld *MovimentadorLogicoDuplo) MovimentoDiagonal(r *rand.Rand) {
 	//fmt.Printf("Tomada de Decisao :: %d\n", tomadaDeDecicaoCiclo)
 
 	if tomadaDeDecicaoCiclo < 50 {
-		mld.ciclosMaximo = 30
+		mld.ciclosMaximo = 100
 
 	} else {
 		mld.ciclosMaximo = tomadaDeDecicaoCiclo

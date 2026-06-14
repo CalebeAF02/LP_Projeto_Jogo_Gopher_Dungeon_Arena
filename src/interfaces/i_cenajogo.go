@@ -1,6 +1,7 @@
 package interfaces
 
 import (
+	"Gopher_Dungeon_Arena/src/assets"
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"math/rand"
@@ -24,4 +25,5 @@ type ICenaJogo interface {
 	OrganizaPosicaoAleatoriaBot() *geometria.Ponto
 	Update() error
 	Draw(tela *ebiten.Image)
+	SetFonteCache(cache assets.FonteCache)
 }

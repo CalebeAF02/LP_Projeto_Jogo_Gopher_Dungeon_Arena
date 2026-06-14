@@ -18,6 +18,7 @@ const (
 	ATIVIDADE                ComponenteTipo = iota
 	RECEBENDO_TELETRANSPORTE ComponenteTipo = iota
 	MOVIMENTO                ComponenteTipo = iota
+	ENERGIA                  ComponenteTipo = iota
 )
 
 const (
@@ -43,6 +44,8 @@ func (t ComponenteTipo) String() string {
 		return "ATIVIDADE"
 	case MOVIMENTO:
 		return "MOVIMENTO"
+	case ENERGIA:
+		return "ENERGIA"
 	default:
 		return "**DESCONHECIDO**"
 	}
@@ -84,6 +87,11 @@ type RecebendoTeletransporte struct {
 type Movimento struct {
 	Tipo interfaces.Movimentador
 	Cor  color.Color
+}
+
+type Energia struct {
+	Valor  int
+	Status bool
 }
 
 func (v *Vida) EstaVivo() bool {
