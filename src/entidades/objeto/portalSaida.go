@@ -152,6 +152,11 @@ func (b *PortalSaida) Desenhar(tela *ebiten.Image) {
 		larguraRet, alturaRet,
 		cores.PRETO)
 
+	ebitenutil.DrawRect(tela,
+		posXX+float64(tamanho)+b.offsetBarras+3, posY-offsetY+3,
+		larguraRet-6, alturaRet-6,
+		cores.VERDE)
+
 	// 4. Desenha o círculo centralizado no meio do portal
 	raioCirculo := tamanho / 4.0
 	centroX := float32(posXX) + (tamanho / 2.0)
