@@ -14,4 +14,9 @@ func EncherBucho(jogador ecs.Entidade, comida ecs.Entidade) {
 	energia := energiaComp.(*componentes.Energia)
 
 	energia.Status = false
+
+	pontuacaoComp := jogador.GetComponente(componentes.PONTUACAO.String())
+	pontuacao := pontuacaoComp.(*componentes.Pontuacao)
+	pontuacao.Coletado += 1
+
 }

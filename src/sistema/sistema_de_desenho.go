@@ -45,7 +45,7 @@ func (s *SistemaDesenhar) Desenhar(cj interfaces.ICenaJogo, tela *ebiten.Image) 
 		}
 	}
 
-	if config.PROPORCAO_MUNDO > 1 {
+	if config.PROPORCAO_MUNDO > 1 && cj.MiniMapaEstaVisivel() {
 
 		cj.GetMiniMapa().Desenhar(tela)
 
@@ -59,8 +59,10 @@ func (s *SistemaDesenhar) Desenhar(cj interfaces.ICenaJogo, tela *ebiten.Image) 
 	}
 
 	if jogadoresVivos == 0 {
-
 		informativos.InformativoPerdeu(cj, tela)
+	}
 
+	if cj.Concluiu() {
+		informativos.InformativoGanhou(cj, tela)
 	}
 }

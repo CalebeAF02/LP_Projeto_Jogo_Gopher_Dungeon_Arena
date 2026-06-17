@@ -43,6 +43,10 @@ func (mm *MiniMapa) GetY() float64 {
 	return mm.miniMapa.GetY()
 }
 
+func (mm *MiniMapa) SetPosicao(x float64, y float64) {
+	mm.miniMapa.SetPosicao(x, y)
+}
+
 func (mm *MiniMapa) NovaCameraMiniMapa() {
 	amareloPosX := mm.miniMapa.GetX() - (mm.camera.GetX() / config.PROPORCAO_MAPA)
 	amareloPosY := mm.miniMapa.GetY() - (mm.camera.GetY() / config.PROPORCAO_MAPA)

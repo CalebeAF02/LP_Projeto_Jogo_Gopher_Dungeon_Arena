@@ -120,3 +120,53 @@ func EscreverTextoCentralizado(tela *ebiten.Image, fonte *text.GoTextFace, py fl
 	)
 
 }
+
+func EscreverTextoCentralizadoColorido(tela *ebiten.Image, tamanho float64, py float64, texto string, cor color.Color) {
+	opTexto := &text.DrawOptions{}
+	opTexto.PrimaryAlign = text.AlignCenter
+	opTexto.SecondaryAlign = text.AlignCenter
+	opTexto.GeoM.Translate(config.JANELA_LARGURA/2, py)
+
+	fonte := &text.GoTextFace{
+		Source: Fonte,
+		Size:   tamanho,
+	}
+
+	// A mágica acontece aqui: define a cor do texto
+	opTexto.ColorScale.ScaleWithColor(cor)
+
+	text.Draw(
+		tela,
+		texto,
+		fonte,
+		opTexto,
+	)
+}
+
+func EscreverTextoLocal(tela *ebiten.Image, fonte *text.GoTextFace, px float64, py float64, texto string) {
+
+	opTexto := &text.DrawOptions{}
+	opTexto.GeoM.Translate(px, py)
+
+	text.Draw(
+		tela,
+		texto,
+		fonte,
+		opTexto,
+	)
+
+}
+
+func EscreverNumeroLocal(tela *ebiten.Image, fonte *text.GoTextFace, px float64, py float64, numero int) {
+
+	opTexto := &text.DrawOptions{}
+	opTexto.GeoM.Translate(px, py)
+
+	text.Draw(
+		tela,
+		strconv.Itoa(numero),
+		fonte,
+		opTexto,
+	)
+
+}

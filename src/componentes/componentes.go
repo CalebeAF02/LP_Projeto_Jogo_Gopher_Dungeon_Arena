@@ -19,6 +19,7 @@ const (
 	RECEBENDO_TELETRANSPORTE ComponenteTipo = iota
 	MOVIMENTO                ComponenteTipo = iota
 	ENERGIA                  ComponenteTipo = iota
+	PONTUACAO                ComponenteTipo = iota
 )
 
 const (
@@ -46,6 +47,8 @@ func (t ComponenteTipo) String() string {
 		return "MOVIMENTO"
 	case ENERGIA:
 		return "ENERGIA"
+	case PONTUACAO:
+		return "PONTUACAO"
 	default:
 		return "**DESCONHECIDO**"
 	}
@@ -92,6 +95,12 @@ type Movimento struct {
 type Energia struct {
 	Valor  int
 	Status bool
+}
+
+type Pontuacao struct {
+	Coletado      int
+	Requisito     int
+	EntreiNaSaida bool
 }
 
 func (v *Vida) EstaVivo() bool {

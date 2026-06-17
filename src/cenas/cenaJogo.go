@@ -16,6 +16,7 @@ import (
 	"strconv"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 type CenaJogo struct {
@@ -30,16 +31,22 @@ type CenaJogo struct {
 	sistemaDesenhar    []interfaces.ISistemaDesenhar
 	sistemaColisao     interfaces.ISistemaColisao
 	contadorBotsMortos int
+	coletadoTudo       bool
+	miniMapaExibir     int
+	miniMapaVisivel    bool
+	fonteCache         *assets.FonteCache
+	pontuacaoFaltante  int
+	entrouNaSaida      bool
 }
 
 func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 	mundo := geometria.NovoRetangulo(0, 0, config.MUNDO_LARGURA, config.MUNDO_ALTURA)
 	entidades := make(map[ecs.EntidadeID]ecs.Entidade)
 	camera := ecs.NovaCamera(mundo)
-	miniMapa := ecs.NovoMiniMapa(mundo, geometria.NovoPonto(config.POS_X_MAPA, config.POS_Y_MAPA), camera)
+	miniMapa := ecs.NovoMiniMapa(mundo, geometria.NovoPonto(config.MM2_POS_X_MAPA, config.MM2_POS_Y_MAPA), camera)
 	aleatorio := config.GeradorAleatorio()
 
-	cj := CenaJogo{game: game, mundo: mundo, entidades: entidades, aleatorio: aleatorio, sistemaColisao: &sistema.SistemaColisao{}, contadorBotsMortos: 0}
+	cj := CenaJogo{game: game, mundo: mundo, entidades: entidades, aleatorio: aleatorio, sistemaColisao: &sistema.SistemaColisao{}, contadorBotsMortos: 0, coletadoTudo: false, miniMapaVisivel: true, miniMapaExibir: 1, fonteCache: assets.FonteCacheCriar(), entrouNaSaida: false}
 
 	cj.sistemaColisao.SetCenaJogo(&cj)
 
@@ -60,7 +67,6 @@ func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 	cj.SetCamera(camera)
 
 	sistemaSpaw := sistema.SistemaSpawn{}
-	sistemaSpaw.SpawnJogadores(&cj)
 
 	sistemaSpaw.SpawnarPortais(&cj)
 
@@ -75,6 +81,10 @@ func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 	objeto.NovaComida(&cj, geometria.NovoPonto(500, 650))
 	objeto.NovaComida(&cj, geometria.NovoPonto(600, 700))
 	objeto.NovaComida(&cj, geometria.NovoPonto(800, 950))
+
+	objeto.NovaSaida(&cj, geometria.NovoPonto(300, 500))
+
+	sistemaSpaw.SpawnJogadores(&cj)
 
 	return &cj
 }
@@ -169,6 +179,41 @@ func (cj *CenaJogo) Input() {
 	if ebiten.IsKeyPressed(ebiten.KeyP) {
 		cj.game.Pausar()
 	}
+
+	ctrlPressionado := ebiten.IsKeyPressed(ebiten.KeyControlLeft) || ebiten.IsKeyPressed(ebiten.KeyControlRight)
+
+	if ctrlPressionado && inpututil.IsKeyJustPressed(ebiten.KeyM) {
+		cj.miniMapaExibir += 1
+
+		if cj.miniMapaExibir > 4 {
+			cj.miniMapaExibir = 1
+		}
+
+		if cj.miniMapaExibir == 1 {
+			cj.miniMapa.SetPosicao(config.MM1_POS_X_MAPA, config.MM1_POS_Y_MAPA)
+		}
+		if cj.miniMapaExibir == 2 {
+			cj.miniMapa.SetPosicao(config.MM2_POS_X_MAPA, config.MM2_POS_Y_MAPA)
+		}
+
+		if cj.miniMapaExibir == 3 {
+			cj.miniMapa.SetPosicao(config.MM3_POS_X_MAPA, config.MM3_POS_Y_MAPA)
+		}
+
+		if cj.miniMapaExibir == 4 {
+			cj.miniMapa.SetPosicao(config.MM4_POS_X_MAPA, config.MM4_POS_Y_MAPA)
+		}
+
+	} else if ctrlPressionado && inpututil.IsKeyJustPressed(ebiten.KeyO) {
+		cj.miniMapaVisivel = !cj.miniMapaVisivel
+	}
+
+	if cj.Concluiu() && cj.entrouNaSaida && inpututil.IsKeyJustPressed(ebiten.KeyV) {
+
+		cj.game.ReiniciarMudarTelaMenuIniciar()
+
+	}
+
 }
 
 func (cj *CenaJogo) Update() error {
@@ -243,6 +288,42 @@ func (cj *CenaJogo) GetContadorMortos() string {
 
 func (cj *CenaJogo) ContarEntidadesMortas() {
 	cj.contadorBotsMortos += 1
+}
+
+func (self *CenaJogo) ColetadoTudo(status bool) {
+	self.coletadoTudo = status
+}
+
+func (self *CenaJogo) CapturouTudo() bool {
+	return self.coletadoTudo
+}
+
+func (self *CenaJogo) MiniMapaEstaVisivel() bool {
+	return self.miniMapaVisivel
+}
+
+func (self *CenaJogo) ObterPontuacaoFaltante() int {
+	return self.pontuacaoFaltante
+}
+
+func (self *CenaJogo) SetFaltaPontuacao(pontos int) {
+	self.pontuacaoFaltante = pontos
+}
+
+func (self *CenaJogo) Concluiu() bool {
+	return self.pontuacaoFaltante == 0 && self.entrouNaSaida
+}
+
+func (self *CenaJogo) EntreiNaSaida() {
+	self.entrouNaSaida = true
+}
+
+func (self *CenaJogo) EntrouNaSaida() bool {
+	return self.entrouNaSaida
+}
+
+func (self *CenaJogo) ObterFonteCache() *assets.FonteCache {
+	return self.fonteCache
 }
 
 func (cj *CenaJogo) GetNome() string {

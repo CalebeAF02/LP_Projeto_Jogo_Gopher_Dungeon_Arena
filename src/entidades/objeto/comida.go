@@ -104,7 +104,6 @@ func (c *Comida) Desenhar(tela *ebiten.Image) {
 
 		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2)-20, raioPequeno, cores.AMBAR)
 		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2)+20, raioPequeno, cores.AMBAR)
-
 	}
 
 }

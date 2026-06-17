@@ -38,6 +38,8 @@ func (s *SistemaColisao) EsseTipoColide(tipo string) bool {
 		return true
 	case entidades.COMIDA.String():
 		return true
+	case entidades.SAIDA.String():
+		return true
 	}
 
 	return false
@@ -99,6 +101,14 @@ func (s *SistemaColisao) VaiColidir(origem string, origemEntidade ecs.Entidade, 
 							funcionalidades.TeleTransporta(entidadeColidida, origemEntidade)
 						} else if origem == entidades.PORTAL_ENTRADA.String() && colididoTipo == entidades.BOT.String() {
 							funcionalidades.TeleTransporta(origemEntidade, entidadeColidida)
+						}
+
+					} else if funcionalidades.Simetria(origem, colididoTipo, entidades.JOGADOR.String(), entidades.SAIDA.String()) {
+
+						if origem == entidades.JOGADOR.String() {
+							funcionalidades.ConcluirPartida(origemEntidade)
+						} else if colididoTipo == entidades.JOGADOR.String() {
+							funcionalidades.ConcluirPartida(entidadeColidida)
 						}
 
 					}

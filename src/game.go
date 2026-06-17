@@ -61,6 +61,14 @@ func (g *Game) IniciarJogo() {
 	g.CenaCorrente = g.CenaJogo
 }
 
+func (g *Game) ReiniciarMudarTelaMenuIniciar() {
+	cenaCorrente := cenas.CenaMenuIniciar{}
+	cenaCorrente.SetFonteCache(*assets.FonteCacheCriar())
+	cenaCorrente.SetGame(g)
+	g.CenaJogo = cenas.NovoCenaJogo(g)
+	g.SetCena(&cenaCorrente)
+}
+
 func (g *Game) MudarTelaMenuIniciar() {
 	cenaCorrente := cenas.CenaMenuIniciar{}
 	cenaCorrente.SetFonteCache(*assets.FonteCacheCriar())

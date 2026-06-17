@@ -1,10 +1,10 @@
 package sistema
 
 import (
+	"Gopher_Dungeon_Arena/src/componentes/movimentacao"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
 	"Gopher_Dungeon_Arena/src/entidades/objeto"
 	"Gopher_Dungeon_Arena/src/entidades/outros"
-	"Gopher_Dungeon_Arena/src/componentes/movimentacao"
 
 	"Gopher_Dungeon_Arena/src/entidades/personagens"
 	"Gopher_Dungeon_Arena/src/enum/cores"
@@ -48,6 +48,8 @@ func (s *SistemaSpawn) SpawnJogadores(cj interfaces.ICenaJogo) {
 
 	// Gerenciando
 	t1.Adicionnar(j1)
+
+	j1.CarregarPontuacao()
 
 }
 

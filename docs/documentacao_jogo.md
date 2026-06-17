@@ -1,103 +1,988 @@
-# Revisão Geral do Jogo Gopher Dungeon Arena
+# Documentação Completa - Gopher Dungeon Arena
 
-Este documento descreve a arquitetura, organização, funcionalidades e arquivos do projeto `Gopher_Dungeon_Arena`.
+## 📋 Índice
+1. [Visão Geral](#1-visão-geral)
+2. [Objetivos do Projeto](#2-objetivos-do-projeto)
+3. [Arquitetura do Sistema](#3-arquitetura-do-sistema)
+4. [Estrutura de Pastas](#4-estrutura-de-pastas)
+5. [Sistema de Jogo (Game Loop)](#5-sistema-de-jogo-game-loop)
+6. [Sistema de Cenas](#6-sistema-de-cenas)
+7. [ECS (Entity Component System)](#7-ecs-entity-component-system)
+8. [Entidades do Jogo](#8-entidades-do-jogo)
+9. [Componentes](#9-componentes)
+10. [Sistemas de Atualização](#10-sistemas-de-atualização)
+11. [Movimentadores e IA](#11-movimentadores-e-ia)
+12. [Mecânicas de Jogo](#12-mecânicas-de-jogo)
+13. [Fluxo de Jogo](#13-fluxo-de-jogo)
+14. [Configuração e Constantes](#14-configuração-e-constantes)
+15. [Como Compilar e Executar](#15-como-compilar-e-executar)
 
-## 1. Visão geral do projeto
+---
 
-O jogo é construído com Go e usa a biblioteca `ebiten` para renderização 2D. A estrutura principal é centrada em um sistema de cenas (`cenas`) e um pequeno ECS (entidade-componentes). O arquivo `main.go` inicia o jogo, cria a janela e executa o loop principal através de `ebiten.RunGame`.
+## 1. Visão Geral
 
-## 2. Organização de pastas
+**Gopher Dungeon Arena** é um jogo 2D de arena construído em **Go** utilizando a biblioteca **Ebiten** para renderização gráfica. O projeto é um trabalho acadêmico da UnB (Universidade de Brasília) para a disciplina de **Linguagens de Programação** (8º semestre).
 
-- `main.go`: ponto de entrada do jogo.
-- `go.mod`, `go.sum`: dependências e módulo Go.
-- `src/`: código-fonte principal.
-  - `assets/`: fontes e recursos de desenho.
-  - `cenas/`: cenas do jogo (menu inicial, palco do jogo, pause).
-  - `config/`: constantes de configuração e utilitários aleatórios.
-  - `ecs/`: abstrações de entidade e sistemas de câmera/mini mapa.
-  - `entidades/`: implementação das entidades do jogo.
-  - `enum/`: tipos enumerados de entidades, componentes e cores.
-  - `interfaces/`: contratos para cenas, jogo, sistemas e movimentação.
-  - `sistema/`: lógica de atualização e desenho do jogo.
-  - `utils/`: constantes, desenho e utilitários de tamanho.
+### Características principais:
+- **Motor de jogo baseado em ECS**: Entidades, componentes e sistemas para gerenciamento eficiente de objetos
+- **Sistema de câmera dinâmica**: Câmera que segue o jogador
+- **Mini mapa**: Visualização de mundo em tempo real
+- **Múltiplas cenas**: Menu inicial, jogo, pausa, progresso, vitória e derrota
+- **Inimigos com IA**: 9 tipos diferentes de movimentadores para bots
+- **Sistema de combate**: Jogador pode atacar e ser atacado por bots
+- **Colisão e física**: Sistema de detecção e resposta de colisões
+- **Spawn dinâmico**: Bots aparecem aleatoriamente durante o jogo
 
-## 3. Fluxo principal
+---
 
-1. `main.go` chama `src.NovoGame()`.
-2. `src/game.go` cria a cena inicial `CenaMenuIniciar` e a cena de jogo `CenaJogo`.
-3. A cena corrente é atualizada e desenhada no loop de `ebiten`.
-4. Quando o jogador pressiona `ENTER`, o fluxo troca para `CenaJogo`.
-5. Durante o jogo, o jogador pode pausar com `P` e voltar com `SPACE` no menu de pause.
+## 2. Objetivos do Projeto
 
-## 4. Arquivos principais e funcionalidades
+O projeto visa demonstrar:
+- **Uso de Go para desenvolvimento de jogos**: Explorar potenciais de Go em projetos interativos
+- **Concorrência**: Gerenciamento eficiente de múltiplas entidades
+- **Tipagem segura**: Sistema de tipos forte e bem organizado
+- **Arquitetura escalável**: Padrão ECS para facilitar expansão e manutenção
+- **Performance**: Renderização suave mesmo com múltiplas entidades
 
-### `main.go`
-- Define a janela do jogo com `ebiten.SetWindowSize` e `SetWindowTitle`.
-- Executa `ebiten.RunGame(game)`.
-- Usa constantes de `config` para largura, altura e nome.
+---
 
-### `src/game.go`
-- Representa o jogo com as cenas `CenaCorrente` e `CenaJogo`.
-- Contém o método `Update()` que delega para a cena corrente.
-- Contém o método `Draw()` que desenha a cena corrente.
-- Métodos de transição:
-  - `IniciarJogo()` troca para a cena de jogo.
-  - `Pausar()` cria e define a cena de pausa.
-  - `Voltar()` retorna à cena de jogo.
-  - `Sair()` encerra o processo.
+## 3. Arquitetura do Sistema
+
+### Estrutura em Camadas:
+
+```
+┌─────────────────────────────────┐
+│     Ebiten (Rendering)          │
+└─────────────────────────────────┘
+         ↑          ↓
+┌─────────────────────────────────┐
+│   Game Loop (Update / Draw)      │
+└─────────────────────────────────┘
+         ↑          ↓
+┌─────────────────────────────────┐
+│    Cenas (Scene Management)      │
+└─────────────────────────────────┘
+         ↑          ↓
+┌─────────────────────────────────┐
+│  Sistemas (Update + Rendering)   │
+├─────────────────────────────────┤
+│ • SistemaInput                   │
+│ • SistemaIA                      │
+│ • SistemaSpawn                   │
+│ • SistemaMovimento               │
+│ • SistemaEntidades               │
+│ • SistemaColisao                 │
+│ • SistemaDesenho                 │
+│ • SistemaDebug                   │
+└─────────────────────────────────┘
+         ↑          ↓
+┌─────────────────────────────────┐
+│    ECS (Entities + Components)   │
+└─────────────────────────────────┘
+```
+
+---
+
+## 4. Estrutura de Pastas
+
+```
+LP_Projeto_Jogo_Gopher_Dungeon_Arena/
+├── main.go                          # Ponto de entrada
+├── go.mod                           # Definição do módulo Go
+├── build.ps1                        # Script de build para Windows
+├── README.md                        # Instruções gerais
+├── SUMARIO.md                       # Sumário do projeto
+├── instrucoes.text                  # Instruções do jogo
+├── ico.syso                         # Ícone do jogo
+├── docs/
+│   └── documentacao_jogo.md         # Esta documentação
+├── src/
+│   ├── game.go                      # Classe principal do jogo
+│   ├── assets/                      # Recursos (fontes, imagens)
+│   │   ├── assets.go
+│   │   ├── fonte.go
+│   │   ├── fontes/                  # Fontes TTF
+│   │   └── imagens/
+│   ├── cenas/                       # Gerenciamento de cenas
+│   │   ├── cenaMenuIniciar.go       # Menu inicial
+│   │   ├── cenaMenuPause.go         # Menu de pausa
+│   │   ├── cenaJogo.go              # Cena principal
+│   │   ├── cenaProgresso.go         # Tela de progresso
+│   │   └── informativos/
+│   │       ├── ganhou.go            # Tela de vitória
+│   │       └── perdeu.go            # Tela de derrota
+│   ├── componentes/                 # Definição de componentes
+│   │   ├── componentes.go           # Enum de componentes
+│   │   └── movimentacao/            # Tipos de movimentadores
+│   │       ├── movimentadorSimples.go
+│   │       ├── movimentadorVertical.go
+│   │       ├── movimentadorHorizontal.go
+│   │       ├── movimentadorDiagonal.go
+│   │       ├── movimentadorLogicoLinha.go
+│   │       ├── movimentadorLogicoDiagonal.go
+│   │       ├── movimentadorLogicoDuplo.go
+│   │       └── [outros movimentadores]
+│   ├── config/                      # Configurações globais
+│   │   └── configuracoes.go
+│   ├── ecs/                         # Engine ECS
+│   │   ├── ecs.go                   # Interface Entidade
+│   │   ├── camera.go                # Sistema de câmera
+│   │   ├── miniMapa.go              # Mini mapa
+│   │   ├── barJogador.go            # Barra de vida do jogador
+│   │   └── respostaColisao.go
+│   ├── entidades/                   # Implementações de entidades
+│   │   ├── personagens/
+│   │   │   ├── jogador.go           # Classe Jogador
+│   │   │   └── bot.go               # Classe Bot
+│   │   ├── objeto/
+│   │   │   ├── comida.go            # Item de comida
+│   │   │   ├── parede.go            # Obstáculos
+│   │   │   ├── portalEntrada.go     # Portal de entrada
+│   │   │   ├── portalSaida.go       # Portal de saída
+│   │   │   ├── saida.go             # Zona de saída
+│   │   │   └── [sprites portais]
+│   │   ├── funcionalidades/         # Lógica compartilhada
+│   │   │   ├── combate.go           # Sistema de combate
+│   │   │   ├── comer.go             # Comer alimento
+│   │   │   ├── teletransporte.go    # Mecânica de teletransporte
+│   │   │   └── concluirPartida.go   # Conclusão de partida
+│   │   ├── geometria/               # Primitivas geométricas
+│   │   │   ├── ponto.go
+│   │   │   └── retangulo.go
+│   │   └── outros/
+│   │       └── time.go              # Classe Time (equipes)
+│   ├── enum/                        # Enumerações
+│   │   ├── cores/
+│   │   │   └── cores.go
+│   │   └── entidades/
+│   │       └── entidade_tipo.go
+│   ├── interfaces/                  # Contratos (interfaces)
+│   │   ├── i_cena.go
+│   │   ├── i_cenajogo.go
+│   │   ├── i_game.go
+│   │   ├── i_movimentador.go
+│   │   ├── i_sistema_atualizar.go
+│   │   ├── i_sistema_colisao.go
+│   │   ├── i_sistema_desenhar.go
+│   │   └── i_sistema_ia.go
+│   ├── sistema/                     # Sistemas ECS
+│   │   ├── sistema_de_colisao.go
+│   │   ├── sistema_de_debug.go
+│   │   ├── sistema_de_desenho.go
+│   │   ├── sistema_de_entidades.go
+│   │   ├── sistema_de_ia.go
+│   │   ├── sistema_de_input.go
+│   │   ├── sistema_de_movimento.go
+│   │   └── sistema_de_spawn.go
+│   └── utils/                       # Utilitários
+│       ├── constantes.go
+│       ├── desenho.go
+│       └── sprits/
+│           └── portais.go
+└── tmp/                             # Arquivos temporários de build
+```
+
+---
+
+## 5. Sistema de Jogo (Game Loop)
+
+### `main.go` - Ponto de Entrada
+
+```go
+func main() {
+    game := src.NovoGame()
+    ebiten.SetWindowSize(config.JANELA_LARGURA, config.JANELA_ALTURA)
+    ebiten.SetWindowTitle(config.NOME_JOGO)
+    ebiten.MaximizeWindow()
+    imagens.AplicarIconeJanela()
+    
+    if err := ebiten.RunGame(game); err != nil {
+        log.Fatal(err)
+    }
+}
+```
+
+**Responsabilidades:**
+- Inicializa o jogo
+- Define dimensões da janela (1280x720)
+- Define o título ("Gopher_Dungeon_Arena")
+- Maximiza a janela
+- Aplica ícone customizado
+- Inicia o loop de jogo do Ebiten
+
+### `src/game.go` - Classe Principal
+
+```go
+type Game struct {
+    CenaCorrente interfaces.ICena      // Cena atual renderizada
+    CenaJogo     interfaces.ICenaJogo  // Referência à cena de jogo
+}
+
+// Métodos principais:
+func (g *Game) Update() error       // Atualiza lógica de jogo
+func (g *Game) Draw(tela *ebiten.Image)  // Renderiza na tela
+func (g *Game) Layout(l, a int) (int, int)  // Define layout
+
+// Métodos de transição:
+func (g *Game) IniciarJogo()                // Menu → Jogo
+func (g *Game) Pausar()                     // Jogo → Pausa
+func (g *Game) Voltar()                     // Pausa → Jogo
+func (g *Game) MudarTelaMenuIniciar()       // Qualquer → Menu
+func (g *Game) MudarTelaProgresso()         // Qualquer → Progresso
+func (g *Game) ReiniciarMudarTelaMenuIniciar()  // Reset completo
+func (g *Game) Sair()                       // Encerra jogo
+```
+
+**Fluxo do Game Loop:**
+
+1. **Inicialização**: `NovoGame()` cria as cenas iniciais
+2. **Loop Ebiten** (60 FPS por padrão):
+   - Chama `Update()` → `CenaCorrente.Update()`
+   - Chama `Draw(screen)` → `CenaCorrente.Draw(screen)`
+3. **Transições**: Métodos como `IniciarJogo()` trocam `CenaCorrente`
+
+---
+
+## 6. Sistema de Cenas
+
+As cenas implementam a interface `ICena` e controlam o fluxo de tela.
+
+### Cenas Disponíveis:
+
+#### `CenaMenuIniciar`
+- **Entrada**: Logo e texto do menu
+- **Controles**:
+  - `ENTER` → Inicia jogo
+  - `ESC` → Sai do jogo
+- **Transição**: Para `CenaJogo`
+- **Renderização**: Usa `assets.FonteCache` para texto
+
+#### `CenaJogo`
+- **Cena principal** do jogo
+- **Elementos**:
+  - Mundo de 2560x1440 pixels (2x da janela)
+  - Câmera dinâmica seguindo o jogador
+  - Mini mapa
+  - Entidades: Jogador, bots, paredes, portais, comida
+- **Controles**:
+  - Setas ou WASD → Movimento
+  - `P` → Pausa
+  - `B` → Spawn bots (debug)
+- **Update**:
+  - `SistemaInput`: Processa entrada
+  - `SistemaIA`: IA dos bots
+  - `SistemaSpawn`: Spawn de novos bots
+  - `SistemaMovimento`: Atualiza posições
+  - `SistemaEntidades`: Atualiza entidades
+  - `SistemaDebug`: Debug
+  - Sistema de colisão integrado
+  - Remove entidades mortas
+- **Transição**: Para `CenaMenuPause` (pausar) ou `InformativoGanhou`/`InformativoPerdeu`
+
+#### `CenaMenuPause`
+- **Entrada**: Quando `P` é pressionado
+- **Controles**:
+  - `SPACE` → Volta ao jogo
+  - `ESC` → Sai do jogo
+- **Renderização**: Instrções de controle na tela
+
+#### `CenaProgresso`
+- Tela de progresso/estatísticas
+
+#### `InformativoGanhou` / `InformativoPerdeu`
+- Telas de conclusão de partida
+- Exibe resultado final
+
+---
+
+## 7. ECS (Entity Component System)
+
+### Conceito
+
+O ECS é um padrão arquitetural que separa dados (componentes) da lógica (sistemas):
+
+- **Entidade**: Container de componentes, identificada por `EntidadeID`
+- **Componente**: Dados puros (sem comportamento)
+- **Sistema**: Lógica que opera sobre entidades com certas componentes
+
+### Interface Entidade
+
+```go
+type Entidade interface {
+    GetID() EntidadeID                              // ID único
+    GetTipo() string                                // Tipo (BOT, JOGADOR, etc)
+    GetComponente(id string) interface{}            // Obter componente
+    ExisteComponente(id string) bool               // Verificar existência
+    Atualizar()                                     // Update da entidade
+    Desenhar(screen *ebiten.Image)                 // Renderizar
+    DesenharMapa(screen *ebiten.Image, 
+                 mapaX, mapaY float64)              // Renderizar no mini mapa
+}
+```
+
+### Gerenciamento de Entidades
+
+```go
+// Em CenaJogo:
+entidades map[ecs.EntidadeID]ecs.Entidade
+
+// Métodos:
+func (cj *CenaJogo) CriarEntidade() ecs.EntidadeID  // Cria novo ID
+func (cj *CenaJogo) SetEntidade(id EntidadeID, e Entidade)  // Adiciona
+func (cj *CenaJogo) RemoverEntidade(id EntidadeID)  // Remove
+func (cj *CenaJogo) GetEntidades() map[EntidadeID]Entidade  // Lista todas
+```
+
+---
+
+## 8. Entidades do Jogo
+
+### 8.1 Jogador
+
+```go
+type Jogador struct {
+    entidadeID ecs.EntidadeID
+    nome       string
+    cor        color.Color
+    Componentes map[string]interface{}
+}
+```
+
+**Componentes:**
+- `CORPO`: Retângulo (posição e tamanho)
+- `VIDA`: Vida (3 HP), sangue (100), status
+- `NIVEL`: Nível (começa em 1)
+- `PONTUACAO`: Coletas necessárias, itens coletados
+
+**Métodos:**
+- `GetID()`, `GetTipo()` → "JOGADOR"
+- `ObterVida()`, `ObterCorpo()`, `ObterNivel()`
+- `EstaVivo()`, `CorrigeSangue()`, `Renasce()`
+- `SetPosicao(x, y)`, `SetNivel(n)`
+- `Atualizar()`, `Desenhar()`
+
+**Tamanho**: 10x10 pixels (mundo), redimensionado para tela
+
+### 8.2 Bot (Inimigo)
+
+```go
+type Bot struct {
+    entidadeID ecs.EntidadeID
+    Id         int64
+    Componentes map[string]interface{}
+}
+```
+
+**Componentes:**
+- `CORPO`: Retângulo
+- `VIDA`: 1 HP, sangue (100), status
+- `NIVEL`: Nível aleatório
+- `MOVIMENTO`: Tipo de movimentação
+- `ATIVIDADE`: Ação atual
+- `SUB_TIPO`: Identificação do tipo
+
+**Características:**
+- Spawn aleatório a cada 30 segundos
+- 9 tipos diferentes de movimento
+- Podem ser destruídos em combate
+- Dropam pontuação ao morrer
+
+### 8.3 Comida
+
+```go
+type Comida struct {
+    entidadeID ecs.EntidadeID
+    estrutura  *geometria.Retangulo
+    Componentes map[string]interface{}
+    ciclos     int
+}
+```
+
+**Componentes:**
+- `CORPO`: Retângulo
+- `ENERGIA`: Valor (100), status
+
+**Funcionalidade:**
+- Item coletável pelo jogador
+- Aumenta pontuação do jogador
+- Animação de ciclo visual
+
+### 8.4 Parede
+
+```go
+type Parede struct {
+    entidadeID ecs.EntidadeID
+    corpo      *geometria.Retangulo
+}
+```
+
+**Funcionalidade:**
+- Obstáculo para colisão
+- Forma labirinto no mapa
+- Colidem com jogador e bots
+
+### 8.5 Portais
+
+#### Portal Entrada (`PortalEntrada`)
+```go
+type PortalEntrada struct {
+    entidadeID ecs.EntidadeID
+    corpo      *geometria.Retangulo
+    anguloRotacao float64
+}
+```
+
+**Componentes:**
+- `CORPO`: Retângulo
+- `ENVIANDO_TELETRANSPORTE`: Dados de teletransporte
+
+**Funcionalidade:**
+- Quando entidade entra, inicia teleporte
+- Efeito visual: rotação animada
+- Teletransporta para Portal Saída
+
+#### Portal Saída (`PortalSaida`)
+```go
+type PortalSaida struct {
+    entidadeID ecs.EntidadeID
+    corpo      *geometria.Retangulo
+    offsetBarras float64
+}
+```
+
+**Componentes:**
+- `CORPO`: Retângulo
+- `RECEBENDO_TELETRANSPORTE`: Dados de recepção
+
+**Funcionalidade:**
+- Recebe entidades teleportadas
+- Efeito visual: barras animadas
+- Restaura entidade em nova posição
+
+### 8.6 Time (Equipe)
+
+```go
+type Time struct {
+    entidadeID ecs.EntidadeID
+    nome       string
+    cor        color.Color
+    Membros    []ecs.Entidade
+}
+```
+
+**Funcionalidade:**
+- Agrupa entidades (jogador + possíveis aliados)
+- Pode ser expandido para multiplayer
+
+---
+
+## 9. Componentes
+
+### Enum de Componentes
+
+```go
+const (
+    CORPO                    // Posição e tamanho
+    SUB_TIPO                 // Subtipo identificador
+    VIDA                     // Health/sangue
+    NIVEL                    // Level e progressão
+    ENVIANDO_TELETRANSPORTE  // Portal de entrada
+    ATIVIDADE                // Ação atual
+    RECEBENDO_TELETRANSPORTE // Portal de saída
+    MOVIMENTO                // Tipo de movimento
+    ENERGIA                  // Energia/comida
+    PONTUACAO                // Pontos coletados
+)
+```
+
+### Estruturas de Dados
+
+#### `Vida`
+```go
+type Vida struct {
+    TipoOrganismo string  // "JOGADOR", "BOT"
+    Quantidade    int     // Vidas restantes
+    Status        bool    // Vivo?
+    Sangue        int     // HP (0-100)
+}
+
+func (v *Vida) EstaVivo() bool
+func (v *Vida) PerdeSangue(quantidade, nivel int)
+func (v *Vida) CorrigeSangue(nivel int)
+```
+
+#### `Nivel`
+```go
+type Nivel struct {
+    Valor      int  // Level atual
+    Progressao int  // Progresso para próximo nível
+}
+```
+
+#### `Pontuacao`
+```go
+type Pontuacao struct {
+    Coletado       int   // Itens coletados
+    Requisito      int   // Necessário para vencer
+    EntreiNaSaida  bool  // Entrou no portal de saída?
+}
+```
+
+#### `Movimento`
+```go
+type Movimento struct {
+    Tipo interfaces.Movimentador  // Tipo de movimento
+    Cor  color.Color              // Cor para renderização
+}
+```
+
+#### `Atividade`
+```go
+type Atividade struct {
+    Acao int  // AIVIDADE_MOVIMENTO ou AIVIDADE_TELETRANSPORTE
+}
+```
+
+---
+
+## 10. Sistemas de Atualização
+
+Os sistemas implementam `ISistemaAtualizar` e processam lógica a cada frame.
+
+### 10.1 SistemaInput
+
+```go
+type SistemaInput struct{}
+func (s *SistemaInput) Atualizar(cj interfaces.ICenaJogo)
+```
+
+**Funcionalidade:**
+- Processa entrada do teclado
+- Controla movimento do jogador
+- Ativa debug (pressionando teclas específicas)
+
+### 10.2 SistemaIA
+
+```go
+type SistemaIA struct{}
+func (s *SistemaIA) Atualizar(cj interfaces.ICenaJogo)
+```
+
+**Funcionalidade:**
+- [Atualmente vazio - pode ser expandido para IA avançada]
+
+### 10.3 SistemaSpawn
+
+```go
+type SistemaSpawn struct {
+    framesGereacao int
+}
+func (s *SistemaSpawn) Atualizar(cj interfaces.ICenaJogo)
+```
+
+**Funcionalidade:**
+- Spawn inicial: 9 tipos de bots (um de cada)
+- Spawn periódico: A cada 30 segundos (~1860 frames)
+- Spawn aleatório quando `B` pressionado (debug)
+- Garante posições válidas sem colisão
+
+**Métodos:**
+- `SpawnJogadores()`: Cria jogador
+- `SpawnBotDeCadaTipo()`: Cria 9 bots (um movimentador cada)
+- `SpawnarBotAleatorio()`: Spawn dinâmico
+- `SpawnParedesAoRedor()`: Cria bordas do mapa
+- `SpawnLabirinto()`: Cria obstáculos internos
+- `SpawnarPortais()`: Cria 2 portais de teletransporte
+
+### 10.4 SistemaMovimento
+
+```go
+type SistemaMovimento struct{}
+func (s *SistemaMovimento) Atualizar(cj interfaces.ICenaJogo)
+```
+
+**Funcionalidade:**
+- Chama `Atualizar()` de todas as entidades
+- Permite que movimentadores façam seu trabalho
+
+### 10.5 SistemaEntidades
+
+```go
+type SistemaEntidades struct{}
+func (s *SistemaEntidades) Atualizar(cj interfaces.ICenaJogo)
+```
+
+**Funcionalidade:**
+- Atualização genérica de entidades
+- Gerenciamento de ciclo de vida
+
+### 10.6 SistemaDebug
+
+```go
+type SistemaDebug struct{}
+func (s *SistemaDebug) Atualizar(cj interfaces.ICenaJogo)
+```
+
+**Funcionalidade:**
+- Imprime informações de debug no console
+- Pode ser expandido para visualizações
+
+### 10.7 SistemaDesenho
+
+```go
+type SistemaDesenhar struct{}
+func (s *SistemaDesenhar) Desenhar(cj interfaces.ICenaJogo, tela *ebiten.Image)
+```
+
+**Funcionalidade:**
+- Limpa tela com cor branca
+- Desenha borda do mundo
+- Renderiza todas as entidades
+- Renderiza mini mapa
+- Verifica condições de vitória/derrota
+
+---
+
+## 11. Movimentadores e IA
+
+### Interface Movimentador
+
+```go
+type Movimentador interface {
+    Mover(entidade ecs.Entidade,
+          sistemaColisao ISistemaColisao,
+          mundo *geometria.Retangulo,
+          bot HabilidadeMovimentacao,
+          r *rand.Rand)
+    GetTipo() string
+    GetCor() color.Color
+}
+```
+
+### 9 Tipos de Movimentadores
+
+#### 1. **MovimentadorSimples**
+- Movimento aleatório em direções (cima, baixo, esquerda, direita)
+- Muda de direção quando atinge obstáculo ou aleatoriamente
+
+#### 2. **MovimentadorVertical**
+- Movimento alternado entre cima e baixo
+- Mantém X fixo, varia Y
+
+#### 3. **MovimentadorVerticalConstante**
+- Movimento contínuo apenas vertical
+- Não muda de direção
+
+#### 4. **MovimentadorHorizontal**
+- Movimento alternado entre esquerda e direita
+- Mantém Y fixo, varia X
+
+#### 5. **MovimentadorHorizontalConstante**
+- Movimento contínuo apenas horizontal
+- Não muda de direção
+
+#### 6. **MovimentadorDiagonal**
+- Movimento em ângulos de 45°
+- Combina movimento X e Y
+
+#### 7. **MovimentadorLogicoLinha**
+- Tenta mover em linhas retas
+- Inclui mudanças direcionais
+
+#### 8. **MovimentadorLogicoDiagonal**
+- Movimento lógico diagonal
+- Segue padrões matemáticos
+
+#### 9. **MovimentadorLogicoDuplo**
+- Movimento duplo (2 direções simultâneas)
+- Mais rápido e complexo
+
+### Características Comuns
+
+Todos usam:
+- **Colisão**: Verificam `SistemaColisao.VaiColidir()`
+- **Aleatoriedade**: Usam `rand.Rand` para variabilidade
+- **Limite de mundo**: Respeitam bordas do mapa
+- **Cor identificadora**: Cada tipo tem cor diferente
+
+---
+
+## 12. Mecânicas de Jogo
+
+### 12.1 Sistema de Combate
+
+```go
+func CombateJogadorBot(jogador ecs.Entidade, bot ecs.Entidade)
+func ReduzSangue(entidade ecs.Entidade, rit int)
+```
+
+**Mecânica:**
+- Quando jogador e bot colidem:
+  - Jogador perde: `COMBATE_BOT_RIT` sangue
+  - Bot perde: `COMBATE_JOGADOR_RIT` sangue
+- Sangue reduz com base no nível da entidade
+- Quando sangue ≤ 0, entidade morre (Status = false)
+
+**Valores (em utils/constantes.go):**
+- `COMBATE_BOT_RIT`: Dano por combate do bot
+- `COMBATE_JOGADOR_RIT`: Dano por combate do jogador
+
+### 12.2 Sistema de Colisão
+
+```go
+type SistemaColisao struct {
+    cenaJogo interfaces.ICenaJogo
+}
+
+func (s *SistemaColisao) VaiColidir(origem string, 
+                                      origemEntidade ecs.Entidade,
+                                      meuCorpoAtual *geometria.Retangulo,
+                                      proximoCorpo *geometria.Retangulo) 
+    *ecs.RespostaColisao
+```
+
+**Tipos que colidem:**
+- PAREDE
+- JOGADOR
+- BOT
+- PORTAL_ENTRADA
+- PORTAL_SAIDA
+- COMIDA
+- SAIDA
+
+**Resposta de colisão:**
+- Impede movimento se houver colisão
+- Retorna informação sobre tipo de colisão
+- Previne auto-colisão verificando posição exata
+
+### 12.3 Sistema de Coleta
+
+```go
+func Comer(entidade ecs.Entidade)
+```
+
+**Mecânica:**
+- Quando jogador colide com COMIDA:
+  - Incrementa contador de `Pontuacao`
+  - Remove item do mapa
+  - Se atingiu requisito, pode entrar no portal de saída
+
+### 12.4 Sistema de Teletransporte
+
+```go
+type EnviandoTeletransporte struct {
+    TemBot         bool
+    Bot            ecs.Entidade
+    Contagem       int
+    ConectadoSaida ecs.Entidade
+}
+
+type RecebendoTeletransporte struct {
+    TemBot   bool
+    Bot      ecs.Entidade
+    Contagem int
+}
+```
+
+**Mecânica:**
+1. Entidade entra em Portal Entrada
+2. Componente `ENVIANDO_TELETRANSPORTE` ativa
+3. Efeito visual: rotação por alguns frames
+4. Entidade aparece em Portal Saída
+5. Componente `RECEBENDO_TELETRANSPORTE` desativa após animação
+
+### 12.5 Vitória e Derrota
+
+**Vitória:**
+- Coletar todos os itens de comida (requisito = 3)
+- Entrar no portal de saída
+- Tela `InformativoGanhou` exibida
+
+**Derrota:**
+- Todos os jogadores morrem (Health = 0)
+- Tela `InformativoPerdeu` exibida
+
+---
+
+## 13. Fluxo de Jogo
+
+### Inicialização
+
+```
+main.go
+  ↓
+NovoGame()
+  ├─ CenaMenuIniciar (Cena atual)
+  └─ CenaJogo (Criada mas não ativa)
+       ├─ NovoCenaJogo()
+       │   ├─ Criar mundo (2560x1440)
+       │   ├─ Criar câmera
+       │   ├─ Criar mini mapa
+       │   ├─ Instanciar 8 sistemas
+       │   ├─ SpawnarPortais()
+       │   ├─ SpawnParedesAoRedor()
+       │   ├─ SpawnLabirinto()
+       │   ├─ SpawnBotDeCadaTipo()
+       │   └─ Spawn 2 comidas
+```
+
+### Game Loop (60 FPS)
+
+```
+Cada Frame (16.67ms):
+  1. Game.Update()
+     └─ CenaCorrente.Update()
+
+  2. Game.Draw(screen)
+     └─ CenaCorrente.Draw(screen)
+```
+
+### Enquanto em CenaJogo
+
+```
+CenaJogo.Update():
+  1. SistemaInput.Atualizar()      → Entrada do usuário
+  2. SistemaIA.Atualizar()          → [Vazio]
+  3. SistemaSpawn.Atualizar()       → Novo bots a cada 30s
+  4. SistemaMovimento.Atualizar()   → Move entidades
+  5. SistemaEntidades.Atualizar()   → Update geral
+  6. SistemaDebug.Atualizar()       → Debug
+  7. SistemaColisao.Atualizar()     → Colisões
+  8. RemoveEntidadesMortas()        → Limpeza
+
+CenaJogo.Draw(screen):
+  1. SistemaDesenho.Desenhar()
+     ├─ Preencher tela (branco)
+     ├─ Desenhar borda mundo
+     ├─ Desenhar todas entidades
+     ├─ Desenhar mini mapa
+     └─ Verificar vitória/derrota
+```
+
+### Transições de Cena
+
+```
+Menu → ENTER → Jogo → P → Pausa → SPACE → Jogo
+                  ↓                    ↓
+                VITÓRIA            ESC → Menu
+                DERROTA
+```
+
+---
+
+## 14. Configuração e Constantes
 
 ### `src/config/configuracoes.go`
-- Define constantes de janela, mundo e mini mapa.
-- Fornece geradores aleatórios com `GeradorAleatorio()`.
-- `XAleatorio` e `YAleatorio` usam a largura/altura da tela.
 
-### `src/interfaces/`
-- `i_game.go`: define a interface do jogo, com transições de cena.
-- `i_cena.go`: interface básica de cena com `Update`, `Draw` e `GetNome`.
-- `i_cenajogo.go`: interface de cena de jogo, expõe entidades, câmera, mini mapa, colisões e métodos de criação.
-- `i_sistema_atualizar.go`: contrato para sistemas que atualizam lógica.
-- `i_sistema_desenhar.go`: contrato para sistemas de desenho.
-- `i_sistema_colisao.go`: contrato para sistema de colisão.
-- `i_movimentador.go`: contrato para comportamentos de movimento (ANALISAR EM ARQUIVO separado, não lido ainda). 
+```go
+// Dimensões da janela
+const JANELA_LARGURA = 1280
+const JANELA_ALTURA = 720
 
-## 5. Cenas do jogo
+// Proporções do mundo (deve ser par)
+const PROPORCAO_MUNDO = 2  // 2x = 2560x1440
 
-### `src/cenas/cenaMenuIniciar.go`
-- Cena inicial com menu de título.
-- Detecta `ENTER` para iniciar jogo e `ESC` para sair.
-- Desenha texto na tela com `ebiten/text/v2`.
-- Usa `assets.Fonte` para renderizar as fontes.
+// Dimensões do mini mapa
+const PROPORCAO_MAPA = 8  // Proporcao_mundo * 4
 
-### `src/cenas/cenaMenuPause.go`
-- Cena de pausa simples.
-- Detecta `SPACE` para voltar ao jogo e `ESC` para sair.
-- Exibe instruções de controle na tela.
+// Posições do mini mapa (4 cantos opcionais)
+const MM1_POS_X_MAPA = 50
+const MM1_POS_Y_MAPA = MAPA_ALTURA / 3
 
-### `src/cenas/cenaJogo.go`
-- Cena principal do jogo.
-- Cria o mundo, câmera, mini mapa e sistema de colisão.
-- Instancia sistemas de atualização e desenho.
-- Executa spawn de jogadores, portais, paredes e bots.
-- `Update()` chama `Input`, `OrganizarCamera`, todos os sistemas e depois remove entidades mortas.
-- `Draw()` passa para os sistemas de desenho.
-- `OrganizaPosicaoAleatoriaBot()` busca uma posição livre para bots.
-- Tem contagem de bots mortos e método `ContarEntidadesMortas()`.
+const MM2_POS_X_MAPA = JANELA_LARGURA - (MAPA_LARGURA + MAPA_ALTURA/4)
+const MM2_POS_Y_MAPA = MAPA_ALTURA / 3
 
-## 6. ECS e entidades
+// Nome do jogo
+const NOME_JOGO = "Gopher_Dungeon_Arena"
 
-### `src/ecs/ecs.go`
-- Define `EntidadeID` como `int`.
-- Define interface `Entidade` com:
-  - `GetID()`
-  - `GetTipo()`
-  - `GetComponente(id string)`
-  - `ExisteComponente(id string)`
-  - `Atualizar()`
-  - `Desenhar(screen *ebiten.Image)`
-  - `DesenharMapa(screen *ebiten.Image, mapaX float64, mapaY float64)`
+// Funções auxiliares
+func GeradorAleatorio() *rand.Rand
+func XAleatorio(r *rand.Rand) float64
+func YAleatorio(r *rand.Rand) float64
+```
 
-### `src/enum/entidades/entidade_tipo.go`
-- Enumeração de tipos: `BOT`, `JOGADOR`, `TIME`, `PAREDE`, `PORTAL_ENTRADA`, `PORTAL_SAIDA`.
+### `src/utils/constantes.go`
+
+Contém tamanhos de entidades, valores de combate, etc:
+
+```go
+const JOGADOR_TAMANHO_MUNDO = 10
+const BOT_TAMANHO_MUNDO = 10
+const COMIDA_TAMANHO_MUNDO = 10
+const PORTAL_ENTRADA_TAMANHO = 50
+// ... etc
+```
+
+---
+
+## 15. Como Compilar e Executar
+
+### Pré-requisitos
+
+- **Go 1.16+** instalado
+- **Dependências do Ebiten**: SDL2 no Windows
+
+### Instalação de Dependências
+
+```bash
+go get github.com/hajimehoshi/ebiten/v2
+go get github.com/hajimehoshi/ebiten/v2/cmd/ebitenex@latest
+```
+
+### Compilação
+
+#### Windows (PowerShell)
+
+```powershell
+# Via script fornecido
+.\build.ps1
+
+# Ou manualmente
+go build -o bin/Gopher_Dungeon_Arena.exe
+```
+
+#### Linux/macOS
+
+```bash
+go build -o bin/Gopher_Dungeon_Arena
+./bin/Gopher_Dungeon_Arena
+```
+
+### Execução
+
+```bash
+go run main.go
+```
+
+### Controles do Jogo
+
+| Controle | Ação |
+|----------|------|
+| SETAS ou WASD | Mover |
+| ENTER | Iniciar jogo |
+| ESC | Sair/Menu |
+| P | Pausar |
+| SPACE | Despausar |
+| B | Spawn bots (debug) |
+
+---
+
+## Resumo da Arquitetura
+
+O projeto demonstra uma arquitetura robusta com:
+
+✅ **ECS bem estruturado** para separação de dados e lógica  
+✅ **Sistema de cenas** para gerenciamento de telas  
+✅ **9 tipos de IA** diferentes para variedade  
+✅ **Sistema de câmera dinâmica** com mini mapa  
+✅ **Colisão precisa** com prevenção de tunelamento  
+✅ **Componentes reutilizáveis** para fácil expansão  
+✅ **Código bem organizado** em pacotes específicos  
+✅ **Configuração centralizada** para fácil ajuste  
+
+---
+
+**Última atualização**: 2026-06-17
 
 ### `src/enum/componentes/componentes.go`
 - Enumeração de componentes: `CORPO`, `SUB_TIPO`, `VIDA`, `NIVEL`, `ENVIANDO_TELETRANSPORTE`, `LIBERDADE`, `RECEBENDO_TELETRANSPORTE`.

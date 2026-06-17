@@ -26,4 +26,13 @@ type ICenaJogo interface {
 	Update() error
 	Draw(tela *ebiten.Image)
 	SetFonteCache(cache assets.FonteCache)
+	CapturouTudo() bool
+	ColetadoTudo(status bool)
+	MiniMapaEstaVisivel() bool
+	ObterFonteCache() *assets.FonteCache
+	ObterPontuacaoFaltante() int
+	SetFaltaPontuacao(pontos int)
+	Concluiu() bool
+	EntreiNaSaida()
+	EntrouNaSaida() bool
 }

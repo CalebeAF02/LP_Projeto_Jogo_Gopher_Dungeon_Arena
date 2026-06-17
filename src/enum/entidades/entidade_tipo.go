@@ -11,6 +11,7 @@ const (
 	PORTAL_ENTRADA
 	PORTAL_SAIDA
 	COMIDA
+	SAIDA
 )
 
 func (t EntidadeTipo) String() string {
@@ -31,6 +32,8 @@ func (t EntidadeTipo) String() string {
 		return "PORTAL_SAIDA"
 	case COMIDA:
 		return "COMIDA"
+	case SAIDA:
+		return "SAIDA"
 	default:
 		return "**DESCONHECIDO**"
 	}

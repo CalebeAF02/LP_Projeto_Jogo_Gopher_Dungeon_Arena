@@ -35,6 +35,7 @@ func NovoJogador(cj interfaces.ICenaJogo, n string) *Jogador {
 	nJogador.AdicionarComponente(componentes.CORPO.String(), corpo)
 	nJogador.AdicionarComponente(componentes.VIDA.String(), &componentes.Vida{TipoOrganismo: entidades.JOGADOR.String(), Status: true, Quantidade: 3, Sangue: 100})
 	nJogador.AdicionarComponente(componentes.NIVEL.String(), &componentes.Nivel{Valor: 1, Progressao: 0})
+	nJogador.AdicionarComponente(componentes.PONTUACAO.String(), &componentes.Pontuacao{Coletado: 0, Requisito: 3, EntreiNaSaida: false})
 
 	nJogador.entidade = &nJogador
 
@@ -222,17 +223,41 @@ func (j *Jogador) Mover() {
 	j.SetPosicao(origemX, origemY)
 }
 
+func (j *Jogador) CarregarPontuacao() {
+	pontuacaoComp := j.GetComponente(componentes.PONTUACAO.String())
+	pontuacao := pontuacaoComp.(*componentes.Pontuacao)
+
+	if pontuacao.Coletado >= pontuacao.Requisito {
+		j.cenaJogo.ColetadoTudo(true)
+		j.cenaJogo.SetFaltaPontuacao(0)
+	} else {
+		j.cenaJogo.SetFaltaPontuacao(pontuacao.Requisito - pontuacao.Coletado)
+	}
+
+	if pontuacao.EntreiNaSaida {
+		j.cenaJogo.EntreiNaSaida()
+	}
+
+}
+
 func (j *Jogador) Atualizar() {
-	if j.EstaVivo() {
+	if j.EstaVivo() && !j.cenaJogo.Concluiu() && !j.cenaJogo.EntrouNaSaida() {
 		j.Mover()
 
 		if ebiten.IsKeyPressed(ebiten.KeySpace) {
 			j.Atira()
 		}
+
+		j.CarregarPontuacao()
+
 	}
 }
 
 func (j *Jogador) Desenhar(tela *ebiten.Image) {
+
+	if j.cenaJogo.Concluiu() && j.cenaJogo.EntrouNaSaida() {
+		return
+	}
 
 	if j.entidade == nil {
 
