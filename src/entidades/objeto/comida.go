@@ -93,17 +93,17 @@ func (c *Comida) Desenhar(tela *ebiten.Image) {
 	var raioMedio float64 = utils.COMIDA_TAMANHO_MUNDO - 5.0
 	var raioPequeno float64 = utils.COMIDA_TAMANHO_MUNDO - 8.0
 
-	ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioMaior, cores.AMBAR)
+	ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioMaior, cores.ROSA_CHOQUE)
 	ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioMedio, cores.BRANCO)
 
 	if c.ciclos > 100 {
-		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioPequeno, cores.AMBAR)
+		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioPequeno, cores.ROSA_CHOQUE)
 
-		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2)-20, (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioPequeno, cores.AMBAR)
-		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2)+20, (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioPequeno, cores.AMBAR)
+		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2)-20, (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioPequeno, cores.ROSA_CHOQUE)
+		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2)+20, (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioPequeno, cores.ROSA_CHOQUE)
 
-		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2)-20, raioPequeno, cores.AMBAR)
-		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2)+20, raioPequeno, cores.AMBAR)
+		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2)-20, raioPequeno, cores.ROSA_CHOQUE)
+		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2)+20, raioPequeno, cores.ROSA_CHOQUE)
 	}
 
 }

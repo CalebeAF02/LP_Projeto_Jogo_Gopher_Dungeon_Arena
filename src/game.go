@@ -5,6 +5,7 @@ import (
 	"Gopher_Dungeon_Arena/src/cenas"
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/interfaces"
+	"Gopher_Dungeon_Arena/src/nivel"
 	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -24,6 +25,8 @@ func NovoGame() *Game {
 	cenaCorrente.SetGame(&game)
 	cenaCorrente.SetFonteCache(*assets.FonteCacheCriar())
 	game.SetCenaJogo(cenaJogo)
+
+	nivel.Converter()
 
 	return &game
 }
@@ -58,6 +61,7 @@ func (g *Game) Layout(l, a int) (int, int) {
 }
 
 func (g *Game) IniciarJogo() {
+	g.CenaJogo.ReIniciar()
 	g.CenaCorrente = g.CenaJogo
 }
 

@@ -28,7 +28,7 @@ func (cmp *CenaMenuPause) Voltar() {
 }
 
 func (cmp *CenaMenuPause) Sair() {
-	cmp.game.Sair()
+	cmp.game.MudarTelaMenuIniciar()
 }
 
 func (cmp *CenaMenuPause) Input() {

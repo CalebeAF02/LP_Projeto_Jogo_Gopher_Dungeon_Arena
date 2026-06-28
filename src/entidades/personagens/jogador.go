@@ -35,7 +35,9 @@ func NovoJogador(cj interfaces.ICenaJogo, n string) *Jogador {
 	nJogador.AdicionarComponente(componentes.CORPO.String(), corpo)
 	nJogador.AdicionarComponente(componentes.VIDA.String(), &componentes.Vida{TipoOrganismo: entidades.JOGADOR.String(), Status: true, Quantidade: 3, Sangue: 100})
 	nJogador.AdicionarComponente(componentes.NIVEL.String(), &componentes.Nivel{Valor: 1, Progressao: 0})
-	nJogador.AdicionarComponente(componentes.PONTUACAO.String(), &componentes.Pontuacao{Coletado: 0, Requisito: 3, EntreiNaSaida: false})
+	nJogador.AdicionarComponente(componentes.PONTUACAO.String(), &componentes.Pontuacao{Coletado: 0, Requisito: 1, EntreiNaSaida: false})
+
+	// DEFINIR PONTUACAO DO JOGO AQUI == 3
 
 	nJogador.entidade = &nJogador
 

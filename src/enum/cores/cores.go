@@ -52,8 +52,34 @@ var (
 	VERDE_LIMAO        = rgb(118, 255, 3)
 	VERDE_LIMAO_CLARO  = rgb(204, 255, 144)
 	VERDE_LIMAO_ESCURO = rgb(100, 221, 23)
+
+	ROSA_CHOQUE = rgb(255, 89, 150)
 )
 
 func rgb(r uint8, g uint8, b uint8) color.Color {
 	return color.RGBA{r, g, b, 255}
+}
+
+func COR_RGB(r int, g int, b int) [3]uint8 {
+	return [3]uint8{uint8(r), uint8(g), uint8(b)}
+}
+
+func Iguais(c1, c2 color.Color) bool {
+	r1, g1, b1, _ := c1.RGBA()
+	r2, g2, b2, _ := c2.RGBA()
+
+	// Normaliza para 0–255 antes de comparar
+	return uint8(r1>>8) == uint8(r2>>8) &&
+		uint8(g1>>8) == uint8(g2>>8) &&
+		uint8(b1>>8) == uint8(b2>>8)
+}
+
+// Compara se duas cores são iguais nos componentes RGB
+func IguaisComponentes(c1 color.Color, r uint8, g uint8, b uint8) bool {
+	r1, g1, b1, _ := c1.RGBA()
+
+	// Normaliza para 0–255 antes de comparar
+	return uint8(r1>>8) == (r) &&
+		uint8(g1>>8) == (g) &&
+		uint8(b1>>8) == (b)
 }

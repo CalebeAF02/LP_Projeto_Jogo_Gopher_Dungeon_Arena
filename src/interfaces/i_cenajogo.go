@@ -35,4 +35,6 @@ type ICenaJogo interface {
 	Concluiu() bool
 	EntreiNaSaida()
 	EntrouNaSaida() bool
+	SpawnarBot(cj ICenaJogo, movendo Movimentador, posicao *geometria.Ponto)
+	ReIniciar()
 }

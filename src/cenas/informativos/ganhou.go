@@ -26,4 +26,12 @@ func InformativoGanhou(cj interfaces.ICenaJogo, tela *ebiten.Image) {
 		cores.VERDE,
 	)
 
+	assets.EscreverTextoCentralizadoColorido(
+		tela,
+		50,
+		450,
+		"Aperte [ESC] para voltar ao menu iniciar !",
+		cores.VERMELHO,
+	)
+
 }

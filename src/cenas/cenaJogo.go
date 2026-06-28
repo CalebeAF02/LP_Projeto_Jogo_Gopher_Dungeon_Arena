@@ -6,10 +6,11 @@ import (
 	"Gopher_Dungeon_Arena/src/config"
 	"Gopher_Dungeon_Arena/src/ecs"
 	"Gopher_Dungeon_Arena/src/entidades/geometria"
-	"Gopher_Dungeon_Arena/src/entidades/objeto"
 	"Gopher_Dungeon_Arena/src/entidades/outros"
+	"Gopher_Dungeon_Arena/src/entidades/personagens"
 	"Gopher_Dungeon_Arena/src/enum/entidades"
 	"Gopher_Dungeon_Arena/src/interfaces"
+	"Gopher_Dungeon_Arena/src/nivel"
 	"Gopher_Dungeon_Arena/src/sistema"
 	"Gopher_Dungeon_Arena/src/utils"
 	"math/rand"
@@ -48,7 +49,17 @@ func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 
 	cj := CenaJogo{game: game, mundo: mundo, entidades: entidades, aleatorio: aleatorio, sistemaColisao: &sistema.SistemaColisao{}, contadorBotsMortos: 0, coletadoTudo: false, miniMapaVisivel: true, miniMapaExibir: 1, fonteCache: assets.FonteCacheCriar(), entrouNaSaida: false}
 
-	cj.sistemaColisao.SetCenaJogo(&cj)
+	cj.SetMiniMapa(miniMapa)
+	cj.SetCamera(camera)
+
+	cj.ReIniciar()
+
+	return &cj
+}
+
+func (cj *CenaJogo) ReIniciar() {
+
+	cj.sistemaColisao.SetCenaJogo(cj)
 
 	cj.sistemaAtualizar = []interfaces.ISistemaAtualizar{
 		&sistema.SistemaInput{},
@@ -63,30 +74,41 @@ func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 		&sistema.SistemaDesenhar{},
 	}
 
-	cj.SetMiniMapa(miniMapa)
-	cj.SetCamera(camera)
+	//sistemaSpaw := sistema.SistemaSpawn{}
 
-	sistemaSpaw := sistema.SistemaSpawn{}
+	//sistemaSpaw.SpawnarPortais(&cj)
 
-	sistemaSpaw.SpawnarPortais(&cj)
-
-	sistemaSpaw.SpawnParedesAoRedor(&cj, 20)
+	//sistemaSpaw.SpawnParedesAoRedor(&cj, 20)
 	//SpawnParedesEspecificas(&g)
-	sistemaSpaw.SpawnLabirinto(&cj)
+	//sistemaSpaw.SpawnLabirinto(&cj)
 
-	sistemaSpaw.SpawnBotDeCadaTipo(&cj)
+	//sistemaSpaw.SpawnBotDeCadaTipo(&cj)
 
-	objeto.NovaComida(&cj, geometria.NovoPonto(150, 200))
-	objeto.NovaComida(&cj, geometria.NovoPonto(300, 450))
-	objeto.NovaComida(&cj, geometria.NovoPonto(500, 650))
-	objeto.NovaComida(&cj, geometria.NovoPonto(600, 700))
-	objeto.NovaComida(&cj, geometria.NovoPonto(800, 950))
+	//objeto.NovaComida(&cj, geometria.NovoPonto(150, 200))
+	//objeto.NovaComida(&cj, geometria.NovoPonto(300, 450))
+	//objeto.NovaComida(&cj, geometria.NovoPonto(500, 650))
+	//objeto.NovaComida(&cj, geometria.NovoPonto(600, 700))
+	//objeto.NovaComida(&cj, geometria.NovoPonto(800, 950))
 
-	objeto.NovaSaida(&cj, geometria.NovoPonto(300, 500))
+	//objeto.NovaSaida(&cj, geometria.NovoPonto(300, 500))
 
-	sistemaSpaw.SpawnJogadores(&cj)
+	//sistemaSpaw.SpawnJogadores(&cj)
 
-	return &cj
+	cj.entidades = make(map[ecs.EntidadeID]ecs.Entidade)
+	cj.entrouNaSaida = false
+	cj.coletadoTudo = false
+	cj.contadorBotsMortos = 0
+
+	nivel.CarregarNivel(cj)
+
+}
+
+func (s *CenaJogo) SpawnarBot(cj interfaces.ICenaJogo, movendo interfaces.Movimentador, posicao *geometria.Ponto) {
+	b := personagens.NovoBot(cj, 0)
+	b.SetNivelAleatorio()
+	b.SetPosicao(posicao.GetX(), posicao.GetY())
+	b.SetMovimentacao(movendo)
+	//fmt.Printf("BOT <%s> | X: %f | Y: %f\n", b.GetMovendoTipo(), b.GetX(), b.GetY())
 }
 
 func (cp *CenaJogo) SetFonteCache(cache assets.FonteCache) {
@@ -208,7 +230,7 @@ func (cj *CenaJogo) Input() {
 		cj.miniMapaVisivel = !cj.miniMapaVisivel
 	}
 
-	if cj.Concluiu() && cj.entrouNaSaida && inpututil.IsKeyJustPressed(ebiten.KeyV) {
+	if cj.Concluiu() && cj.entrouNaSaida && inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 
 		cj.game.ReiniciarMudarTelaMenuIniciar()
 

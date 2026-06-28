@@ -86,6 +86,10 @@ func (b *PortalEntrada) Atualizar() {
 				//portal_saida_corpo_comp := b.ObterTeleTransporte().ConectadoSaida.GetComponente(componentes.CORPO.String())
 				//portal_saida := portal_saida_corpo_comp.(*geometria.Retangulo)
 
+				if b.ObterTeleTransporte().ConectadoSaida == nil {
+					return
+				}
+
 				portal_saida_recebendo_teletransporte_comp := b.ObterTeleTransporte().ConectadoSaida.GetComponente(componentes.RECEBENDO_TELETRANSPORTE.String())
 				portal_recebendo_teletransporte := portal_saida_recebendo_teletransporte_comp.(*componentes.RecebendoTeletransporte)
 

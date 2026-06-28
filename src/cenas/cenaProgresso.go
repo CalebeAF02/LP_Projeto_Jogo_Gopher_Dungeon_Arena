@@ -27,7 +27,7 @@ func (cp *CenaProgresso) SetGame(game interfaces.IGame) {
 }
 
 func (cp *CenaProgresso) Input() {
-	if ebiten.IsKeyPressed(ebiten.KeyV) {
+	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
 		cp.game.MudarTelaMenuIniciar()
 	}
 }
@@ -61,7 +61,7 @@ func (cp *CenaProgresso) Draw(tela *ebiten.Image) {
 func (cp *CenaProgresso) DrawNivel(tela *ebiten.Image, px float64, py float64, desbloqueado bool) {
 
 	if desbloqueado {
-		ebitenutil.DrawRect(tela, px, py, 100, 100, cores.VERDE)
+		ebitenutil.DrawRect(tela, px, py, 100, 100, cores.AMBAR)
 	} else {
 		ebitenutil.DrawRect(tela, px, py, 100, 100, cores.VERMELHO)
 	}

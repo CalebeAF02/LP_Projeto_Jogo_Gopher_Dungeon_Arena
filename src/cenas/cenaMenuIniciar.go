@@ -10,8 +10,9 @@ import (
 )
 
 type CenaMenuIniciar struct {
-	game       interfaces.IGame
-	fontecache assets.FonteCache
+	game           interfaces.IGame
+	fontecache     assets.FonteCache
+	aceitaComandos int
 }
 
 func (cmi *CenaMenuIniciar) SetFonteCache(cache assets.FonteCache) {
@@ -27,9 +28,8 @@ func (cmi *CenaMenuIniciar) SetGame(game interfaces.IGame) {
 }
 
 func (cmi *CenaMenuIniciar) Input() {
-	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
+	if ebiten.IsKeyPressed(ebiten.KeyEscape) && cmi.aceitaComandos >= 500 {
 		//fmt.Println("estou precionando o esc na cena menu !")
-
 		cmi.game.Sair()
 	}
 
@@ -48,6 +48,9 @@ func (cmi *CenaMenuIniciar) Input() {
 
 func (cmi *CenaMenuIniciar) Update() error {
 	cmi.Input()
+	if cmi.aceitaComandos <= 300 {
+		cmi.aceitaComandos += 1
+	}
 	return nil
 
 }

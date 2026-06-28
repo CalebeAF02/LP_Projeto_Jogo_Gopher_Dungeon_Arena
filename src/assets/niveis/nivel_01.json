@@ -1,0 +1,4402 @@
+[
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 30,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 60,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 90,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 180,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 210,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 240,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 300,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 360,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 390,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 420,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 450,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 480,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 540,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 570,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 630,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 660,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 690,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 750,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 780,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 810,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 840,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 900,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 930,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 960,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 990,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1020,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1050,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1080,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1110,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1140,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1170,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1260,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1290,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1320,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1380,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1410,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1440,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1470,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1500,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1560,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1590,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1620,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1650,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1710,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1740,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1770,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1800,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1830,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1860,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1890,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1920,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1980,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2010,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2040,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2070,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2130,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2160,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2220,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2250,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2280,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2340,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2370,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2400,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2430,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2460,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2490,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 0
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 30
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 30
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 30
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1080,
+    "y": 30
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 30
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 30
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 30
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1890,
+    "y": 30
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 30
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 60
+  },
+  {
+    "tipo": "JOGADOR",
+    "x": 60,
+    "y": 60
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 60
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 60
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 660,
+    "y": 60
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1080,
+    "y": 60
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 60
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 60
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 60
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1890,
+    "y": 60
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 60
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 90
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 90
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 660,
+    "y": 90
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1080,
+    "y": 90
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 90
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 90
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 90
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1740,
+    "y": 90
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1890,
+    "y": 90
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 90
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 120
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 120
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 660,
+    "y": 120
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1080,
+    "y": 120
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 120
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 120
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 120
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1740,
+    "y": 120
+  },
+  {
+    "tipo": "BOT_VERTICAL",
+    "x": 2400,
+    "y": 120
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 120
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 180,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 210,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 240,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 300,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 360,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 390,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 420,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 450,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 480,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 540,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 570,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 630,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 660,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 690,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 750,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 780,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 810,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 840,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 900,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 930,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1080,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1740,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 150
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1290,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1320,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 180
+  },
+  {
+    "tipo": "BOT_VERTICAL",
+    "x": 1620,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1710,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1740,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1770,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1800,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1830,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1860,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1890,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1920,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1980,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2010,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2040,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2070,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 180
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 210
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 210
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 210
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 210
+  },
+  {
+    "tipo": "BOT_VERTICAL_CONSTANTE",
+    "x": 1440,
+    "y": 210
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 210
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2010,
+    "y": 210
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 210
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 210
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 390,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 420,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 450,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 480,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 540,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 570,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 630,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 660,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 690,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 750,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 780,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 810,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 840,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 900,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 930,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 960,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 990,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1020,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1050,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1080,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1110,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1140,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2010,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2220,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2250,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2280,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2340,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2370,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2400,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2430,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2460,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2490,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 240
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 270
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 270
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 270
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 270
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 270
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 270
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2010,
+    "y": 270
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 270
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 270
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 300
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 300
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 300
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 300
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 300
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 300
+  },
+  {
+    "tipo": "COMIDA",
+    "x": 1680,
+    "y": 300
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2010,
+    "y": 300
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 300
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 300
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 330
+  },
+  {
+    "tipo": "BOT_SIMPLES",
+    "x": 60,
+    "y": 330
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 330
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 330
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 330
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 330
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 330
+  },
+  {
+    "tipo": "BOT_HORIZONTAL",
+    "x": 1860,
+    "y": 330
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2010,
+    "y": 330
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 330
+  },
+  {
+    "tipo": "BOT_HORIZONTAL",
+    "x": 2310,
+    "y": 330
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 330
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 360
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 360
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 360
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 360
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 360
+  },
+  {
+    "tipo": "BOT_VERTICAL",
+    "x": 1380,
+    "y": 360
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 360
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 360
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 360
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 390
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 390
+  },
+  {
+    "tipo": "BOT_SIMPLES",
+    "x": 420,
+    "y": 390
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 390
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 390
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 390
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 390
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 390
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 390
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 420
+  },
+  {
+    "tipo": "COMIDA",
+    "x": 60,
+    "y": 420
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 420
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 420
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 420
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 420
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 420
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 420
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 420
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 450
+  },
+  {
+    "tipo": "COMIDA",
+    "x": 300,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1260,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1290,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1410,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1440,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1470,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1500,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2010,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2040,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2070,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2130,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2160,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2220,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2250,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2280,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 450
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 480
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 480
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 480
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 480
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 480
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 480
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 480
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 30,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 60,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 90,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 180,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 210,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 240,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 300,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 360,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 630,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 660,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 690,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 750,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 780,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 810,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 840,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 510
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 540
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 540
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 540
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 540
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 540
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 540
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 540
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 570
+  },
+  {
+    "tipo": "SAIDA",
+    "x": 390,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1020,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1050,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1080,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1110,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1140,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1170,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 570
+  },
+  {
+    "tipo": "BOT_VERTICAL_CONSTANTE",
+    "x": 1290,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1800,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1830,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1860,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1890,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1920,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1980,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2010,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2040,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2070,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2130,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 570
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 600
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 600
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 600
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1020,
+    "y": 600
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 600
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 600
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 600
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 600
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 600
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 630
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 630
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1020,
+    "y": 630
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 630
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 630
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 630
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 630
+  },
+  {
+    "tipo": "BOT_SIMPLES",
+    "x": 2250,
+    "y": 630
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 630
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 630
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 660
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 660
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 660
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1020,
+    "y": 660
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 660
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 660
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 660
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 660
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 660
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 660
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 300,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 360,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 390,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 420,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 450,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 480,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 540,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 570,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 630,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 660,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 690,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 750,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 780,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 690
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2340,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2370,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2400,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2430,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 720
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 750
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 750
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 750
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 750
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 750
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 750
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 750
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 750
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 750
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 30,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 60,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 90,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 780
+  },
+  {
+    "tipo": "BOT_SIMPLES",
+    "x": 390,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 690,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 750,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 780,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 810,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 840,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 900,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 930,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 960,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 990,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1020,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1050,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1080,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1710,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1740,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1770,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1800,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1830,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1860,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1890,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1920,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 780
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 810
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 810
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 810
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 810
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 810
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 810
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 810
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 840
+  },
+  {
+    "tipo": "COMIDA",
+    "x": 210,
+    "y": 840
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 840
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 840
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 840
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 840
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 840
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 870
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 870
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 870
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 870
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 870
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 870
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 30,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 60,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 90,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 180,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 210,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 240,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 300,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 360,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 540,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 570,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 630,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 660,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 690,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 750,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 780,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 810,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 840,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 900,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 930,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1110,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1140,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1170,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1260,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1290,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1320,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2220,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2250,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2280,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 900
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 930
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 930
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 930
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 930
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 930
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 930
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 930
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 960
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 960
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 960
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 960
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 960
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 960
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 990
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 990
+  },
+  {
+    "tipo": "BOT_HORIZONTAL",
+    "x": 780,
+    "y": 990
+  },
+  {
+    "tipo": "COMIDA",
+    "x": 960,
+    "y": 990
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 990
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 990
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 990
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 990
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1020
+  },
+  {
+    "tipo": "BOT_VERTICAL_CONSTANTE",
+    "x": 90,
+    "y": 1020
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 1020
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 1020
+  },
+  {
+    "tipo": "BOT_VERTICAL_CONSTANTE",
+    "x": 1050,
+    "y": 1020
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 1020
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 1020
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 1020
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1020
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 180,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 210,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 240,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 300,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 360,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 390,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 420,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 450,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 480,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 540,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 570,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 630,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 660,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 690,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1410,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1440,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1470,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1500,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1560,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1590,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1620,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1650,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1710,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1740,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1770,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1050
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2220,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2250,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2280,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2340,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2370,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2400,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2430,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1080
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1110
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 1110
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 1110
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 1110
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1110
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 1110
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1110
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 1140
+  },
+  {
+    "tipo": "BOT_VERTICAL",
+    "x": 390,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1410,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1440,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1470,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1500,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1560,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1590,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1620,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1650,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1710,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1740,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1770,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1140
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1170
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 90,
+    "y": 1170
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 1170
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 1170
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 1170
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 1170
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 1170
+  },
+  {
+    "tipo": "BOT_VERTICAL_CONSTANTE",
+    "x": 990,
+    "y": 1170
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1170
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 1170
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1170
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 480,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 540,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 570,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 1200
+  },
+  {
+    "tipo": "BOT_VERTICAL_CONSTANTE",
+    "x": 2160,
+    "y": 1200
+  },
+  {
+    "tipo": "BOT_SIMPLES",
+    "x": 2310,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1200
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1230
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 1230
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 1230
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1230
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 1230
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 1230
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1230
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 750,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 780,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 810,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 840,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 900,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 930,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 960,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 990,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1020,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1050,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1080,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1320,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1380,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1410,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1440,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1470,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1500,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1560,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1590,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1830,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1860,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1890,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1920,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1980,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2010,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2040,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2070,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2130,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2160,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2220,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2250,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2280,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2340,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1260
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1290
+  },
+  {
+    "tipo": "BOT_VERTICAL_CONSTANTE",
+    "x": 90,
+    "y": 1290
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 1290
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1290
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 1290
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1290
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1320
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 1320
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1320
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 1320
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1320
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1350
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 1350
+  },
+  {
+    "tipo": "BOT_VERTICAL",
+    "x": 750,
+    "y": 1350
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1350
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 1350
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1350
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1380
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 1380
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1380
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 1380
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1380
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 0,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 30,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 60,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 90,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 120,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 150,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 180,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 210,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 240,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 270,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 300,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 330,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 360,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 390,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 420,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 450,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 480,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 510,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 540,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 570,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 600,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 630,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 660,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 690,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 720,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 750,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 780,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 810,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 840,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 870,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 900,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 930,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 960,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 990,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1020,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1050,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1080,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1110,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1140,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1170,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1200,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1230,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1260,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1290,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1320,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1350,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1380,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1410,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1440,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1470,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1500,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1530,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1560,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1590,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1620,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1650,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1680,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1710,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1740,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1770,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1800,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1830,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1860,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1890,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1920,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1950,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 1980,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2010,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2040,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2070,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2100,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2130,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2160,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2190,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2220,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2250,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2280,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2310,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2340,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2370,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2400,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2430,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2460,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2490,
+    "y": 1410
+  },
+  {
+    "tipo": "PAREDE",
+    "x": 2520,
+    "y": 1410
+  },
+  {
+    "tipo": "PORTAL_SAIDA",
+    "x": 2190,
+    "y": 90
+  },
+  {
+    "tipo": "PORTAL_ENTRADA",
+    "x": 2400,
+    "y": 360
+  },
+  {
+    "tipo": "PORTAL_CONECTADO",
+    "x1": 2400,
+    "y1": 360,
+    "x2": 2190,
+    "y2": 90
+  },
+  {
+    "tipo": "PORTAL_ENTRADA",
+    "x": 240,
+    "y": 240
+  },
+  {
+    "tipo": "PORTAL_SAIDA",
+    "x": 240,
+    "y": 360
+  },
+  {
+    "tipo": "PORTAL_CONECTADO",
+    "x1": 240,
+    "y1": 240,
+    "x2": 240,
+    "y2": 360
+  },
+  {
+    "tipo": "PORTAL_SAIDA",
+    "x": 900,
+    "y": 360
+  },
+  {
+    "tipo": "PORTAL_ENTRADA",
+    "x": 690,
+    "y": 840
+  },
+  {
+    "tipo": "PORTAL_CONECTADO",
+    "x1": 690,
+    "y1": 840,
+    "x2": 900,
+    "y2": 360
+  },
+  {
+    "tipo": "PORTAL_SAIDA",
+    "x": 1830,
+    "y": 900
+  },
+  {
+    "tipo": "PORTAL_ENTRADA",
+    "x": 1590,
+    "y": 1320
+  },
+  {
+    "tipo": "PORTAL_CONECTADO",
+    "x1": 1590,
+    "y1": 1320,
+    "x2": 1830,
+    "y2": 900
+  },
+  {
+    "tipo": "PORTAL_SAIDA",
+    "x": 210,
+    "y": 990
+  },
+  {
+    "tipo": "PORTAL_ENTRADA",
+    "x": 180,
+    "y": 1350
+  },
+  {
+    "tipo": "PORTAL_CONECTADO",
+    "x1": 180,
+    "y1": 1350,
+    "x2": 210,
+    "y2": 990
+  }
+]
