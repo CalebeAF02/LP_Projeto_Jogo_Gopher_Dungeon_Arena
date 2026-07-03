@@ -14,6 +14,7 @@ import (
 type Game struct {
 	CenaCorrente interfaces.ICena
 	CenaJogo     interfaces.ICenaJogo
+	Progresso    nivel.Progresso
 }
 
 func NovoGame() *Game {
@@ -27,6 +28,14 @@ func NovoGame() *Game {
 	game.SetCenaJogo(cenaJogo)
 
 	nivel.Converter()
+
+	game.Progresso = nivel.CarregarProgresso()
+
+	if game.Progresso.NivelCorrente == 0 {
+		game.Progresso.NivelCorrente = 1
+	}
+
+	nivel.SalvarProgresso(game.Progresso)
 
 	return &game
 }
@@ -66,6 +75,9 @@ func (g *Game) IniciarJogo() {
 }
 
 func (g *Game) ReiniciarMudarTelaMenuIniciar() {
+
+	g.SalvarProgresso()
+
 	cenaCorrente := cenas.CenaMenuIniciar{}
 	cenaCorrente.SetFonteCache(*assets.FonteCacheCriar())
 	cenaCorrente.SetGame(g)
@@ -103,4 +115,12 @@ func (g *Game) Sair() {
 
 func (g *Game) GetNome() string {
 	return "GAME"
+}
+
+func (g *Game) SalvarProgresso() {
+	nivel.SalvarProgresso(g.Progresso)
+}
+
+func (g *Game) GetNivelCorrente() int {
+	return g.Progresso.NivelCorrente
 }

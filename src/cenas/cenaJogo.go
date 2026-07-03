@@ -279,6 +279,25 @@ func (cj *CenaJogo) OrganizaPosicaoAleatoriaBot() *geometria.Ponto {
 	return nil
 }
 
+func (cj *CenaJogo) OrganizaPosicaoAleatoriaComida() *geometria.Ponto {
+	larguraComida := float64(utils.COMIDA_TAMANHO_MUNDO)
+	alturaComida := float64(utils.COMIDA_TAMANHO_MUNDO)
+
+	// Limitamos as tentativas para evitar loop infinito se o mapa estiver cheio
+	for tentativas := 0; tentativas < 100; tentativas++ {
+		x := float64(cj.GetAleatorio().Intn(int(cj.GetMundo().PosXmax(utils.COMIDA_TAMANHO_MUNDO))))
+		y := float64(cj.GetAleatorio().Intn(int(cj.GetMundo().PosYmax(utils.COMIDA_TAMANHO_MUNDO))))
+
+		// REUTILIZAÇÃO: Usamos diretamente o método do jogo para checar barreiras (paredes)
+		corpoTemporario := geometria.NovoRetangulo(x, y, larguraComida, alturaComida)
+		if !cj.sistemaColisao.ColideComTipo(corpoTemporario, entidades.PAREDE.String()) {
+			return geometria.NovoPonto(x, y)
+		}
+	}
+
+	return nil
+}
+
 func (cj *CenaJogo) RemoverEntidadesMortas() {
 	for _, entidade := range cj.GetEntidades() {
 		if entidade.ExisteComponente(componentes.VIDA.String()) {

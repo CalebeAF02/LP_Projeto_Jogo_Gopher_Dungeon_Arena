@@ -28,7 +28,7 @@ func (cmi *CenaMenuIniciar) SetGame(game interfaces.IGame) {
 }
 
 func (cmi *CenaMenuIniciar) Input() {
-	if ebiten.IsKeyPressed(ebiten.KeyEscape) && cmi.aceitaComandos >= 500 {
+	if ebiten.IsKeyPressed(ebiten.KeyEscape) && cmi.aceitaComandos >= 300 {
 		//fmt.Println("estou precionando o esc na cena menu !")
 		cmi.game.Sair()
 	}
@@ -48,11 +48,11 @@ func (cmi *CenaMenuIniciar) Input() {
 
 func (cmi *CenaMenuIniciar) Update() error {
 	cmi.Input()
-	if cmi.aceitaComandos <= 300 {
+	if cmi.aceitaComandos <= 400 {
 		cmi.aceitaComandos += 1
 	}
-	return nil
 
+	return nil
 }
 
 func (cmi *CenaMenuIniciar) Draw(tela *ebiten.Image) {

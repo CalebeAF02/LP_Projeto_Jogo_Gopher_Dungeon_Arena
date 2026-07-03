@@ -10,10 +10,15 @@ import (
 )
 
 func Converter() {
+	ConverterNivel("src/assets/niveis/nivel_01.png", "src/assets/niveis/nivel_01.json")
+	ConverterNivel("src/assets/niveis/nivel_02.png", "src/assets/niveis/nivel_02.json")
+}
+
+func ConverterNivel(arquivoEntrada string, arquivoSaida string) {
 
 	dados := []interface{}{}
 
-	file, err := os.Open("src/assets/niveis/nivel_01.png")
+	file, err := os.Open(arquivoEntrada)
 	if err != nil {
 		fmt.Println("Erro ao abrir imagem:", err)
 		return
@@ -77,15 +82,21 @@ func Converter() {
 				dados = append(dados, ObjetoSimples{"BOT_VERTICAL", x * utils.PAREDE_TAMANHO_MUNDO, y * utils.PAREDE_TAMANHO_MUNDO})
 			} else if cores.IguaisComponentes(cores.AMARELO_ESCURO, r, g, b) {
 				dados = append(dados, ObjetoSimples{"BOT_VERTICAL_CONSTANTE", x * utils.PAREDE_TAMANHO_MUNDO, y * utils.PAREDE_TAMANHO_MUNDO})
+			} else if cores.IguaisComponentes(cores.MARROM_ESCURO, r, g, b) {
+				dados = append(dados, ObjetoSimples{"BOT_HORIZONTAL_CONSTANTE", x * utils.PAREDE_TAMANHO_MUNDO, y * utils.PAREDE_TAMANHO_MUNDO})
+			} else if cores.IguaisComponentes(cores.ROSA, r, g, b) {
+				dados = append(dados, ObjetoSimples{"BOT_DIAGONAL", x * utils.PAREDE_TAMANHO_MUNDO, y * utils.PAREDE_TAMANHO_MUNDO})
+			} else if cores.IguaisComponentes(cores.ROSA_ESCURO, r, g, b) {
+				dados = append(dados, ObjetoSimples{"BOT_LOGICO_DIAGONAL", x * utils.PAREDE_TAMANHO_MUNDO, y * utils.PAREDE_TAMANHO_MUNDO})
+			} else if cores.IguaisComponentes(cores.VERMELHO, r, g, b) {
+				dados = append(dados, ObjetoSimples{"BOT_LOGICO_DUPLO", x * utils.PAREDE_TAMANHO_MUNDO, y * utils.PAREDE_TAMANHO_MUNDO})
+			} else if cores.IguaisComponentes(cores.LARANJA, r, g, b) {
+				dados = append(dados, ObjetoSimples{"BOT_LOGICO_LINHA", x * utils.PAREDE_TAMANHO_MUNDO, y * utils.PAREDE_TAMANHO_MUNDO})
 
 			} else if r == 255 && g == 89 && b == 150 {
-
 				dados = append(dados, ObjetoSimples{"COMIDA", x * utils.PAREDE_TAMANHO_MUNDO, y * utils.PAREDE_TAMANHO_MUNDO})
-
 			} else if r == 200 && g == 200 && b == 200 {
-
 				dados = append(dados, ObjetoSimples{"SAIDA", x * utils.PAREDE_TAMANHO_MUNDO, y * utils.PAREDE_TAMANHO_MUNDO})
-
 			} else if r == 0 && g == 162 && b == 232 {
 				dados = append(dados, ObjetoSimples{"JOGADOR", x * utils.PAREDE_TAMANHO_MUNDO, y * utils.PAREDE_TAMANHO_MUNDO})
 			}
@@ -108,7 +119,7 @@ func Converter() {
 	}
 
 	// Salvar em arquivo
-	err = os.WriteFile("src/assets/niveis/nivel_01.json", jsonBytes, 0644)
+	err = os.WriteFile(arquivoSaida, jsonBytes, 0644)
 	if err != nil {
 		fmt.Println("Erro ao salvar arquivo:", err)
 		return

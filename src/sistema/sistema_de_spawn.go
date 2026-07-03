@@ -22,7 +22,7 @@ func (s *SistemaSpawn) Atualizar(cj interfaces.ICenaJogo) {
 	s.framesGereacao++
 
 	// 1860 = 60*30 frames = 30 segundos (em 60 FPS)
-	if s.framesGereacao >= 1860 {
+	if s.framesGereacao >= 1860/3 {
 		s.framesGereacao = 0
 
 		if pos := cj.OrganizaPosicaoAleatoriaBot(); pos != nil {
@@ -32,6 +32,9 @@ func (s *SistemaSpawn) Atualizar(cj interfaces.ICenaJogo) {
 
 	if ebiten.IsKeyPressed(ebiten.KeyB) {
 		s.SpawnarBotsAleatroiamenteNoMundo(cj)
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyC) {
+		s.SpawnarComidasAleatroiamenteNoMundo(cj)
 	}
 }
 
@@ -59,6 +62,10 @@ func (s *SistemaSpawn) SpawnarBot(cj interfaces.ICenaJogo, movendo interfaces.Mo
 	b.SetPosicao(posicao.GetX(), posicao.GetY())
 	b.SetMovimentacao(movendo)
 	//fmt.Printf("BOT <%s> | X: %f | Y: %f\n", b.GetMovendoTipo(), b.GetX(), b.GetY())
+}
+
+func (s *SistemaSpawn) SpawnarComida(cj interfaces.ICenaJogo, posicao *geometria.Ponto) {
+	objeto.NovaComida(cj, posicao)
 }
 
 func (s *SistemaSpawn) SpawnBotDeCadaTipo(cj interfaces.ICenaJogo) {
@@ -114,6 +121,20 @@ func (s *SistemaSpawn) SpawnarBotsAleatroiamenteNoMundo(cj interfaces.ICenaJogo)
 	for id := 0; id < 3; id++ {
 		if pos := cj.OrganizaPosicaoAleatoriaBot(); pos != nil {
 			s.SpawnarBotAleatorio(cj, pos.GetX(), pos.GetY())
+		}
+	}
+}
+
+func (s *SistemaSpawn) SpawnarComidaAleatorio(cj interfaces.ICenaJogo, x float64, y float64) {
+	// Sorteia dinamicamente entre os 9 tipos de movimentadores que você possui
+	posicao := geometria.NovoPonto(x, y)
+	s.SpawnarComida(cj, posicao)
+}
+
+func (s *SistemaSpawn) SpawnarComidasAleatroiamenteNoMundo(cj interfaces.ICenaJogo) {
+	for id := 0; id < 10; id++ {
+		if pos := cj.OrganizaPosicaoAleatoriaComida(); pos != nil {
+			s.SpawnarComidaAleatorio(cj, pos.GetX(), pos.GetY())
 		}
 	}
 }

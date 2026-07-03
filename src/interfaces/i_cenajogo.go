@@ -23,6 +23,7 @@ type ICenaJogo interface {
 	GetCamera() *ecs.Camera
 	GetMiniMapa() *ecs.MiniMapa
 	OrganizaPosicaoAleatoriaBot() *geometria.Ponto
+	OrganizaPosicaoAleatoriaComida() *geometria.Ponto
 	Update() error
 	Draw(tela *ebiten.Image)
 	SetFonteCache(cache assets.FonteCache)

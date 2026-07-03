@@ -11,4 +11,6 @@ type IGame interface {
 	ReiniciarMudarTelaMenuIniciar()
 	MudarTelaMenuIniciar()
 	MudarTelaProgresso()
+	SalvarProgresso()
+	GetNivelCorrente() int
 }
