@@ -57,11 +57,11 @@ func NovoCenaJogo(game interfaces.IGame) *CenaJogo {
 	return &cj
 }
 
-func (cj *CenaJogo) ReIniciar() {
+func (self *CenaJogo) ReIniciar() {
 
-	cj.sistemaColisao.SetCenaJogo(cj)
+	self.sistemaColisao.SetCenaJogo(self)
 
-	cj.sistemaAtualizar = []interfaces.ISistemaAtualizar{
+	self.sistemaAtualizar = []interfaces.ISistemaAtualizar{
 		&sistema.SistemaInput{},
 		&sistema.SistemaIA{},
 		&sistema.SistemaSpawn{},
@@ -70,7 +70,7 @@ func (cj *CenaJogo) ReIniciar() {
 		&sistema.SistemaDebug{},
 	}
 
-	cj.sistemaDesenhar = []interfaces.ISistemaDesenhar{
+	self.sistemaDesenhar = []interfaces.ISistemaDesenhar{
 		&sistema.SistemaDesenhar{},
 	}
 
@@ -94,16 +94,16 @@ func (cj *CenaJogo) ReIniciar() {
 
 	//sistemaSpaw.SpawnJogadores(&cj)
 
-	cj.entidades = make(map[ecs.EntidadeID]ecs.Entidade)
-	cj.entrouNaSaida = false
-	cj.coletadoTudo = false
-	cj.contadorBotsMortos = 0
+	self.entidades = make(map[ecs.EntidadeID]ecs.Entidade)
+	self.entrouNaSaida = false
+	self.coletadoTudo = false
+	self.contadorBotsMortos = 0
 
-	nivel.CarregarNivel(cj)
+	nivel.CarregarNivel(self)
 
 }
 
-func (s *CenaJogo) SpawnarBot(cj interfaces.ICenaJogo, movendo interfaces.Movimentador, posicao *geometria.Ponto) {
+func (self *CenaJogo) SpawnarBot(cj interfaces.ICenaJogo, movendo interfaces.Movimentador, posicao *geometria.Ponto) {
 	b := personagens.NovoBot(cj, 0)
 	b.SetNivelAleatorio()
 	b.SetPosicao(posicao.GetX(), posicao.GetY())
@@ -111,30 +111,30 @@ func (s *CenaJogo) SpawnarBot(cj interfaces.ICenaJogo, movendo interfaces.Movime
 	//fmt.Printf("BOT <%s> | X: %f | Y: %f\n", b.GetMovendoTipo(), b.GetX(), b.GetY())
 }
 
-func (cp *CenaJogo) SetFonteCache(cache assets.FonteCache) {
+func (self *CenaJogo) SetFonteCache(cache assets.FonteCache) {
 }
 
-func (cj *CenaJogo) CriarEntidade() ecs.EntidadeID {
-	entidade := ecs.EntidadeID(cj.proximo)
-	cj.proximo++
+func (self *CenaJogo) CriarEntidade() ecs.EntidadeID {
+	entidade := ecs.EntidadeID(self.proximo)
+	self.proximo++
 	return entidade
 }
 
-func (cj *CenaJogo) RemoverEntidade(entidade ecs.EntidadeID) {
-	delete(cj.entidades, entidade)
+func (self *CenaJogo) RemoverEntidade(entidade ecs.EntidadeID) {
+	delete(self.entidades, entidade)
 }
 
-func (cj *CenaJogo) GetGame() interfaces.IGame {
-	return cj.game
+func (self *CenaJogo) GetGame() interfaces.IGame {
+	return self.game
 }
-func (cj *CenaJogo) GetEntidades() map[ecs.EntidadeID]ecs.Entidade {
-	return cj.entidades
+func (self *CenaJogo) GetEntidades() map[ecs.EntidadeID]ecs.Entidade {
+	return self.entidades
 }
 
-func (cj *CenaJogo) GetTimes() []*outros.Time {
+func (self *CenaJogo) GetTimes() []*outros.Time {
 	listaTimes := []*outros.Time{}
 
-	for _, e := range cj.GetEntidades() {
+	for _, e := range self.GetEntidades() {
 		if e.GetTipo() == "TIME" {
 			listaTimes = append(listaTimes, e.(*outros.Time))
 		}
@@ -143,135 +143,135 @@ func (cj *CenaJogo) GetTimes() []*outros.Time {
 
 	return listaTimes
 }
-func (cj *CenaJogo) GetMundo() *geometria.Retangulo {
-	return cj.mundo
+func (self *CenaJogo) GetMundo() *geometria.Retangulo {
+	return self.mundo
 }
-func (cj *CenaJogo) GetAleatorio() *rand.Rand {
-	return cj.aleatorio
+func (self *CenaJogo) GetAleatorio() *rand.Rand {
+	return self.aleatorio
 }
-func (cj *CenaJogo) GetLargura() float64 {
-	return cj.mundo.GetLargura()
+func (self *CenaJogo) GetLargura() float64 {
+	return self.mundo.GetLargura()
 }
-func (cj *CenaJogo) GetAltura() float64 {
-	return cj.mundo.GetAltura()
+func (self *CenaJogo) GetAltura() float64 {
+	return self.mundo.GetAltura()
 }
-func (cj *CenaJogo) GetCamera() *ecs.Camera {
-	return cj.camera
-}
-
-func (cj *CenaJogo) GetMiniMapa() *ecs.MiniMapa {
-	return cj.miniMapa
-}
-func (cj *CenaJogo) GetSistemaAtualizar() []interfaces.ISistemaAtualizar {
-	return cj.sistemaAtualizar
-}
-func (cj *CenaJogo) GetSistemaDesenhar() []interfaces.ISistemaDesenhar {
-	return cj.sistemaDesenhar
-}
-func (cj *CenaJogo) GetSistemaColisao() interfaces.ISistemaColisao {
-	return cj.sistemaColisao
+func (self *CenaJogo) GetCamera() *ecs.Camera {
+	return self.camera
 }
 
-func (cj *CenaJogo) SetGame(game interfaces.IGame) {
-	cj.game = game
+func (self *CenaJogo) GetMiniMapa() *ecs.MiniMapa {
+	return self.miniMapa
 }
-func (cj *CenaJogo) SetEntidade(nEntidade ecs.EntidadeID, posicao ecs.Entidade) {
-	cj.entidades[nEntidade] = posicao
+func (self *CenaJogo) GetSistemaAtualizar() []interfaces.ISistemaAtualizar {
+	return self.sistemaAtualizar
 }
-func (cj *CenaJogo) SetMiniMapa(miniMapa *ecs.MiniMapa) {
-	cj.miniMapa = miniMapa
+func (self *CenaJogo) GetSistemaDesenhar() []interfaces.ISistemaDesenhar {
+	return self.sistemaDesenhar
 }
-func (cj *CenaJogo) SetCamera(camera *ecs.Camera) {
-	cj.camera = camera
+func (self *CenaJogo) GetSistemaColisao() interfaces.ISistemaColisao {
+	return self.sistemaColisao
 }
 
-func (cj *CenaJogo) OrganizarCamera() {
+func (self *CenaJogo) SetGame(game interfaces.IGame) {
+	self.game = game
+}
+func (self *CenaJogo) SetEntidade(nEntidade ecs.EntidadeID, posicao ecs.Entidade) {
+	self.entidades[nEntidade] = posicao
+}
+func (self *CenaJogo) SetMiniMapa(miniMapa *ecs.MiniMapa) {
+	self.miniMapa = miniMapa
+}
+func (self *CenaJogo) SetCamera(camera *ecs.Camera) {
+	self.camera = camera
+}
+
+func (self *CenaJogo) OrganizarCamera() {
 	// --- ATUALIZAÇÃO DA CÂMERA ---
-	lTimes := cj.GetTimes()
+	lTimes := self.GetTimes()
 
 	if len(lTimes) > 0 && len(lTimes[0].GetJogadores()) > 0 {
 
 		jogador := lTimes[0].GetJogador(0)
 
-		cj.GetCamera().OrganizarCameraPeloJogador(jogador.GetPosicao())
+		self.GetCamera().OrganizarCameraPeloJogador(jogador.GetPosicao())
 	}
 }
 
-func (cj *CenaJogo) Input() {
+func (self *CenaJogo) Input() {
 	if ebiten.IsKeyPressed(ebiten.KeyP) {
-		cj.game.Pausar()
+		self.game.Pausar()
 	}
 
 	ctrlPressionado := ebiten.IsKeyPressed(ebiten.KeyControlLeft) || ebiten.IsKeyPressed(ebiten.KeyControlRight)
 
 	if ctrlPressionado && inpututil.IsKeyJustPressed(ebiten.KeyM) {
-		cj.miniMapaExibir += 1
+		self.miniMapaExibir += 1
 
-		if cj.miniMapaExibir > 4 {
-			cj.miniMapaExibir = 1
+		if self.miniMapaExibir > 4 {
+			self.miniMapaExibir = 1
 		}
 
-		if cj.miniMapaExibir == 1 {
-			cj.miniMapa.SetPosicao(config.MM1_POS_X_MAPA, config.MM1_POS_Y_MAPA)
+		if self.miniMapaExibir == 1 {
+			self.miniMapa.SetPosicao(config.MM1_POS_X_MAPA, config.MM1_POS_Y_MAPA)
 		}
-		if cj.miniMapaExibir == 2 {
-			cj.miniMapa.SetPosicao(config.MM2_POS_X_MAPA, config.MM2_POS_Y_MAPA)
-		}
-
-		if cj.miniMapaExibir == 3 {
-			cj.miniMapa.SetPosicao(config.MM3_POS_X_MAPA, config.MM3_POS_Y_MAPA)
+		if self.miniMapaExibir == 2 {
+			self.miniMapa.SetPosicao(config.MM2_POS_X_MAPA, config.MM2_POS_Y_MAPA)
 		}
 
-		if cj.miniMapaExibir == 4 {
-			cj.miniMapa.SetPosicao(config.MM4_POS_X_MAPA, config.MM4_POS_Y_MAPA)
+		if self.miniMapaExibir == 3 {
+			self.miniMapa.SetPosicao(config.MM3_POS_X_MAPA, config.MM3_POS_Y_MAPA)
+		}
+
+		if self.miniMapaExibir == 4 {
+			self.miniMapa.SetPosicao(config.MM4_POS_X_MAPA, config.MM4_POS_Y_MAPA)
 		}
 
 	} else if ctrlPressionado && inpututil.IsKeyJustPressed(ebiten.KeyO) {
-		cj.miniMapaVisivel = !cj.miniMapaVisivel
+		self.miniMapaVisivel = !self.miniMapaVisivel
 	}
 
-	if cj.Concluiu() && cj.entrouNaSaida && inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+	if self.Concluiu() && self.entrouNaSaida && inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 
-		cj.game.ReiniciarMudarTelaMenuIniciar()
+		self.game.ReiniciarMudarTelaMenuIniciar()
 
 	}
 
 }
 
-func (cj *CenaJogo) Update() error {
-	cj.Input()
-	cj.OrganizarCamera()
-	for _, sistema := range cj.sistemaAtualizar {
-		sistema.Atualizar(cj)
+func (self *CenaJogo) Update() error {
+	self.Input()
+	self.OrganizarCamera()
+	for _, sistema := range self.sistemaAtualizar {
+		sistema.Atualizar(self)
 	}
 
-	cj.RemoverEntidadesMortas()
+	self.RemoverEntidadesMortas()
 
 	return nil
 }
 
-func (cj *CenaJogo) Draw(tela *ebiten.Image) {
-	for _, sistema := range cj.sistemaDesenhar {
-		sistema.Desenhar(cj, tela)
+func (self *CenaJogo) Draw(tela *ebiten.Image) {
+	for _, sistema := range self.sistemaDesenhar {
+		sistema.Desenhar(self, tela)
 	}
 }
 
-func (cj *CenaJogo) Pausar() {
-	cj.game.Pausar()
+func (self *CenaJogo) Pausar() {
+	self.game.Pausar()
 }
 
-func (cj *CenaJogo) OrganizaPosicaoAleatoriaBot() *geometria.Ponto {
+func (self *CenaJogo) OrganizaPosicaoAleatoriaBot() *geometria.Ponto {
 	larguraBot := float64(utils.BOT_TAMANHO_MUNDO)
 	alturaBot := float64(utils.BOT_TAMANHO_MUNDO)
 
 	// Limitamos as tentativas para evitar loop infinito se o mapa estiver cheio
 	for tentativas := 0; tentativas < 100; tentativas++ {
-		x := float64(cj.GetAleatorio().Intn(int(cj.GetMundo().PosXmax(utils.BOT_TAMANHO_MUNDO))))
-		y := float64(cj.GetAleatorio().Intn(int(cj.GetMundo().PosYmax(utils.BOT_TAMANHO_MUNDO))))
+		x := float64(self.GetAleatorio().Intn(int(self.GetMundo().PosXmax(utils.BOT_TAMANHO_MUNDO))))
+		y := float64(self.GetAleatorio().Intn(int(self.GetMundo().PosYmax(utils.BOT_TAMANHO_MUNDO))))
 
 		// REUTILIZAÇÃO: Usamos diretamente o método do jogo para checar barreiras (paredes)
 		corpoTemporario := geometria.NovoRetangulo(x, y, larguraBot, alturaBot)
-		if !cj.sistemaColisao.ColideComTipo(corpoTemporario, entidades.PAREDE.String()) {
+		if !self.sistemaColisao.ColideComTipo(corpoTemporario, entidades.PAREDE.String()) {
 			return geometria.NovoPonto(x, y)
 		}
 	}
@@ -279,18 +279,18 @@ func (cj *CenaJogo) OrganizaPosicaoAleatoriaBot() *geometria.Ponto {
 	return nil
 }
 
-func (cj *CenaJogo) OrganizaPosicaoAleatoriaComida() *geometria.Ponto {
+func (self *CenaJogo) OrganizaPosicaoAleatoriaComida() *geometria.Ponto {
 	larguraComida := float64(utils.COMIDA_TAMANHO_MUNDO)
 	alturaComida := float64(utils.COMIDA_TAMANHO_MUNDO)
 
 	// Limitamos as tentativas para evitar loop infinito se o mapa estiver cheio
 	for tentativas := 0; tentativas < 100; tentativas++ {
-		x := float64(cj.GetAleatorio().Intn(int(cj.GetMundo().PosXmax(utils.COMIDA_TAMANHO_MUNDO))))
-		y := float64(cj.GetAleatorio().Intn(int(cj.GetMundo().PosYmax(utils.COMIDA_TAMANHO_MUNDO))))
+		x := float64(self.GetAleatorio().Intn(int(self.GetMundo().PosXmax(utils.COMIDA_TAMANHO_MUNDO))))
+		y := float64(self.GetAleatorio().Intn(int(self.GetMundo().PosYmax(utils.COMIDA_TAMANHO_MUNDO))))
 
 		// REUTILIZAÇÃO: Usamos diretamente o método do jogo para checar barreiras (paredes)
 		corpoTemporario := geometria.NovoRetangulo(x, y, larguraComida, alturaComida)
-		if !cj.sistemaColisao.ColideComTipo(corpoTemporario, entidades.PAREDE.String()) {
+		if !self.sistemaColisao.ColideComTipo(corpoTemporario, entidades.PAREDE.String()) {
 			return geometria.NovoPonto(x, y)
 		}
 	}
@@ -298,18 +298,18 @@ func (cj *CenaJogo) OrganizaPosicaoAleatoriaComida() *geometria.Ponto {
 	return nil
 }
 
-func (cj *CenaJogo) RemoverEntidadesMortas() {
-	for _, entidade := range cj.GetEntidades() {
+func (self *CenaJogo) RemoverEntidadesMortas() {
+	for _, entidade := range self.GetEntidades() {
 		if entidade.ExisteComponente(componentes.VIDA.String()) {
 
 			vidaComp := entidade.GetComponente(componentes.VIDA.String())
 			vida := vidaComp.(*componentes.Vida)
 
 			if !vida.Status {
-				cj.RemoverEntidade(entidade.GetID())
+				self.RemoverEntidade(entidade.GetID())
 
 				if vida.TipoOrganismo == "BOT" {
-					cj.ContarEntidadesMortas()
+					self.ContarEntidadesMortas()
 				}
 			}
 		} else if entidade.ExisteComponente(componentes.ENERGIA.String()) {
@@ -318,17 +318,17 @@ func (cj *CenaJogo) RemoverEntidadesMortas() {
 			energia := energiaComp.(*componentes.Energia)
 
 			if !energia.Status {
-				cj.RemoverEntidade(entidade.GetID())
+				self.RemoverEntidade(entidade.GetID())
 			}
 		}
 	}
 }
-func (cj *CenaJogo) GetContadorMortos() string {
-	return strconv.Itoa(cj.contadorBotsMortos)
+func (self *CenaJogo) GetContadorMortos() string {
+	return strconv.Itoa(self.contadorBotsMortos)
 }
 
-func (cj *CenaJogo) ContarEntidadesMortas() {
-	cj.contadorBotsMortos += 1
+func (self *CenaJogo) ContarEntidadesMortas() {
+	self.contadorBotsMortos += 1
 }
 
 func (self *CenaJogo) ColetadoTudo(status bool) {
@@ -367,6 +367,6 @@ func (self *CenaJogo) ObterFonteCache() *assets.FonteCache {
 	return self.fonteCache
 }
 
-func (cj *CenaJogo) GetNome() string {
+func (self *CenaJogo) GetNome() string {
 	return "CENA_JOGO"
 }

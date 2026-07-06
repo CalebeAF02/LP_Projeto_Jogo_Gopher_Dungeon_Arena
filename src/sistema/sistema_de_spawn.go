@@ -17,28 +17,28 @@ type SistemaSpawn struct {
 	framesGereacao int
 }
 
-func (s *SistemaSpawn) Atualizar(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) Atualizar(cj interfaces.ICenaJogo) {
 	// --- LÓGICA DE TEMPO PARA BOTS ---
-	s.framesGereacao++
+	self.framesGereacao++
 
 	// 1860 = 60*30 frames = 30 segundos (em 60 FPS)
-	if s.framesGereacao >= 1860/3 {
-		s.framesGereacao = 0
+	if self.framesGereacao >= 1860/3 {
+		self.framesGereacao = 0
 
 		if pos := cj.OrganizaPosicaoAleatoriaBot(); pos != nil {
-			s.SpawnarBotAleatorio(cj, pos.GetX(), pos.GetY())
+			self.SpawnarBotAleatorio(cj, pos.GetX(), pos.GetY())
 		}
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyB) {
-		s.SpawnarBotsAleatroiamenteNoMundo(cj)
+		self.SpawnarBotsAleatroiamenteNoMundo(cj)
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyC) {
-		s.SpawnarComidasAleatroiamenteNoMundo(cj)
+		self.SpawnarComidasAleatroiamenteNoMundo(cj)
 	}
 }
 
-func (s *SistemaSpawn) SpawnJogadores(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) SpawnJogadores(cj interfaces.ICenaJogo) {
 	// Jogadores
 	j1 := personagens.NovoJogador(cj, "Jogador 1")
 
@@ -56,7 +56,7 @@ func (s *SistemaSpawn) SpawnJogadores(cj interfaces.ICenaJogo) {
 
 }
 
-func (s *SistemaSpawn) SpawnarBot(cj interfaces.ICenaJogo, movendo interfaces.Movimentador, posicao *geometria.Ponto) {
+func (self *SistemaSpawn) SpawnarBot(cj interfaces.ICenaJogo, movendo interfaces.Movimentador, posicao *geometria.Ponto) {
 	b := personagens.NovoBot(cj, 0)
 	b.SetNivelAleatorio()
 	b.SetPosicao(posicao.GetX(), posicao.GetY())
@@ -64,11 +64,11 @@ func (s *SistemaSpawn) SpawnarBot(cj interfaces.ICenaJogo, movendo interfaces.Mo
 	//fmt.Printf("BOT <%s> | X: %f | Y: %f\n", b.GetMovendoTipo(), b.GetX(), b.GetY())
 }
 
-func (s *SistemaSpawn) SpawnarComida(cj interfaces.ICenaJogo, posicao *geometria.Ponto) {
+func (self *SistemaSpawn) SpawnarComida(cj interfaces.ICenaJogo, posicao *geometria.Ponto) {
 	objeto.NovaComida(cj, posicao)
 }
 
-func (s *SistemaSpawn) SpawnBotDeCadaTipo(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) SpawnBotDeCadaTipo(cj interfaces.ICenaJogo) {
 	// Cria uma lista dos movimentadores desejados para iterar de forma limpa e segura
 	movimentadores := []interfaces.Movimentador{
 		&movimentacao.MovimentadorSimples{},
@@ -85,61 +85,61 @@ func (s *SistemaSpawn) SpawnBotDeCadaTipo(cj interfaces.ICenaJogo) {
 	// Varre a lista garantindo que cada bot receba uma posição válida individual
 	for _, mov := range movimentadores {
 		if pos := cj.OrganizaPosicaoAleatoriaBot(); pos != nil {
-			s.SpawnarBot(cj, mov, pos)
+			self.SpawnarBot(cj, mov, pos)
 		}
 	}
 }
 
-func (s *SistemaSpawn) SpawnarBotAleatorio(cj interfaces.ICenaJogo, x float64, y float64) {
+func (self *SistemaSpawn) SpawnarBotAleatorio(cj interfaces.ICenaJogo, x float64, y float64) {
 	// Sorteia dinamicamente entre os 9 tipos de movimentadores que você possui
 	tipo := cj.GetAleatorio().Intn(9)
 	posicao := geometria.NovoPonto(x, y)
 
 	switch tipo {
 	case 0:
-		s.SpawnarBot(cj, &movimentacao.MovimentadorSimples{}, posicao)
+		self.SpawnarBot(cj, &movimentacao.MovimentadorSimples{}, posicao)
 	case 1:
-		s.SpawnarBot(cj, &movimentacao.MovimentadorVertical{}, posicao)
+		self.SpawnarBot(cj, &movimentacao.MovimentadorVertical{}, posicao)
 	case 2:
-		s.SpawnarBot(cj, &movimentacao.MovimentadorVerticalConstante{}, posicao)
+		self.SpawnarBot(cj, &movimentacao.MovimentadorVerticalConstante{}, posicao)
 	case 3:
-		s.SpawnarBot(cj, &movimentacao.MovimentadorHorizontal{}, posicao)
+		self.SpawnarBot(cj, &movimentacao.MovimentadorHorizontal{}, posicao)
 	case 4:
-		s.SpawnarBot(cj, &movimentacao.MovimentadorHorizontalConstante{}, posicao)
+		self.SpawnarBot(cj, &movimentacao.MovimentadorHorizontalConstante{}, posicao)
 	case 5:
-		s.SpawnarBot(cj, &movimentacao.MovimentadorDiagonal{}, posicao)
+		self.SpawnarBot(cj, &movimentacao.MovimentadorDiagonal{}, posicao)
 	case 6:
-		s.SpawnarBot(cj, &movimentacao.MovimentadorLogicoLinha{}, posicao)
+		self.SpawnarBot(cj, &movimentacao.MovimentadorLogicoLinha{}, posicao)
 	case 7:
-		s.SpawnarBot(cj, &movimentacao.MovimentadorLogicoDiagonal{}, posicao)
+		self.SpawnarBot(cj, &movimentacao.MovimentadorLogicoDiagonal{}, posicao)
 	case 8:
-		s.SpawnarBot(cj, &movimentacao.MovimentadorLogicoDuplo{}, posicao)
+		self.SpawnarBot(cj, &movimentacao.MovimentadorLogicoDuplo{}, posicao)
 	}
 }
 
-func (s *SistemaSpawn) SpawnarBotsAleatroiamenteNoMundo(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) SpawnarBotsAleatroiamenteNoMundo(cj interfaces.ICenaJogo) {
 	for id := 0; id < 3; id++ {
 		if pos := cj.OrganizaPosicaoAleatoriaBot(); pos != nil {
-			s.SpawnarBotAleatorio(cj, pos.GetX(), pos.GetY())
+			self.SpawnarBotAleatorio(cj, pos.GetX(), pos.GetY())
 		}
 	}
 }
 
-func (s *SistemaSpawn) SpawnarComidaAleatorio(cj interfaces.ICenaJogo, x float64, y float64) {
+func (self *SistemaSpawn) SpawnarComidaAleatorio(cj interfaces.ICenaJogo, x float64, y float64) {
 	// Sorteia dinamicamente entre os 9 tipos de movimentadores que você possui
 	posicao := geometria.NovoPonto(x, y)
-	s.SpawnarComida(cj, posicao)
+	self.SpawnarComida(cj, posicao)
 }
 
-func (s *SistemaSpawn) SpawnarComidasAleatroiamenteNoMundo(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) SpawnarComidasAleatroiamenteNoMundo(cj interfaces.ICenaJogo) {
 	for id := 0; id < 10; id++ {
 		if pos := cj.OrganizaPosicaoAleatoriaComida(); pos != nil {
-			s.SpawnarComidaAleatorio(cj, pos.GetX(), pos.GetY())
+			self.SpawnarComidaAleatorio(cj, pos.GetX(), pos.GetY())
 		}
 	}
 }
 
-func (s *SistemaSpawn) SpawnarPortais(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) SpawnarPortais(cj interfaces.ICenaJogo) {
 	// Par 1
 	bEntrada1 := objeto.NovoPortalEntrada(cj, 0)
 	bEntrada1.SetPosicao(100, 100)
@@ -186,7 +186,7 @@ func (s *SistemaSpawn) SpawnarPortais(cj interfaces.ICenaJogo) {
 	bEntrada5.ConectarSaida(bSaida5)
 }
 
-func (s *SistemaSpawn) SpawnParedesAoRedor(cj interfaces.ICenaJogo, passo float64) {
+func (self *SistemaSpawn) SpawnParedesAoRedor(cj interfaces.ICenaJogo, passo float64) {
 	xMin := cj.GetMundo().GetX()
 	yMin := cj.GetMundo().GetY()
 	xMax := cj.GetMundo().GetX() + cj.GetMundo().GetLargura()
@@ -205,22 +205,22 @@ func (s *SistemaSpawn) SpawnParedesAoRedor(cj interfaces.ICenaJogo, passo float6
 		objeto.NovaParede(cj, geometria.NovoPonto(xMax-passo, y)) // Lateral direita
 	}
 }
-func (s *SistemaSpawn) SpawnLabirinto(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) SpawnLabirinto(cj interfaces.ICenaJogo) {
 
-	s.spawnContorno(cj)
+	self.spawnContorno(cj)
 
-	s.spawnSetorNorte(cj)
+	self.spawnSetorNorte(cj)
 
-	s.spawnSetorSul(cj)
+	self.spawnSetorSul(cj)
 
-	s.spawnSetorLeste(cj)
+	self.spawnSetorLeste(cj)
 
-	s.spawnSetorOeste(cj)
+	self.spawnSetorOeste(cj)
 
-	s.spawnCorredores(cj)
+	self.spawnCorredores(cj)
 }
 
-func (s *SistemaSpawn) criarParede(
+func (self *SistemaSpawn) criarParede(
 	cj interfaces.ICenaJogo,
 	x float64,
 	y float64,
@@ -231,7 +231,7 @@ func (s *SistemaSpawn) criarParede(
 	)
 }
 
-func (s *SistemaSpawn) spawnSetorNorte(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) spawnSetorNorte(cj interfaces.ICenaJogo) {
 
 	passo := 30.0
 
@@ -241,7 +241,7 @@ func (s *SistemaSpawn) spawnSetorNorte(cj interfaces.ICenaJogo) {
 			continue
 		}
 
-		s.criarParede(cj, x, 250)
+		self.criarParede(cj, x, 250)
 	}
 
 	for x := 500.0; x <= 1800; x += passo {
@@ -250,11 +250,11 @@ func (s *SistemaSpawn) spawnSetorNorte(cj interfaces.ICenaJogo) {
 			continue
 		}
 
-		s.criarParede(cj, x, 400)
+		self.criarParede(cj, x, 400)
 	}
 }
 
-func (s *SistemaSpawn) spawnSetorSul(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) spawnSetorSul(cj interfaces.ICenaJogo) {
 
 	passo := 30.0
 
@@ -264,7 +264,7 @@ func (s *SistemaSpawn) spawnSetorSul(cj interfaces.ICenaJogo) {
 			continue
 		}
 
-		s.criarParede(cj, x, 1050)
+		self.criarParede(cj, x, 1050)
 	}
 
 	for x := 600.0; x <= 2000; x += passo {
@@ -273,11 +273,11 @@ func (s *SistemaSpawn) spawnSetorSul(cj interfaces.ICenaJogo) {
 			continue
 		}
 
-		s.criarParede(cj, x, 1200)
+		self.criarParede(cj, x, 1200)
 	}
 }
 
-func (s *SistemaSpawn) spawnSetorOeste(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) spawnSetorOeste(cj interfaces.ICenaJogo) {
 
 	passo := 30.0
 
@@ -287,7 +287,7 @@ func (s *SistemaSpawn) spawnSetorOeste(cj interfaces.ICenaJogo) {
 			continue
 		}
 
-		s.criarParede(cj, 500, y)
+		self.criarParede(cj, 500, y)
 	}
 
 	for y := 450.0; y <= 1100; y += passo {
@@ -296,11 +296,11 @@ func (s *SistemaSpawn) spawnSetorOeste(cj interfaces.ICenaJogo) {
 			continue
 		}
 
-		s.criarParede(cj, 700, y)
+		self.criarParede(cj, 700, y)
 	}
 }
 
-func (s *SistemaSpawn) spawnSetorLeste(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) spawnSetorLeste(cj interfaces.ICenaJogo) {
 
 	passo := 30.0
 
@@ -310,7 +310,7 @@ func (s *SistemaSpawn) spawnSetorLeste(cj interfaces.ICenaJogo) {
 			continue
 		}
 
-		s.criarParede(cj, 1900, y)
+		self.criarParede(cj, 1900, y)
 	}
 
 	for y := 400.0; y <= 1000; y += passo {
@@ -319,11 +319,11 @@ func (s *SistemaSpawn) spawnSetorLeste(cj interfaces.ICenaJogo) {
 			continue
 		}
 
-		s.criarParede(cj, 2150, y)
+		self.criarParede(cj, 2150, y)
 	}
 }
 
-func (s *SistemaSpawn) spawnCorredores(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) spawnCorredores(cj interfaces.ICenaJogo) {
 
 	passo := 30.0
 
@@ -333,7 +333,7 @@ func (s *SistemaSpawn) spawnCorredores(cj interfaces.ICenaJogo) {
 			continue
 		}
 
-		s.criarParede(cj, x, 550)
+		self.criarParede(cj, x, 550)
 	}
 
 	for x := 850.0; x <= 1700; x += passo {
@@ -342,17 +342,17 @@ func (s *SistemaSpawn) spawnCorredores(cj interfaces.ICenaJogo) {
 			continue
 		}
 
-		s.criarParede(cj, x, 900)
+		self.criarParede(cj, x, 900)
 	}
 }
 
-func (s *SistemaSpawn) spawnPracaCentral(
+func (self *SistemaSpawn) spawnPracaCentral(
 	cj interfaces.ICenaJogo,
 ) {
 	// propositalmente vazia
 }
 
-func (s *SistemaSpawn) spawnContorno(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) spawnContorno(cj interfaces.ICenaJogo) {
 
 	passo := 30.0
 
@@ -361,20 +361,20 @@ func (s *SistemaSpawn) spawnContorno(cj interfaces.ICenaJogo) {
 
 	for x := 0.0; x <= largura; x += passo {
 
-		s.criarParede(cj, x, 0)
+		self.criarParede(cj, x, 0)
 
-		s.criarParede(cj, x, altura)
+		self.criarParede(cj, x, altura)
 	}
 
 	for y := 0.0; y <= altura; y += passo {
 
-		s.criarParede(cj, 0, y)
+		self.criarParede(cj, 0, y)
 
-		s.criarParede(cj, largura, y)
+		self.criarParede(cj, largura, y)
 	}
 }
 
-func (s *SistemaSpawn) SpawnParedesEspecificas(cj interfaces.ICenaJogo) {
+func (self *SistemaSpawn) SpawnParedesEspecificas(cj interfaces.ICenaJogo) {
 	// --- LETRA L ---
 	objeto.NovaParede(cj, geometria.NovoPonto(200, 400))
 	objeto.NovaParede(cj, geometria.NovoPonto(200, 430))

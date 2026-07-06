@@ -44,130 +44,130 @@ func NovoJogador(cj interfaces.ICenaJogo, n string) *Jogador {
 	return &nJogador
 }
 
-func (j *Jogador) GetID() ecs.EntidadeID {
-	return j.entidadeID
+func (self *Jogador) GetID() ecs.EntidadeID {
+	return self.entidadeID
 }
 
-func (j *Jogador) ObterVida() *componentes.Vida {
-	if sangue_comp := j.GetComponente(componentes.VIDA.String()); sangue_comp != nil {
+func (self *Jogador) ObterVida() *componentes.Vida {
+	if sangue_comp := self.GetComponente(componentes.VIDA.String()); sangue_comp != nil {
 		return sangue_comp.(*componentes.Vida)
 	}
 	return nil
 }
-func (j *Jogador) ObterCorpo() *geometria.Retangulo {
-	if corpo_comp := j.GetComponente(componentes.CORPO.String()); corpo_comp != nil {
+func (self *Jogador) ObterCorpo() *geometria.Retangulo {
+	if corpo_comp := self.GetComponente(componentes.CORPO.String()); corpo_comp != nil {
 		return corpo_comp.(*geometria.Retangulo)
 	}
 	return nil
 }
-func (j *Jogador) ObterNivel() *componentes.Nivel {
-	if nivel_comp := j.GetComponente(componentes.NIVEL.String()); nivel_comp != nil {
+func (self *Jogador) ObterNivel() *componentes.Nivel {
+	if nivel_comp := self.GetComponente(componentes.NIVEL.String()); nivel_comp != nil {
 		return nivel_comp.(*componentes.Nivel)
 	}
 	return nil
 }
 
-func (j *Jogador) EstaVivo() bool {
-	resp := j.ObterVida().EstaVivo()
+func (self *Jogador) EstaVivo() bool {
+	resp := self.ObterVida().EstaVivo()
 	if !resp {
-		j.SetCor(cores.CINZA_CLARO)
+		self.SetCor(cores.CINZA_CLARO)
 	}
 	return resp
 }
 
-func (j *Jogador) CorrigeSangue() {
-	j.ObterVida().CorrigeSangue(j.ObterNivel().Valor)
+func (self *Jogador) CorrigeSangue() {
+	self.ObterVida().CorrigeSangue(self.ObterNivel().Valor)
 }
 
-func (j *Jogador) Renasce() {
-	j.ObterVida().Renasce(j.ObterNivel().Valor)
+func (self *Jogador) Renasce() {
+	self.ObterVida().Renasce(self.ObterNivel().Valor)
 }
 
-func (j *Jogador) TiraUmaVida() {
-	j.ObterVida().TiraUmaVida()
+func (self *Jogador) TiraUmaVida() {
+	self.ObterVida().TiraUmaVida()
 }
 
-func (j *Jogador) AcrescentaUmaVida() {
-	if !j.ObterVida().AcrescentaUmaVida() {
-		fmt.Println("A vida do jogador " + j.nome + " já está cheia!")
+func (self *Jogador) AcrescentaUmaVida() {
+	if !self.ObterVida().AcrescentaUmaVida() {
+		fmt.Println("A vida do jogador " + self.nome + " já está cheia!")
 	}
 }
 
-func (j *Jogador) ResetaVida() {
-	j.ObterVida().ResetaVida(3)
+func (self *Jogador) ResetaVida() {
+	self.ObterVida().ResetaVida(3)
 }
 
-func (j *Jogador) ResetaSangue() {
-	j.ObterVida().ResetaSangue(j.ObterNivel().Valor)
+func (self *Jogador) ResetaSangue() {
+	self.ObterVida().ResetaSangue(self.ObterNivel().Valor)
 }
 
-func (j *Jogador) PerdeSangue(rit int) {
-	j.ObterVida().PerdeSangue(rit, j.ObterNivel().Valor)
+func (self *Jogador) PerdeSangue(rit int) {
+	self.ObterVida().PerdeSangue(rit, self.ObterNivel().Valor)
 
-	if j.ObterVida().Sangue <= 0 {
-		j.Renasce()
+	if self.ObterVida().Sangue <= 0 {
+		self.Renasce()
 	}
 }
 
-func (j *Jogador) GetEntidade() ecs.Entidade {
-	return j.entidade
+func (self *Jogador) GetEntidade() ecs.Entidade {
+	return self.entidade
 }
 
-func (j *Jogador) GetNome() string {
-	return j.nome
+func (self *Jogador) GetNome() string {
+	return self.nome
 }
-func (j *Jogador) GetPosicao() *geometria.Ponto {
-	return geometria.NovoPonto(j.ObterCorpo().GetX(), j.ObterCorpo().GetY())
+func (self *Jogador) GetPosicao() *geometria.Ponto {
+	return geometria.NovoPonto(self.ObterCorpo().GetX(), self.ObterCorpo().GetY())
 }
-func (j *Jogador) GetX1() float64 {
-	return j.GetPosicao().GetX()
+func (self *Jogador) GetX1() float64 {
+	return self.GetPosicao().GetX()
 }
-func (j *Jogador) GetY1() float64 {
-	return j.GetPosicao().GetY()
+func (self *Jogador) GetY1() float64 {
+	return self.GetPosicao().GetY()
 }
-func (j *Jogador) GetX2() float64 {
-	return j.GetPosicao().GetX() + utils.JOGADOR_TAMANHO_MUNDO
+func (self *Jogador) GetX2() float64 {
+	return self.GetPosicao().GetX() + utils.JOGADOR_TAMANHO_MUNDO
 }
-func (j *Jogador) GetY2() float64 {
-	return j.GetPosicao().GetY() + utils.JOGADOR_TAMANHO_MUNDO
+func (self *Jogador) GetY2() float64 {
+	return self.GetPosicao().GetY() + utils.JOGADOR_TAMANHO_MUNDO
 }
-func (j *Jogador) GetLargura() float64 {
+func (self *Jogador) GetLargura() float64 {
 	return utils.JOGADOR_TAMANHO_MUNDO
 }
-func (j *Jogador) GetAltura() float64 {
+func (self *Jogador) GetAltura() float64 {
 	return utils.JOGADOR_TAMANHO_MUNDO
 }
-func (j *Jogador) GetCor() color.Color {
-	return j.cor
+func (self *Jogador) GetCor() color.Color {
+	return self.cor
 }
 
-func (j *Jogador) GetTipo() string {
+func (self *Jogador) GetTipo() string {
 	return entidades.JOGADOR.String()
 }
 
-func (j *Jogador) SetPosicao(x float64, y float64) {
-	j.ObterCorpo().SetX(x)
-	j.ObterCorpo().SetY(y)
+func (self *Jogador) SetPosicao(x float64, y float64) {
+	self.ObterCorpo().SetX(x)
+	self.ObterCorpo().SetY(y)
 }
-func (j *Jogador) SetX(x float64) {
-	j.GetPosicao().SetX(x)
+func (self *Jogador) SetX(x float64) {
+	self.GetPosicao().SetX(x)
 }
-func (j *Jogador) SetY(y float64) {
-	j.GetPosicao().SetY(y)
+func (self *Jogador) SetY(y float64) {
+	self.GetPosicao().SetY(y)
 }
-func (j *Jogador) SetCor(cor color.Color) {
-	j.cor = cor
+func (self *Jogador) SetCor(cor color.Color) {
+	self.cor = cor
 }
-func (j *Jogador) SetNivel(nivel int) {
-	j.ObterNivel().Valor = nivel
-	j.CorrigeSangue()
+func (self *Jogador) SetNivel(nivel int) {
+	self.ObterNivel().Valor = nivel
+	self.CorrigeSangue()
 }
 
-func (j *Jogador) Mover() {
+func (self *Jogador) Mover() {
 	velocidade := float64(utils.JOGADOR_TAMANHO_MUNDO / config.PROPORCAO_MAPA)
 
-	origemX := j.GetX1()
-	origemY := j.GetY1()
+	origemX := self.GetX1()
+	origemY := self.GetY1()
 
 	// 1. Criamos a cópia estável para servir de filtro de auto-colisão no ECS
 	corpoDeFiltro := geometria.NovoRetangulo(origemX, origemY, utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)
@@ -184,9 +184,9 @@ func (j *Jogador) Mover() {
 		for i := 0; i < totalPassosX; i++ {
 			proximoX := origemX + passoX
 			testeCorpoX := geometria.NovoRetangulo(proximoX, origemY, utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)
-			colisao := j.cenaJogo.GetSistemaColisao().VaiColidir(j.GetTipo(), j.GetEntidade(), corpoDeFiltro, testeCorpoX)
+			colisao := self.cenaJogo.GetSistemaColisao().VaiColidir(self.GetTipo(), self.GetEntidade(), corpoDeFiltro, testeCorpoX)
 			// Verifica se o PRÓXIMO pixel está livre
-			if j.cenaJogo.GetMundo().EstaNaMargemInterna(testeCorpoX, utils.JOGADOR_TAMANHO_MUNDO) &&
+			if self.cenaJogo.GetMundo().EstaNaMargemInterna(testeCorpoX, utils.JOGADOR_TAMANHO_MUNDO) &&
 				!colisao.Status {
 				origemX = proximoX // Avança 1 pixel com segurança
 			} else {
@@ -208,10 +208,10 @@ func (j *Jogador) Mover() {
 			proximoY := origemY + passoS
 			// Importante: Usa o origemX já processado para validar quinas corretamente
 			testeCorpoY := geometria.NovoRetangulo(origemX, proximoY, utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO)
-			colisao := j.cenaJogo.GetSistemaColisao().VaiColidir(j.GetTipo(), j.GetEntidade(), corpoDeFiltro, testeCorpoY)
+			colisao := self.cenaJogo.GetSistemaColisao().VaiColidir(self.GetTipo(), self.GetEntidade(), corpoDeFiltro, testeCorpoY)
 
 			// Verifica se o PRÓXIMO pixel está livre
-			if j.cenaJogo.GetMundo().EstaNaMargemInterna(testeCorpoY, utils.JOGADOR_TAMANHO_MUNDO) &&
+			if self.cenaJogo.GetMundo().EstaNaMargemInterna(testeCorpoY, utils.JOGADOR_TAMANHO_MUNDO) &&
 				!colisao.Status {
 				origemY = proximoY // Avança 1 pixel com segurança
 			} else {
@@ -222,53 +222,53 @@ func (j *Jogador) Mover() {
 
 	// --- APLICAÇÃO FINAL ---
 	// Define a posição final onde o jogador conseguiu chegar sem interceptar nada
-	j.SetPosicao(origemX, origemY)
+	self.SetPosicao(origemX, origemY)
 }
 
-func (j *Jogador) CarregarPontuacao() {
-	pontuacaoComp := j.GetComponente(componentes.PONTUACAO.String())
+func (self *Jogador) CarregarPontuacao() {
+	pontuacaoComp := self.GetComponente(componentes.PONTUACAO.String())
 	pontuacao := pontuacaoComp.(*componentes.Pontuacao)
 
 	if pontuacao.Coletado >= pontuacao.Requisito {
-		j.cenaJogo.ColetadoTudo(true)
-		j.cenaJogo.SetFaltaPontuacao(0)
+		self.cenaJogo.ColetadoTudo(true)
+		self.cenaJogo.SetFaltaPontuacao(0)
 	} else {
-		j.cenaJogo.SetFaltaPontuacao(pontuacao.Requisito - pontuacao.Coletado)
+		self.cenaJogo.SetFaltaPontuacao(pontuacao.Requisito - pontuacao.Coletado)
 	}
 
 	if pontuacao.EntreiNaSaida {
-		j.cenaJogo.EntreiNaSaida()
+		self.cenaJogo.EntreiNaSaida()
 	}
 
 }
 
-func (j *Jogador) Atualizar() {
-	if j.EstaVivo() && !j.cenaJogo.Concluiu() && !j.cenaJogo.EntrouNaSaida() {
-		j.Mover()
+func (self *Jogador) Atualizar() {
+	if self.EstaVivo() && !self.cenaJogo.Concluiu() && !self.cenaJogo.EntrouNaSaida() {
+		self.Mover()
 
 		if ebiten.IsKeyPressed(ebiten.KeySpace) {
-			j.Atira()
+			self.Atira()
 		}
 
-		j.CarregarPontuacao()
+		self.CarregarPontuacao()
 
 	}
 }
 
-func (j *Jogador) Desenhar(tela *ebiten.Image) {
+func (self *Jogador) Desenhar(tela *ebiten.Image) {
 
-	if j.cenaJogo.Concluiu() && j.cenaJogo.EntrouNaSaida() {
+	if self.cenaJogo.Concluiu() && self.cenaJogo.EntrouNaSaida() {
 		return
 	}
 
-	if j.entidade == nil {
+	if self.entidade == nil {
 
 	} else {
-		ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1(), j.cenaJogo.GetCamera().GetY()+j.GetY1()-10, float64(j.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
+		ebitenutil.DrawRect(tela, self.cenaJogo.GetCamera().GetX()+self.GetX1(), self.cenaJogo.GetCamera().GetY()+self.GetY1()-10, float64(self.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
 
-		ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1(), j.cenaJogo.GetCamera().GetY()+j.GetY1(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO, j.GetCor())
-		ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1()+2, j.cenaJogo.GetCamera().GetY()+j.GetY1()+2, utils.JOGADOR_TAMANHO_MUNDO-4, utils.JOGADOR_TAMANHO_MUNDO-4, cores.BRANCO)
-		ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1()+4, j.cenaJogo.GetCamera().GetY()+j.GetY1()+4, utils.JOGADOR_TAMANHO_MUNDO-8, utils.JOGADOR_TAMANHO_MUNDO-8, j.GetCor())
+		ebitenutil.DrawRect(tela, self.cenaJogo.GetCamera().GetX()+self.GetX1(), self.cenaJogo.GetCamera().GetY()+self.GetY1(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO, self.GetCor())
+		ebitenutil.DrawRect(tela, self.cenaJogo.GetCamera().GetX()+self.GetX1()+2, self.cenaJogo.GetCamera().GetY()+self.GetY1()+2, utils.JOGADOR_TAMANHO_MUNDO-4, utils.JOGADOR_TAMANHO_MUNDO-4, cores.BRANCO)
+		ebitenutil.DrawRect(tela, self.cenaJogo.GetCamera().GetX()+self.GetX1()+4, self.cenaJogo.GetCamera().GetY()+self.GetY1()+4, utils.JOGADOR_TAMANHO_MUNDO-8, utils.JOGADOR_TAMANHO_MUNDO-8, self.GetCor())
 
 		//ebitenutil.DrawRect(tela, j.cenaJogo.GetCamera().GetX()+j.GetX1(), j.cenaJogo.GetCamera().GetY()+j.GetY1(), utils.JOGADOR_TAMANHO_MUNDO, utils.JOGADOR_TAMANHO_MUNDO, j.GetCor())
 
@@ -282,8 +282,8 @@ func (j *Jogador) Desenhar(tela *ebiten.Image) {
 
 }
 
-func (j *Jogador) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
-	ebitenutil.DrawRect(tela, mapaX+(j.GetX1()/config.PROPORCAO_MAPA), mapaY+(j.GetY1()/config.PROPORCAO_MAPA), utils.JOGADOR_TAMANHO_MAPA, utils.JOGADOR_TAMANHO_MAPA, cores.AZUL)
+func (self *Jogador) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
+	ebitenutil.DrawRect(tela, mapaX+(self.GetX1()/config.PROPORCAO_MAPA), mapaY+(self.GetY1()/config.PROPORCAO_MAPA), utils.JOGADOR_TAMANHO_MAPA, utils.JOGADOR_TAMANHO_MAPA, cores.AZUL)
 
 	//ebitenutil.DrawRect(tela, (mapaX + (j.GetX() / utils.PROPORCAO_MAPA) + 1), (mapaY + (j.GetY() / utils.PROPORCAO_MAPA) + 1), JOGADOR_TAMANHO_INTERNO/2, JOGADOR_TAMANHO_INTERNO/2, cores.PRETO)
 	//ebitenutil.DrawRect(tela, (mapaX + (j.GetX() / utils.PROPORCAO_MAPA) + 1), (mapaY + (j.GetY() / utils.PROPORCAO_MAPA) + 2), JOGADOR_TAMANHO_INTERNO/2, JOGADOR_TAMANHO_INTERNO/2, cores.PRETO)
@@ -291,21 +291,21 @@ func (j *Jogador) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64)
 	//ebitenutil.DrawRect(tela, (mapaX + (j.GetX() / utils.PROPORCAO_MAPA) + 2), (mapaY + (j.GetY() / utils.PROPORCAO_MAPA) + 2), JOGADOR_TAMANHO_INTERNO/2, JOGADOR_TAMANHO_INTERNO/2, cores.PRETO)
 }
 
-func (e *Jogador) Atira() {
+func (self *Jogador) Atira() {
 	//j.game.GerarBot(posX, posY)
 }
 
-func (e *Jogador) GetComponente(id string) interface{} {
-	return e.Componentes[id]
+func (self *Jogador) GetComponente(id string) interface{} {
+	return self.Componentes[id]
 }
 
-func (e *Jogador) AdicionarComponente(id string, comp interface{}) {
-	if e.Componentes == nil {
-		e.Componentes = make(map[string]interface{})
+func (self *Jogador) AdicionarComponente(id string, comp interface{}) {
+	if self.Componentes == nil {
+		self.Componentes = make(map[string]interface{})
 	}
-	e.Componentes[id] = comp
+	self.Componentes[id] = comp
 }
-func (e *Jogador) ExisteComponente(id string) bool {
-	_, existe := e.Componentes[id]
+func (self *Jogador) ExisteComponente(id string) bool {
+	_, existe := self.Componentes[id]
 	return existe
 }

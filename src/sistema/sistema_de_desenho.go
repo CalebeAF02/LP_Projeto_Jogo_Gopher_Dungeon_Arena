@@ -14,7 +14,7 @@ import (
 
 type SistemaDesenhar struct{}
 
-func (s *SistemaDesenhar) Desenhar(cj interfaces.ICenaJogo, tela *ebiten.Image) {
+func (self *SistemaDesenhar) Desenhar(cj interfaces.ICenaJogo, tela *ebiten.Image) {
 
 	tela.Fill(cores.BRANCO)
 

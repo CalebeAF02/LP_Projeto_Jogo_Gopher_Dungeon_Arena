@@ -28,17 +28,17 @@ func NovoTime(cenaJogo interfaces.ICenaJogo, n string, cor color.Color) *Time {
 	return &nTime
 }
 
-func (j *Time) GetID() ecs.EntidadeID {
-	return j.entidadeID
+func (self *Time) GetID() ecs.EntidadeID {
+	return self.entidadeID
 }
 
-func (t *Time) Adicionnar(jogador *personagens.Jogador) {
-	jogador.SetCor(t.cor)
-	t.jogadores = append(t.jogadores, jogador)
+func (self *Time) Adicionnar(jogador *personagens.Jogador) {
+	jogador.SetCor(self.cor)
+	self.jogadores = append(self.jogadores, jogador)
 }
 
-func (t *Time) EstaVivo() bool {
-	for _, jogador := range t.jogadores {
+func (self *Time) EstaVivo() bool {
+	for _, jogador := range self.jogadores {
 		if jogador.ObterVida().Status {
 			return true
 		}
@@ -46,16 +46,16 @@ func (t *Time) EstaVivo() bool {
 	return false
 }
 
-func (t *Time) GetNome() string {
-	return t.nome
+func (self *Time) GetNome() string {
+	return self.nome
 }
-func (t *Time) GetJogador(id int) *personagens.Jogador {
-	return t.jogadores[id]
+func (self *Time) GetJogador(id int) *personagens.Jogador {
+	return self.jogadores[id]
 }
-func (t *Time) GetJogadores() []*personagens.Jogador {
+func (self *Time) GetJogadores() []*personagens.Jogador {
 	listaJogadore := []*personagens.Jogador{}
 
-	for _, e := range t.cenaJogo.GetEntidades() {
+	for _, e := range self.cenaJogo.GetEntidades() {
 		if e.GetTipo() == "JOGADOR" {
 			listaJogadore = append(listaJogadore, e.(*personagens.Jogador))
 		}
@@ -65,21 +65,21 @@ func (t *Time) GetJogadores() []*personagens.Jogador {
 	return listaJogadore
 }
 
-func (t *Time) Posicoes() {
-	for i, j := range t.jogadores {
+func (self *Time) Posicoes() {
+	for i, j := range self.jogadores {
 		erro := fmt.Sprintf("Jogador_%d: %s esta na posicao %s\n", i+1, j.GetNome(), j.GetPosicao().ToString())
 		fmt.Println(erro)
 	}
 }
 
-func (t *Time) GetTipo() string {
+func (self *Time) GetTipo() string {
 	return entidades.TIME.String()
 }
-func (t *Time) GetQuantidade() int {
-	return len(t.jogadores)
+func (self *Time) GetQuantidade() int {
+	return len(self.jogadores)
 }
-func (t *Time) GetPosicaoTime() *geometria.Ponto {
-	jogadores := t.GetJogadores()
+func (self *Time) GetPosicaoTime() *geometria.Ponto {
+	jogadores := self.GetJogadores()
 
 	for _, j := range jogadores {
 		//fmt.Println("Jogador : ", j.GetNome(), " esta: ", j.EstaVivo())
@@ -92,28 +92,28 @@ func (t *Time) GetPosicaoTime() *geometria.Ponto {
 	return nil
 }
 
-func (t *Time) Atualizar() {
-	t.GetQuantidade()
+func (self *Time) Atualizar() {
+	self.GetQuantidade()
 }
-func (t *Time) Desenhar(tela *ebiten.Image) {
-	t.GetQuantidade()
+func (self *Time) Desenhar(tela *ebiten.Image) {
+	self.GetQuantidade()
 }
-func (t *Time) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
-	t.GetQuantidade()
-}
-
-func (e *Time) GetComponente(id string) interface{} {
-	return e.Componentes[id]
+func (self *Time) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
+	self.GetQuantidade()
 }
 
-func (e *Time) AdicionarComponente(id string, comp interface{}) {
-	if e.Componentes == nil {
-		e.Componentes = make(map[string]interface{})
+func (self *Time) GetComponente(id string) interface{} {
+	return self.Componentes[id]
+}
+
+func (self *Time) AdicionarComponente(id string, comp interface{}) {
+	if self.Componentes == nil {
+		self.Componentes = make(map[string]interface{})
 	}
-	e.Componentes[id] = comp
+	self.Componentes[id] = comp
 }
 
-func (e *Time) ExisteComponente(id string) bool {
-	_, existe := e.Componentes[id]
+func (self *Time) ExisteComponente(id string) bool {
+	_, existe := self.Componentes[id]
 	return existe
 }

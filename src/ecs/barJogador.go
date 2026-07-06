@@ -24,30 +24,30 @@ func NovoBarJogador(mundo *geometria.Retangulo, posicao *geometria.Ponto, camera
 	return &nBar
 }
 
-func (bj *BarJogador) Dados() {
-	fmt.Println("Mapa>>>>>>>>>>>> mundoPosX: ", bj.mundo.GetX(), " | mundoPosY: ", bj.mundo.GetY(), " | mundoLargura: ", bj.mundo.GetLargura(), " | mundoAltura: ", bj.mundo.GetAltura())
-	fmt.Println("Mapa>>>>>>>>>>>> miniMapaPosX: ", bj.barJogador.GetX(), " | miniMapaPosY: ", bj.barJogador.GetY(), " | miniMapaLargura: ", bj.barJogador.GetLargura(), " | miniMapaAltura: ", bj.barJogador.GetAltura())
-	fmt.Println("Mapa>>>>>>>>>>>> posicaoPosX: ", bj.posicao.GetX(), " | posicaoPosY: ", bj.posicao.GetY())
+func (self *BarJogador) Dados() {
+	fmt.Println("Mapa>>>>>>>>>>>> mundoPosX: ", self.mundo.GetX(), " | mundoPosY: ", self.mundo.GetY(), " | mundoLargura: ", self.mundo.GetLargura(), " | mundoAltura: ", self.mundo.GetAltura())
+	fmt.Println("Mapa>>>>>>>>>>>> miniMapaPosX: ", self.barJogador.GetX(), " | miniMapaPosY: ", self.barJogador.GetY(), " | miniMapaLargura: ", self.barJogador.GetLargura(), " | miniMapaAltura: ", self.barJogador.GetAltura())
+	fmt.Println("Mapa>>>>>>>>>>>> posicaoPosX: ", self.posicao.GetX(), " | posicaoPosY: ", self.posicao.GetY())
 
 }
 
-func (bj *BarJogador) GetX() float64 {
-	return bj.barJogador.GetX()
+func (self *BarJogador) GetX() float64 {
+	return self.barJogador.GetX()
 }
-func (bj *BarJogador) GetY() float64 {
-	return bj.barJogador.GetY()
-}
-
-func (bj *BarJogador) Mover() {
+func (self *BarJogador) GetY() float64 {
+	return self.barJogador.GetY()
 }
 
-func (bj *BarJogador) Atualizar() {
+func (self *BarJogador) Mover() {
+}
+
+func (self *BarJogador) Atualizar() {
 	//bj.Dados()
 }
 
-func (bj *BarJogador) Desenhar(tela *ebiten.Image) {
+func (self *BarJogador) Desenhar(tela *ebiten.Image) {
 	//Tela Branca
-	ebitenutil.DrawRect(tela, bj.barJogador.GetX(), bj.barJogador.GetY(), bj.barJogador.GetLargura(), bj.barJogador.GetAltura(), cores.BRANCO)
+	ebitenutil.DrawRect(tela, self.barJogador.GetX(), self.barJogador.GetY(), self.barJogador.GetLargura(), self.barJogador.GetAltura(), cores.BRANCO)
 
 	//Tela Amarela
 	//amareloPosX := bj.barJogador.GetX() - (bj.camera.GetX() / config.PROPORCAO_MAPA)
@@ -56,8 +56,8 @@ func (bj *BarJogador) Desenhar(tela *ebiten.Image) {
 	//amareloAltura := bj.barJogador.GetAltura() / config.PROPORCAO_MUNDO
 
 	//Margem
-	utils.MargemInterna(tela, bj.barJogador, utils.JOGADOR_TAMANHO_MAPA, cores.VERMELHO)
+	utils.MargemInterna(tela, self.barJogador, utils.JOGADOR_TAMANHO_MAPA, cores.VERMELHO)
 }
 
-func (bj *BarJogador) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
+func (self *BarJogador) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
 }

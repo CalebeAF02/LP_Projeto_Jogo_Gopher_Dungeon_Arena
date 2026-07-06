@@ -51,49 +51,49 @@ func NovoPortalSpriteEntrada(cj interfaces.ICenaJogo, id int64, spritePronto *eb
 	return &nBot
 }
 
-func (j *PortalSpriteEntrada) GetID() ecs.EntidadeID {
-	return j.entidadeID
+func (self *PortalSpriteEntrada) GetID() ecs.EntidadeID {
+	return self.entidadeID
 }
 
-func (e *PortalSpriteEntrada) GetComponente(id string) interface{} {
-	return e.Componentes[id]
+func (self *PortalSpriteEntrada) GetComponente(id string) interface{} {
+	return self.Componentes[id]
 }
 
-func (e *PortalSpriteEntrada) AdicionarComponente(id string, comp interface{}) {
-	if e.Componentes == nil {
-		e.Componentes = make(map[string]interface{})
+func (self *PortalSpriteEntrada) AdicionarComponente(id string, comp interface{}) {
+	if self.Componentes == nil {
+		self.Componentes = make(map[string]interface{})
 	}
-	e.Componentes[id] = comp
+	self.Componentes[id] = comp
 }
 
-func (e *PortalSpriteEntrada) AlterarComponente(id string, comp interface{}) {
-	e.Componentes[id] = comp
+func (self *PortalSpriteEntrada) AlterarComponente(id string, comp interface{}) {
+	self.Componentes[id] = comp
 }
 
-func (e *PortalSpriteEntrada) ExisteComponente(id string) bool {
-	_, existe := e.Componentes[id]
+func (self *PortalSpriteEntrada) ExisteComponente(id string) bool {
+	_, existe := self.Componentes[id]
 	return existe
 }
 
-func (b *PortalSpriteEntrada) Atualizar() {
+func (self *PortalSpriteEntrada) Atualizar() {
 	// A lógica antiga do loop "for" de 4 quinas rodando sumiu.
 	// O Update fica limpo e performático porque o portal agora usa o sprite fixo do PNG.
 }
 
-func (b *PortalSpriteEntrada) Desenhar(tela *ebiten.Image) {
-	if b.spriteFatiado == nil {
+func (self *PortalSpriteEntrada) Desenhar(tela *ebiten.Image) {
+	if self.spriteFatiado == nil {
 		return
 	}
 
 	// 1. Pega as coordenadas X e Y da tela considerando a câmera
-	posXX := b.cenaJogo.GetCamera().GetX() + b.GetX1()
-	posY := b.cenaJogo.GetCamera().GetY() + b.GetY1()
+	posXX := self.cenaJogo.GetCamera().GetX() + self.GetX1()
+	posY := self.cenaJogo.GetCamera().GetY() + self.GetY1()
 
 	// 2. Configura as opções de desenho e redimensionamento do sprite
 	op := &ebiten.DrawImageOptions{}
 
 	// Trata a escala dinamicamente para casar com a constante de tamanho do seu mundo
-	bounds := b.spriteFatiado.Bounds()
+	bounds := self.spriteFatiado.Bounds()
 	escalaX := utils.PORTAL_ENTRADA_TAMANHO / float64(bounds.Dx())
 	escalaY := utils.PORTAL_ENTRADA_TAMANHO / float64(bounds.Dy())
 	op.GeoM.Scale(escalaX, escalaY)
@@ -102,39 +102,39 @@ func (b *PortalSpriteEntrada) Desenhar(tela *ebiten.Image) {
 	op.GeoM.Translate(posXX, posY)
 
 	// 3. Renderiza o sprite na tela (Substitui todos os DrawRect e DrawFilledCircle de antes)
-	tela.DrawImage(b.spriteFatiado, op)
+	tela.DrawImage(self.spriteFatiado, op)
 }
 
-func (b *PortalSpriteEntrada) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
-	ebitenutil.DrawRect(tela, mapaX+(b.GetX1()/config.PROPORCAO_MAPA), mapaY+(b.GetY1()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
+func (self *PortalSpriteEntrada) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
+	ebitenutil.DrawRect(tela, mapaX+(self.GetX1()/config.PROPORCAO_MAPA), mapaY+(self.GetY1()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
 }
 
-func (b *PortalSpriteEntrada) GetX1() float64 {
-	return b.posicao.GetX()
+func (self *PortalSpriteEntrada) GetX1() float64 {
+	return self.posicao.GetX()
 }
 
-func (b *PortalSpriteEntrada) GetY1() float64 {
-	return b.posicao.GetY()
+func (self *PortalSpriteEntrada) GetY1() float64 {
+	return self.posicao.GetY()
 }
 
-func (b *PortalSpriteEntrada) GetX2() float64 {
-	return b.posicao.GetX() + utils.BOT_TAMANHO_MUNDO
+func (self *PortalSpriteEntrada) GetX2() float64 {
+	return self.posicao.GetX() + utils.BOT_TAMANHO_MUNDO
 }
 
-func (b *PortalSpriteEntrada) GetY2() float64 {
-	return b.posicao.GetY() + utils.BOT_TAMANHO_MUNDO
+func (self *PortalSpriteEntrada) GetY2() float64 {
+	return self.posicao.GetY() + utils.BOT_TAMANHO_MUNDO
 }
 
-func (b *PortalSpriteEntrada) GetLargura() float64 {
+func (self *PortalSpriteEntrada) GetLargura() float64 {
 	return utils.BOT_TAMANHO_MUNDO
 }
 
-func (b *PortalSpriteEntrada) GetTipo() string {
+func (self *PortalSpriteEntrada) GetTipo() string {
 	return entidades.PORTAL_ENTRADA.String()
 }
 
-func (b *PortalSpriteEntrada) SetPosicao(x float64, y float64) {
-	b.posicao.SetPosicao(x, y)
-	b.corpo.SetX(x)
-	b.corpo.SetY(y)
+func (self *PortalSpriteEntrada) SetPosicao(x float64, y float64) {
+	self.posicao.SetPosicao(x, y)
+	self.corpo.SetX(x)
+	self.corpo.SetY(y)
 }

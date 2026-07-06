@@ -44,200 +44,200 @@ func NovoBot(cj interfaces.ICenaJogo, id int64) *Bot {
 	return &nBot
 }
 
-func (j *Bot) GetID() ecs.EntidadeID {
-	return j.entidadeID
+func (self *Bot) GetID() ecs.EntidadeID {
+	return self.entidadeID
 }
 
-func (b *Bot) ObterVida() *componentes.Vida {
-	if sangue_comp := b.GetComponente(componentes.VIDA.String()); sangue_comp != nil {
+func (self *Bot) ObterVida() *componentes.Vida {
+	if sangue_comp := self.GetComponente(componentes.VIDA.String()); sangue_comp != nil {
 		return sangue_comp.(*componentes.Vida)
 	}
 	return nil
 }
-func (b *Bot) ObterCorpo() *geometria.Retangulo {
-	if corpo_comp := b.GetComponente(componentes.CORPO.String()); corpo_comp != nil {
+func (self *Bot) ObterCorpo() *geometria.Retangulo {
+	if corpo_comp := self.GetComponente(componentes.CORPO.String()); corpo_comp != nil {
 		return corpo_comp.(*geometria.Retangulo)
 	}
 	return nil
 }
-func (b *Bot) ObterNivel() *componentes.Nivel {
-	if nivel_comp := b.GetComponente(componentes.NIVEL.String()); nivel_comp != nil {
+func (self *Bot) ObterNivel() *componentes.Nivel {
+	if nivel_comp := self.GetComponente(componentes.NIVEL.String()); nivel_comp != nil {
 		return nivel_comp.(*componentes.Nivel)
 	}
 	return nil
 }
 
-func (b *Bot) ObterAtividade() *componentes.Atividade {
-	if nivel_comp := b.GetComponente(componentes.ATIVIDADE.String()); nivel_comp != nil {
+func (self *Bot) ObterAtividade() *componentes.Atividade {
+	if nivel_comp := self.GetComponente(componentes.ATIVIDADE.String()); nivel_comp != nil {
 		return nivel_comp.(*componentes.Atividade)
 	}
 	return nil
 }
 
-func (b *Bot) ObterMovimento() *componentes.Movimento {
-	if mov_comp := b.GetComponente(componentes.MOVIMENTO.String()); mov_comp != nil {
+func (self *Bot) ObterMovimento() *componentes.Movimento {
+	if mov_comp := self.GetComponente(componentes.MOVIMENTO.String()); mov_comp != nil {
 		return mov_comp.(*componentes.Movimento)
 	}
 	return nil
 }
 
-func (b *Bot) EstaVivo() bool {
-	if !b.ObterVida().EstaVivo() {
-		b.SetCor(cores.CINZA_CLARO)
+func (self *Bot) EstaVivo() bool {
+	if !self.ObterVida().EstaVivo() {
+		self.SetCor(cores.CINZA_CLARO)
 		return false
 	}
 	return true
 }
 
-func (b *Bot) PossoMeMover() bool {
-	return b.ObterAtividade().Acao == componentes.AIVIDADE_MOVIMENTO
+func (self *Bot) PossoMeMover() bool {
+	return self.ObterAtividade().Acao == componentes.AIVIDADE_MOVIMENTO
 }
 
-func (b *Bot) CorrigeSangue() {
-	b.ObterVida().CorrigeSangue(b.ObterNivel().Valor)
+func (self *Bot) CorrigeSangue() {
+	self.ObterVida().CorrigeSangue(self.ObterNivel().Valor)
 }
 
-func (b *Bot) PerdeSangue(rit int) {
-	b.ObterVida().PerdeSangue(rit, b.ObterNivel().Valor)
+func (self *Bot) PerdeSangue(rit int) {
+	self.ObterVida().PerdeSangue(rit, self.ObterNivel().Valor)
 }
 
-func (b *Bot) ResetaSangue() {
-	b.ObterVida().ResetaSangue(b.ObterNivel().Valor)
+func (self *Bot) ResetaSangue() {
+	self.ObterVida().ResetaSangue(self.ObterNivel().Valor)
 }
 
-func (b *Bot) SetPosicao(x float64, y float64) {
-	b.ObterCorpo().SetX(x)
-	b.ObterCorpo().SetY(y)
+func (self *Bot) SetPosicao(x float64, y float64) {
+	self.ObterCorpo().SetX(x)
+	self.ObterCorpo().SetY(y)
 }
 
-func (b *Bot) GetEntidade() ecs.Entidade {
-	return b.entidade
+func (self *Bot) GetEntidade() ecs.Entidade {
+	return self.entidade
 }
-func (b *Bot) GetPosicao() *geometria.Ponto {
-	return geometria.NovoPonto(b.ObterCorpo().GetX(), b.ObterCorpo().GetY())
+func (self *Bot) GetPosicao() *geometria.Ponto {
+	return geometria.NovoPonto(self.ObterCorpo().GetX(), self.ObterCorpo().GetY())
 }
-func (b *Bot) GetX1() float64 {
-	return b.GetPosicao().GetX()
-}
-
-func (b *Bot) GetY1() float64 {
-	return b.GetPosicao().GetY()
+func (self *Bot) GetX1() float64 {
+	return self.GetPosicao().GetX()
 }
 
-func (b *Bot) GetX2() float64 {
-	return b.GetPosicao().GetX() + utils.BOT_TAMANHO_MUNDO
+func (self *Bot) GetY1() float64 {
+	return self.GetPosicao().GetY()
 }
 
-func (b *Bot) GetY2() float64 {
-	return b.GetPosicao().GetY() + utils.BOT_TAMANHO_MUNDO
+func (self *Bot) GetX2() float64 {
+	return self.GetPosicao().GetX() + utils.BOT_TAMANHO_MUNDO
 }
-func (b *Bot) GetLargura() float64 {
+
+func (self *Bot) GetY2() float64 {
+	return self.GetPosicao().GetY() + utils.BOT_TAMANHO_MUNDO
+}
+func (self *Bot) GetLargura() float64 {
 	return utils.BOT_TAMANHO_MUNDO
 }
 
-func (b *Bot) GetAltura() float64 {
+func (self *Bot) GetAltura() float64 {
 	return utils.BOT_TAMANHO_MUNDO
 }
 
-func (b *Bot) GetCor() color.Color {
-	return b.ObterMovimento().Cor
+func (self *Bot) GetCor() color.Color {
+	return self.ObterMovimento().Cor
 }
 
-func (b *Bot) GetMovendoTipo() string {
-	return b.ObterMovimento().Tipo.GetTipo()
+func (self *Bot) GetMovendoTipo() string {
+	return self.ObterMovimento().Tipo.GetTipo()
 }
 
-func (b *Bot) GetTipo() string {
+func (self *Bot) GetTipo() string {
 	return entidades.BOT.String()
 }
 
-func (b *Bot) GetSubTipo() string {
-	return b.ObterMovimento().Tipo.GetTipo()
+func (self *Bot) GetSubTipo() string {
+	return self.ObterMovimento().Tipo.GetTipo()
 }
 
-func (b *Bot) GetNivel() int {
-	return b.ObterNivel().Valor
+func (self *Bot) GetNivel() int {
+	return self.ObterNivel().Valor
 }
 
-func (b *Bot) SetCor(c color.Color) {
-	b.ObterMovimento().Cor = c
+func (self *Bot) SetCor(c color.Color) {
+	self.ObterMovimento().Cor = c
 }
 
-func (b *Bot) SetNivel(nivel int) {
-	b.ObterNivel().Valor = nivel
-	b.CorrigeSangue()
+func (self *Bot) SetNivel(nivel int) {
+	self.ObterNivel().Valor = nivel
+	self.CorrigeSangue()
 }
 
-func (b *Bot) SetNivelAleatorio() {
-	nivel := b.cenaJogo.GetAleatorio().Intn(100)
+func (self *Bot) SetNivelAleatorio() {
+	nivel := self.cenaJogo.GetAleatorio().Intn(100)
 	switch {
 	case nivel >= 70:
-		b.ObterNivel().Valor = 3
+		self.ObterNivel().Valor = 3
 	case nivel >= 50:
-		b.ObterNivel().Valor = 2
+		self.ObterNivel().Valor = 2
 	default:
-		b.ObterNivel().Valor = 1
+		self.ObterNivel().Valor = 1
 	}
-	b.CorrigeSangue()
+	self.CorrigeSangue()
 }
 
-func (b *Bot) Mover(r *rand.Rand) {
-	posX := b.GetPosicao().GetX()
-	posY := b.GetPosicao().GetY()
+func (self *Bot) Mover(r *rand.Rand) {
+	posX := self.GetPosicao().GetX()
+	posY := self.GetPosicao().GetY()
 
-	if b.ObterMovimento().Tipo != nil {
-		b.ObterMovimento().Tipo.Mover(b.entidade, b.cenaJogo.GetSistemaColisao(), b.cenaJogo.GetMundo(), b, r)
+	if self.ObterMovimento().Tipo != nil {
+		self.ObterMovimento().Tipo.Mover(self.entidade, self.cenaJogo.GetSistemaColisao(), self.cenaJogo.GetMundo(), self, r)
 	}
 
-	if b.cenaJogo.GetMundo().EstaNaMargemInterna(geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO), utils.BOT_TAMANHO_MUNDO) {
+	if self.cenaJogo.GetMundo().EstaNaMargemInterna(geometria.NovoRetangulo(posX, posY, utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO), utils.BOT_TAMANHO_MUNDO) {
 		//b.SetPosicao(posX, posY)
 		//fmt.Println("Bot Passou nesta funcao !")
 	}
 }
 
-func (b *Bot) SetMovimentacao(movendo interfaces.Movimentador) {
-	b.ObterMovimento().Tipo = movendo
-	b.AlterarComponente(componentes.MOVIMENTO.String(), &componentes.Movimento{Tipo: movendo, Cor: movendo.GetCor()})
-	b.AlterarComponente(componentes.SUB_TIPO.String(), &componentes.SubTipo{Valor: movendo.GetTipo()})
+func (self *Bot) SetMovimentacao(movendo interfaces.Movimentador) {
+	self.ObterMovimento().Tipo = movendo
+	self.AlterarComponente(componentes.MOVIMENTO.String(), &componentes.Movimento{Tipo: movendo, Cor: movendo.GetCor()})
+	self.AlterarComponente(componentes.SUB_TIPO.String(), &componentes.SubTipo{Valor: movendo.GetTipo()})
 }
 
-func (b *Bot) Atualizar() {
-	if b.PossoMeMover() && b.ObterVida().EstaVivo() {
-		b.Mover(b.cenaJogo.GetAleatorio())
+func (self *Bot) Atualizar() {
+	if self.PossoMeMover() && self.ObterVida().EstaVivo() {
+		self.Mover(self.cenaJogo.GetAleatorio())
 	}
 }
 
-func (b *Bot) Desenhar(tela *ebiten.Image) {
+func (self *Bot) Desenhar(tela *ebiten.Image) {
 
-	if b.PossoMeMover() {
-		if b.ObterVida().Sangue < (100 * b.ObterNivel().Valor) {
-			ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1()-10, float64(b.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
+	if self.PossoMeMover() {
+		if self.ObterVida().Sangue < (100 * self.ObterNivel().Valor) {
+			ebitenutil.DrawRect(tela, self.cenaJogo.GetCamera().GetX()+self.GetX1(), self.cenaJogo.GetCamera().GetY()+self.GetY1()-10, float64(self.ObterVida().Sangue)/5, 5, cores.VERMELHO_ESCURO)
 		}
-		ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX1(), b.cenaJogo.GetCamera().GetY()+b.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO, b.GetCor())
+		ebitenutil.DrawRect(tela, self.cenaJogo.GetCamera().GetX()+self.GetX1(), self.cenaJogo.GetCamera().GetY()+self.GetY1(), utils.BOT_TAMANHO_MUNDO, utils.BOT_TAMANHO_MUNDO, self.GetCor())
 	}
 }
 
-func (b *Bot) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
-	if b.PossoMeMover() {
-		ebitenutil.DrawRect(tela, mapaX+(b.GetX1()/config.PROPORCAO_MAPA), mapaY+(b.GetY1()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
+func (self *Bot) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
+	if self.PossoMeMover() {
+		ebitenutil.DrawRect(tela, mapaX+(self.GetX1()/config.PROPORCAO_MAPA), mapaY+(self.GetY1()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
 	}
 }
 
-func (e *Bot) GetComponente(id string) interface{} {
-	return e.Componentes[id]
+func (self *Bot) GetComponente(id string) interface{} {
+	return self.Componentes[id]
 }
 
-func (e *Bot) AdicionarComponente(id string, comp interface{}) {
-	if e.Componentes == nil {
-		e.Componentes = make(map[string]interface{})
+func (self *Bot) AdicionarComponente(id string, comp interface{}) {
+	if self.Componentes == nil {
+		self.Componentes = make(map[string]interface{})
 	}
-	e.Componentes[id] = comp
+	self.Componentes[id] = comp
 }
-func (e *Bot) AlterarComponente(id string, comp interface{}) {
-	e.Componentes[id] = comp
+func (self *Bot) AlterarComponente(id string, comp interface{}) {
+	self.Componentes[id] = comp
 }
 
-func (e *Bot) ExisteComponente(id string) bool {
-	_, existe := e.Componentes[id]
+func (self *Bot) ExisteComponente(id string) bool {
+	_, existe := self.Componentes[id]
 	return existe
 }

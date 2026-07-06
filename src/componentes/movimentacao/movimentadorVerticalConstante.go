@@ -15,31 +15,31 @@ type MovimentadorVerticalConstante struct {
 	ciclos  int
 }
 
-func (mvc *MovimentadorVerticalConstante) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (self *MovimentadorVerticalConstante) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	// 1. Definir a direção inicial se for um novo ciclo
-	if mvc.ciclos == 0 {
+	if self.ciclos == 0 {
 		// Garante que não seja 0 para não ficar parado
-		mvc.direcao = r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1
+		self.direcao = r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1
 		// Decide aleatoriamente se começa subindo ou descendo
 		if r.Float32() < 0.5 {
-			mvc.direcao *= -1
+			self.direcao *= -1
 		}
 	}
 
 	// 2. Calcular a intenção de movimento
-	posY := objeto.GetY1() + float64(mvc.direcao)
+	posY := objeto.GetY1() + float64(self.direcao)
 	limiteInferior := mundo.PosYmax(utils.BOT_TAMANHO_MUNDO)
 	limiteSuperior := mundo.GetY() // Usando mundo.GetY() para garantir consistência com o topo do mapa
 
 	// 3. Checar colisões com as bordas do mundo
 	if posY >= limiteInferior {
 		posY = limiteInferior
-		mvc.direcao = -(r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1) // Inverte para subir
-		mvc.ciclos = 0
+		self.direcao = -(r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1) // Inverte para subir
+		self.ciclos = 0
 	} else if posY <= limiteSuperior {
 		posY = limiteSuperior
-		mvc.direcao = r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1 // Inverte para descer
-		mvc.ciclos = 0
+		self.direcao = r.Intn(utils.BOT_VELOCIDADE_MAXIMA-1) + 1 // Inverte para descer
+		self.ciclos = 0
 	}
 
 	// 4. Cria os retângulos para o teste de colisão ECS
@@ -51,24 +51,24 @@ func (mvc *MovimentadorVerticalConstante) Mover(entidade ecs.Entidade, sistemaCo
 		!sistemaColisao.VaiColidir("BOT", entidade, corpoAtual, proximoCorpo).Status {
 		// Caminho livre: Aplica o movimento vertical e incrementa o ciclo
 		objeto.SetPosicao(objeto.GetX1(), posY)
-		mvc.ciclos++
+		self.ciclos++
 	} else {
 		// BATEU SECO em outra entidade (Jogador ou Bot): Cancela o movimento do frame
 		// COMPORTAMENTO INTELIGENTE: Inverte o sinal da direção para ele começar a andar para o lado oposto no próximo frame
-		mvc.direcao *= -1
-		mvc.ciclos = 0
+		self.direcao *= -1
+		self.ciclos = 0
 	}
 
 	// 6. Reset de ciclo por tempo
-	if mvc.ciclos >= utils.BOT_CICLOS_REPETICAO {
-		mvc.ciclos = 0
+	if self.ciclos >= utils.BOT_CICLOS_REPETICAO {
+		self.ciclos = 0
 	}
 }
 
-func (mvc *MovimentadorVerticalConstante) GetTipo() string {
+func (self *MovimentadorVerticalConstante) GetTipo() string {
 	return "VERTICAL_CONSTANTE"
 }
 
-func (mvc *MovimentadorVerticalConstante) GetCor() color.Color {
+func (self *MovimentadorVerticalConstante) GetCor() color.Color {
 	return cores.AMARELO_ESCURO
 }

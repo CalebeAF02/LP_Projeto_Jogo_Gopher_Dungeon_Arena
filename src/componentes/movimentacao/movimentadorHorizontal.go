@@ -13,7 +13,7 @@ import (
 type MovimentadorHorizontal struct {
 }
 
-func (mh *MovimentadorHorizontal) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (self *MovimentadorHorizontal) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	posX := 0.0
 
 	tomadaDeDecicao := r.Intn(100)
@@ -48,10 +48,10 @@ func (mh *MovimentadorHorizontal) Mover(entidade ecs.Entidade, sistemaColisao in
 	}
 
 }
-func (mh *MovimentadorHorizontal) GetTipo() string {
+func (self *MovimentadorHorizontal) GetTipo() string {
 	return "HORIZONTAL"
 }
 
-func (mh *MovimentadorHorizontal) GetCor() color.Color {
+func (self *MovimentadorHorizontal) GetCor() color.Color {
 	return cores.MARROM
 }

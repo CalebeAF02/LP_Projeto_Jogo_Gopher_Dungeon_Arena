@@ -15,47 +15,47 @@ type CenaMenuIniciar struct {
 	aceitaComandos int
 }
 
-func (cmi *CenaMenuIniciar) SetFonteCache(cache assets.FonteCache) {
-	cmi.fontecache = cache
+func (self *CenaMenuIniciar) SetFonteCache(cache assets.FonteCache) {
+	self.fontecache = cache
 }
 
-func (cmi *CenaMenuIniciar) GetGame() interfaces.IGame {
-	return cmi.game
+func (self *CenaMenuIniciar) GetGame() interfaces.IGame {
+	return self.game
 }
 
-func (cmi *CenaMenuIniciar) SetGame(game interfaces.IGame) {
-	cmi.game = game
+func (self *CenaMenuIniciar) SetGame(game interfaces.IGame) {
+	self.game = game
 }
 
-func (cmi *CenaMenuIniciar) Input() {
-	if ebiten.IsKeyPressed(ebiten.KeyEscape) && cmi.aceitaComandos >= 300 {
+func (self *CenaMenuIniciar) Input() {
+	if ebiten.IsKeyPressed(ebiten.KeyEscape) && self.aceitaComandos >= 300 {
 		//fmt.Println("estou precionando o esc na cena menu !")
-		cmi.game.Sair()
+		self.game.Sair()
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyEnter) {
 		//fmt.Println("estou precionando o enter na cena menu !")
 
-		cmi.game.IniciarJogo()
+		self.game.IniciarJogo()
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyP) {
 		//fmt.Println("estou precionando o enter na cena menu !")
 
-		cmi.game.MudarTelaProgresso()
+		self.game.MudarTelaProgresso()
 	}
 }
 
-func (cmi *CenaMenuIniciar) Update() error {
-	cmi.Input()
-	if cmi.aceitaComandos <= 400 {
-		cmi.aceitaComandos += 1
+func (self *CenaMenuIniciar) Update() error {
+	self.Input()
+	if self.aceitaComandos <= 400 {
+		self.aceitaComandos += 1
 	}
 
 	return nil
 }
 
-func (cmi *CenaMenuIniciar) Draw(tela *ebiten.Image) {
+func (self *CenaMenuIniciar) Draw(tela *ebiten.Image) {
 
 	imagens.DesenharImagemPreencherTela(
 		tela,
@@ -65,14 +65,14 @@ func (cmi *CenaMenuIniciar) Draw(tela *ebiten.Image) {
 	)
 
 	//assets.EscreverTextoCentralizado(tela, cmi.fontecache.Titulo, 180, "GOPHER DUNGEON ARENA")
-	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 510, "[ ENTER ]            INICIAR")
-	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 570, "[ P ]            PROGRESSO")
-	assets.EscreverTextoCentralizado(tela, cmi.fontecache.Normal, 640, "[ ESC ]            SAIR")
+	assets.EscreverTextoCentralizado(tela, self.fontecache.Normal, 510, "[ ENTER ]            INICIAR")
+	assets.EscreverTextoCentralizado(tela, self.fontecache.Normal, 570, "[ P ]            PROGRESSO")
+	assets.EscreverTextoCentralizado(tela, self.fontecache.Normal, 640, "[ ESC ]            SAIR")
 
 	//assets.EscreverTextoCentralizado(tela, cmi.fontecache.Rodape, 640, "Linguagens de Programação - LP")
 	//assets.EscreverTextoCentralizado(tela, cmi.fontecache.Rodape, 680, "Universidade de Brasilia")
 }
 
-func (cmi *CenaMenuIniciar) GetNome() string {
+func (self *CenaMenuIniciar) GetNome() string {
 	return "CENA_MENU_INICIAR"
 }

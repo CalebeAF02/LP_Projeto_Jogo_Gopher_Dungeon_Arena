@@ -50,48 +50,48 @@ func NovoPortalSpriteSaida(cj interfaces.ICenaJogo, id int64, spritePronto *ebit
 	return &nBot
 }
 
-func (j *PortalSpriteSaida) GetID() ecs.EntidadeID {
-	return j.entidadeID
+func (self *PortalSpriteSaida) GetID() ecs.EntidadeID {
+	return self.entidadeID
 }
 
-func (e *PortalSpriteSaida) GetComponente(id string) interface{} {
-	return e.Componentes[id]
+func (self *PortalSpriteSaida) GetComponente(id string) interface{} {
+	return self.Componentes[id]
 }
 
-func (e *PortalSpriteSaida) AdicionarComponente(id string, comp interface{}) {
-	if e.Componentes == nil {
-		e.Componentes = make(map[string]interface{})
+func (self *PortalSpriteSaida) AdicionarComponente(id string, comp interface{}) {
+	if self.Componentes == nil {
+		self.Componentes = make(map[string]interface{})
 	}
-	e.Componentes[id] = comp
+	self.Componentes[id] = comp
 }
 
-func (e *PortalSpriteSaida) AlterarComponente(id string, comp interface{}) {
-	e.Componentes[id] = comp
+func (self *PortalSpriteSaida) AlterarComponente(id string, comp interface{}) {
+	self.Componentes[id] = comp
 }
 
-func (e *PortalSpriteSaida) ExisteComponente(id string) bool {
-	_, existe := e.Componentes[id]
+func (self *PortalSpriteSaida) ExisteComponente(id string) bool {
+	_, existe := self.Componentes[id]
 	return existe
 }
 
-func (b *PortalSpriteSaida) Atualizar() {
+func (self *PortalSpriteSaida) Atualizar() {
 	// Atualização lógica se necessário. Fica vazio e super leve!
 }
 
-func (b *PortalSpriteSaida) Desenhar(tela *ebiten.Image) {
-	if b.spriteFatiado == nil {
+func (self *PortalSpriteSaida) Desenhar(tela *ebiten.Image) {
+	if self.spriteFatiado == nil {
 		return
 	}
 
 	// 1. Pega as coordenadas X e Y da tela considerando a câmera
-	posXX := b.cenaJogo.GetCamera().GetX() + b.GetX1()
-	posY := b.cenaJogo.GetCamera().GetY() + b.GetY1()
+	posXX := self.cenaJogo.GetCamera().GetX() + self.GetX1()
+	posY := self.cenaJogo.GetCamera().GetY() + self.GetY1()
 
 	// 2. Configura as opções de desenho da imagem
 	op := &ebiten.DrawImageOptions{}
 
 	// Ajusta a escala do sprite para o tamanho padrão configurado no seu motor
-	bounds := b.spriteFatiado.Bounds()
+	bounds := self.spriteFatiado.Bounds()
 	escalaX := utils.PORTAL_ENTRADA_TAMANHO / float64(bounds.Dx())
 	escalaY := utils.PORTAL_ENTRADA_TAMANHO / float64(bounds.Dy())
 	op.GeoM.Scale(escalaX, escalaY)
@@ -100,39 +100,39 @@ func (b *PortalSpriteSaida) Desenhar(tela *ebiten.Image) {
 	op.GeoM.Translate(posXX, posY)
 
 	// 3. Renderiza a textura na tela através da GPU de forma super rápida
-	tela.DrawImage(b.spriteFatiado, op)
+	tela.DrawImage(self.spriteFatiado, op)
 }
 
-func (b *PortalSpriteSaida) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
-	ebitenutil.DrawRect(tela, mapaX+(b.GetX1()/config.PROPORCAO_MAPA), mapaY+(b.GetY1()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
+func (self *PortalSpriteSaida) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
+	ebitenutil.DrawRect(tela, mapaX+(self.GetX1()/config.PROPORCAO_MAPA), mapaY+(self.GetY1()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
 }
 
-func (b *PortalSpriteSaida) GetX1() float64 {
-	return b.posicao.GetX()
+func (self *PortalSpriteSaida) GetX1() float64 {
+	return self.posicao.GetX()
 }
 
-func (b *PortalSpriteSaida) GetY1() float64 {
-	return b.posicao.GetY()
+func (self *PortalSpriteSaida) GetY1() float64 {
+	return self.posicao.GetY()
 }
 
-func (b *PortalSpriteSaida) GetX2() float64 {
-	return b.posicao.GetX() + utils.BOT_TAMANHO_MUNDO
+func (self *PortalSpriteSaida) GetX2() float64 {
+	return self.posicao.GetX() + utils.BOT_TAMANHO_MUNDO
 }
 
-func (b *PortalSpriteSaida) GetY2() float64 {
-	return b.posicao.GetY() + utils.BOT_TAMANHO_MUNDO
+func (self *PortalSpriteSaida) GetY2() float64 {
+	return self.posicao.GetY() + utils.BOT_TAMANHO_MUNDO
 }
 
-func (b *PortalSpriteSaida) GetLargura() float64 {
+func (self *PortalSpriteSaida) GetLargura() float64 {
 	return utils.BOT_TAMANHO_MUNDO
 }
 
-func (b *PortalSpriteSaida) GetTipo() string {
+func (self *PortalSpriteSaida) GetTipo() string {
 	return entidades.PORTAL_SAIDA.String()
 }
 
-func (b *PortalSpriteSaida) SetPosicao(x float64, y float64) {
-	b.posicao.SetPosicao(x, y)
-	b.corpo.SetX(x)
-	b.corpo.SetY(y)
+func (self *PortalSpriteSaida) SetPosicao(x float64, y float64) {
+	self.posicao.SetPosicao(x, y)
+	self.corpo.SetX(x)
+	self.corpo.SetY(y)
 }

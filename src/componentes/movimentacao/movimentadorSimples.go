@@ -13,7 +13,7 @@ import (
 type MovimentadorSimples struct {
 }
 
-func (ms *MovimentadorSimples) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (self *MovimentadorSimples) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 
 	antesX := objeto.GetX1()
 	antesY := objeto.GetY1()
@@ -71,10 +71,10 @@ func (ms *MovimentadorSimples) Mover(entidade ecs.Entidade, sistemaColisao inter
 
 }
 
-func (ms *MovimentadorSimples) GetTipo() string {
+func (self *MovimentadorSimples) GetTipo() string {
 	return "SIMPLES"
 }
 
-func (ms *MovimentadorSimples) GetCor() color.Color {
+func (self *MovimentadorSimples) GetCor() color.Color {
 	return cores.VERDE_LIMAO
 }

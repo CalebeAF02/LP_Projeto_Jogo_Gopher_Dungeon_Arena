@@ -18,42 +18,42 @@ type MovimentadorLogicoDiagonal struct {
 	direcaoY     float64
 }
 
-func (mld *MovimentadorLogicoDiagonal) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (self *MovimentadorLogicoDiagonal) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 
-	mld.ciclos += 1
-	if mld.ciclos >= mld.ciclosMaximo {
-		mld.varia = true
+	self.ciclos += 1
+	if self.ciclos >= self.ciclosMaximo {
+		self.varia = true
 		//fmt.Printf("Cheguei ao Maximo :: %d\n", mld.ciclosMaximo)
 	}
 
-	if mld.varia {
-		mld.MovimentoDiagonal(r)
-		mld.ciclos = 0
-		mld.varia = false
+	if self.varia {
+		self.MovimentoDiagonal(r)
+		self.ciclos = 0
+		self.varia = false
 	} else {
 		//fmt.Println("\t ciclo :: %d", mld.ciclos)
 
 	}
 
 	// 1. Cálculo da nova intenção de posição
-	posX := objeto.GetX1() + mld.direcaoX
-	posY := objeto.GetY1() + mld.direcaoY
+	posX := objeto.GetX1() + self.direcaoX
+	posY := objeto.GetY1() + self.direcaoY
 
 	// 2. Verificação de bordas e colisão com os limites do mundo
 	if posX >= mundo.PosXmax(utils.BOT_TAMANHO_MUNDO) {
 		posX = mundo.PosXmax(utils.BOT_TAMANHO_MUNDO)
-		mld.bateu()
+		self.bateu()
 	} else if posX <= mundo.GetX() {
 		posX = mundo.GetX()
-		mld.bateu()
+		self.bateu()
 	}
 
 	if posY >= mundo.PosYmax(utils.BOT_TAMANHO_MUNDO) {
 		posY = mundo.PosYmax(utils.BOT_TAMANHO_MUNDO)
-		mld.bateu()
+		self.bateu()
 	} else if posY <= mundo.GetY() {
 		posY = mundo.GetY()
-		mld.bateu()
+		self.bateu()
 	}
 
 	// 3. Cria os retângulos para o teste de colisão ECS
@@ -68,20 +68,20 @@ func (mld *MovimentadorLogicoDiagonal) Mover(entidade ecs.Entidade, sistemaColis
 	} else {
 		// BATEU SECO: Cancela o movimento deste frame (não chama SetPosicao)
 		// COMPORTAMENTO INTELIGENTE: Aciona a sua função para recalcular uma nova direção no próximo frame
-		mld.bateu()
+		self.bateu()
 	}
 
 }
 
-func (mld *MovimentadorLogicoDiagonal) MovimentoDiagonal(r *rand.Rand) {
+func (self *MovimentadorLogicoDiagonal) MovimentoDiagonal(r *rand.Rand) {
 	tomadaDeDecicaoCiclo := r.Intn(100)
 	//fmt.Printf("Tomada de Decisao :: %d\n", tomadaDeDecicaoCiclo)
 
 	if tomadaDeDecicaoCiclo < 50 {
-		mld.ciclosMaximo = 30
+		self.ciclosMaximo = 30
 
 	} else {
-		mld.ciclosMaximo = tomadaDeDecicaoCiclo
+		self.ciclosMaximo = tomadaDeDecicaoCiclo
 	}
 
 	//fmt.Printf("Mudei de ideia heheh :: %d\n", mld.ciclos)
@@ -90,34 +90,34 @@ func (mld *MovimentadorLogicoDiagonal) MovimentoDiagonal(r *rand.Rand) {
 	tomadaDeDecicao := r.Intn(100)
 
 	if tomadaDeDecicao >= 0 && tomadaDeDecicao < 25 {
-		mld.direcaoX = -utils.BOT_VELOCIDADE_NORMAL
-		mld.direcaoY = -utils.BOT_VELOCIDADE_NORMAL
+		self.direcaoX = -utils.BOT_VELOCIDADE_NORMAL
+		self.direcaoY = -utils.BOT_VELOCIDADE_NORMAL
 
 	} else if tomadaDeDecicao >= 25 && tomadaDeDecicao < 50 {
-		mld.direcaoX = -utils.BOT_VELOCIDADE_NORMAL
-		mld.direcaoY = +utils.BOT_VELOCIDADE_NORMAL
+		self.direcaoX = -utils.BOT_VELOCIDADE_NORMAL
+		self.direcaoY = +utils.BOT_VELOCIDADE_NORMAL
 
 	} else if tomadaDeDecicao >= 50 && tomadaDeDecicao < 75 {
-		mld.direcaoX = +utils.BOT_VELOCIDADE_NORMAL
-		mld.direcaoY = -utils.BOT_VELOCIDADE_NORMAL
+		self.direcaoX = +utils.BOT_VELOCIDADE_NORMAL
+		self.direcaoY = -utils.BOT_VELOCIDADE_NORMAL
 
 	} else if tomadaDeDecicao >= 75 && tomadaDeDecicao <= 100 {
-		mld.direcaoX = +utils.BOT_VELOCIDADE_NORMAL
-		mld.direcaoY = +utils.BOT_VELOCIDADE_NORMAL
+		self.direcaoX = +utils.BOT_VELOCIDADE_NORMAL
+		self.direcaoY = +utils.BOT_VELOCIDADE_NORMAL
 	}
 }
 
-func (mld *MovimentadorLogicoDiagonal) bateu() {
-	mld.ciclos = 0
-	mld.varia = true
+func (self *MovimentadorLogicoDiagonal) bateu() {
+	self.ciclos = 0
+	self.varia = true
 	//fmt.Printf("Bati! :: %d\n", mld.ciclos)
 
 }
 
-func (mld *MovimentadorLogicoDiagonal) GetTipo() string {
+func (self *MovimentadorLogicoDiagonal) GetTipo() string {
 	return "LOGICO_DIAGONAL"
 }
 
-func (mld *MovimentadorLogicoDiagonal) GetCor() color.Color {
+func (self *MovimentadorLogicoDiagonal) GetCor() color.Color {
 	return cores.ROSA_ESCURO
 }

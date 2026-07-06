@@ -18,43 +18,43 @@ type MovimentadorLogicoLinha struct {
 	direcaoY     float64
 }
 
-func (mll *MovimentadorLogicoLinha) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
-	mll.ciclos += 1
-	if mll.ciclos >= mll.ciclosMaximo {
-		mll.varia = true
+func (self *MovimentadorLogicoLinha) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+	self.ciclos += 1
+	if self.ciclos >= self.ciclosMaximo {
+		self.varia = true
 		//fmt.Printf("Cheguei ao Maximo :: %d\n", mll.ciclosMaximo)
 	}
 
-	if mll.varia {
-		mll.MovimentoLinear(r)
-		mll.ciclos = 0
-		mll.varia = false
+	if self.varia {
+		self.MovimentoLinear(r)
+		self.ciclos = 0
+		self.varia = false
 	} else {
 		//fmt.Println("\t ciclo :: %d", mll.ciclos)
 	}
 
 	alterar := true
-	posX := objeto.GetX1() + mll.direcaoX
+	posX := objeto.GetX1() + self.direcaoX
 	if posX >= mundo.PosXmax(utils.BOT_TAMANHO_MUNDO) {
 		posX = mundo.PosXmax(utils.BOT_TAMANHO_MUNDO)
-		mll.bateu()
+		self.bateu()
 		alterar = false
 	} else if posX <= mundo.GetX() {
 		posX = mundo.GetX()
-		mll.bateu()
+		self.bateu()
 		alterar = false
 
 	}
 
-	posY := objeto.GetY1() + mll.direcaoY
+	posY := objeto.GetY1() + self.direcaoY
 	if posY >= mundo.PosYmax(utils.BOT_TAMANHO_MUNDO) {
 		posY = mundo.PosYmax(utils.BOT_TAMANHO_MUNDO)
-		mll.bateu()
+		self.bateu()
 		alterar = false
 
 	} else if posY <= mundo.GetY() {
 		posY = mundo.GetY()
-		mll.bateu()
+		self.bateu()
 		alterar = false
 
 	}
@@ -75,20 +75,20 @@ func (mll *MovimentadorLogicoLinha) Mover(entidade ecs.Entidade, sistemaColisao 
 		} else {
 			// BATEU SECO em outra entidade: Cancela o movimento do frame
 			// E aciona o comportamento para mudar de direção em linha reta
-			mll.bateu()
+			self.bateu()
 		}
 	}
 }
 
-func (mll *MovimentadorLogicoLinha) MovimentoLinear(r *rand.Rand) {
+func (self *MovimentadorLogicoLinha) MovimentoLinear(r *rand.Rand) {
 	tomadaDeDecicaoCiclo := r.Intn(100)
 	//fmt.Printf("Tomada de Decisao :: %d\n", tomadaDeDecicaoCiclo)
 
 	if tomadaDeDecicaoCiclo < 50 {
-		mll.ciclosMaximo = 30
+		self.ciclosMaximo = 30
 
 	} else {
-		mll.ciclosMaximo = tomadaDeDecicaoCiclo
+		self.ciclosMaximo = tomadaDeDecicaoCiclo
 	}
 
 	//fmt.Printf("Mudei de ideia heheh :: %d\n", mll.ciclos)
@@ -98,34 +98,34 @@ func (mll *MovimentadorLogicoLinha) MovimentoLinear(r *rand.Rand) {
 
 	if tomadaDeDecicaoXouY > 50 {
 		tomadaDeDecicaoEsqOuDir := r.Intn(100)
-		mll.direcaoY = 0.0
+		self.direcaoY = 0.0
 		if tomadaDeDecicaoEsqOuDir >= 50 {
-			mll.direcaoX = +utils.BOT_VELOCIDADE_NORMAL
+			self.direcaoX = +utils.BOT_VELOCIDADE_NORMAL
 		} else {
-			mll.direcaoX = -utils.BOT_VELOCIDADE_NORMAL
+			self.direcaoX = -utils.BOT_VELOCIDADE_NORMAL
 		}
 	} else {
 		tomadaDeDecicaoSobeOuDesce := r.Intn(100)
-		mll.direcaoX = 0.0
+		self.direcaoX = 0.0
 		if tomadaDeDecicaoSobeOuDesce >= 50 {
-			mll.direcaoY = +utils.BOT_VELOCIDADE_NORMAL
+			self.direcaoY = +utils.BOT_VELOCIDADE_NORMAL
 		} else {
-			mll.direcaoY = -utils.BOT_VELOCIDADE_NORMAL
+			self.direcaoY = -utils.BOT_VELOCIDADE_NORMAL
 		}
 	}
 }
 
-func (mll *MovimentadorLogicoLinha) bateu() {
-	mll.ciclos = 0
-	mll.varia = true
+func (self *MovimentadorLogicoLinha) bateu() {
+	self.ciclos = 0
+	self.varia = true
 	//fmt.Printf("Bati! :: %d\n", mll.ciclos)
 
 }
 
-func (mll *MovimentadorLogicoLinha) GetTipo() string {
+func (self *MovimentadorLogicoLinha) GetTipo() string {
 	return "LOGICO_LINHA"
 }
 
-func (mll *MovimentadorLogicoLinha) GetCor() color.Color {
+func (self *MovimentadorLogicoLinha) GetCor() color.Color {
 	return cores.LARANJA
 }

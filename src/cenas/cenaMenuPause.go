@@ -12,43 +12,43 @@ type CenaMenuPause struct {
 	game interfaces.IGame
 }
 
-func (cp *CenaMenuPause) SetFonteCache(cache assets.FonteCache) {
+func (self *CenaMenuPause) SetFonteCache(cache assets.FonteCache) {
 }
 
-func (cmp *CenaMenuPause) GetGame() interfaces.IGame {
-	return cmp.game
+func (self *CenaMenuPause) GetGame() interfaces.IGame {
+	return self.game
 }
 
-func (cmp *CenaMenuPause) SetGame(game interfaces.IGame) {
-	cmp.game = game
+func (self *CenaMenuPause) SetGame(game interfaces.IGame) {
+	self.game = game
 }
 
-func (cmp *CenaMenuPause) Voltar() {
-	cmp.game.Voltar()
+func (self *CenaMenuPause) Voltar() {
+	self.game.Voltar()
 }
 
-func (cmp *CenaMenuPause) Sair() {
-	cmp.game.MudarTelaMenuIniciar()
+func (self *CenaMenuPause) Sair() {
+	self.game.MudarTelaMenuIniciar()
 }
 
-func (cmp *CenaMenuPause) Input() {
+func (self *CenaMenuPause) Input() {
 	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
 		//fmt.Println("estou precionando o esc na cena pause !")
-		cmp.Sair()
+		self.Sair()
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeySpace) {
 		//fmt.Println("estou precionando o space na cena pause !")
-		cmp.Voltar()
+		self.Voltar()
 	}
 }
 
-func (cmp *CenaMenuPause) Update() error {
-	cmp.Input()
+func (self *CenaMenuPause) Update() error {
+	self.Input()
 	return nil
 }
 
-func (cmp *CenaMenuPause) Draw(tela *ebiten.Image) {
+func (self *CenaMenuPause) Draw(tela *ebiten.Image) {
 
 	titulo := &text.GoTextFace{
 		Source: assets.Fonte,
@@ -110,6 +110,6 @@ func (cmp *CenaMenuPause) Draw(tela *ebiten.Image) {
 	)
 }
 
-func (cmp *CenaMenuPause) GetNome() string {
+func (self *CenaMenuPause) GetNome() string {
 	return "CENA_MENU_PAUSE"
 }

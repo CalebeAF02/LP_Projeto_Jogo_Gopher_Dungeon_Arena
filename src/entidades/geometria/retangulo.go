@@ -11,58 +11,58 @@ func NovoRetangulo(x float64, y float64, largura float64, altura float64) *Retan
 	return &Retangulo{x: x, y: y, largura: largura, altura: altura}
 }
 
-func (r *Retangulo) GetX() float64 {
-	return r.x
+func (self *Retangulo) GetX() float64 {
+	return self.x
 }
-func (r *Retangulo) GetY() float64 {
-	return r.y
+func (self *Retangulo) GetY() float64 {
+	return self.y
 
 }
-func (r *Retangulo) GetLargura() float64 {
-	return r.largura
+func (self *Retangulo) GetLargura() float64 {
+	return self.largura
 
 }
-func (r *Retangulo) GetAltura() float64 {
-	return r.altura
-
-}
-
-func (r *Retangulo) SetX(x float64) {
-	r.x = x
-}
-func (r *Retangulo) SetY(y float64) {
-	r.y = y
+func (self *Retangulo) GetAltura() float64 {
+	return self.altura
 
 }
 
-func (r *Retangulo) SetPosicao(x float64, y float64) {
-	r.x = x
-	r.y = y
+func (self *Retangulo) SetX(x float64) {
+	self.x = x
 }
-
-func (r *Retangulo) SetLargura(l float64) {
-	r.largura = l
-
-}
-func (r *Retangulo) SetAltura(a float64) {
-	r.altura = a
+func (self *Retangulo) SetY(y float64) {
+	self.y = y
 
 }
 
-func (r *Retangulo) PosXmax(largura_obj int) float64 {
-	return float64(int(r.GetLargura()) - largura_obj)
+func (self *Retangulo) SetPosicao(x float64, y float64) {
+	self.x = x
+	self.y = y
 }
 
-func (r *Retangulo) PosYmax(altura_obj int) float64 {
-	return float64(int(r.GetAltura()) - altura_obj)
+func (self *Retangulo) SetLargura(l float64) {
+	self.largura = l
+
+}
+func (self *Retangulo) SetAltura(a float64) {
+	self.altura = a
+
 }
 
-func (r *Retangulo) EstaDentro(r2 *Retangulo) bool {
+func (self *Retangulo) PosXmax(largura_obj int) float64 {
+	return float64(int(self.GetLargura()) - largura_obj)
+}
+
+func (self *Retangulo) PosYmax(altura_obj int) float64 {
+	return float64(int(self.GetAltura()) - altura_obj)
+}
+
+func (self *Retangulo) EstaDentro(r2 *Retangulo) bool {
 	// Extremidades do Retângulo (Mundo)
-	mundoX1 := r.GetX()
-	mundoY1 := r.GetY()
-	mundoX2 := r.GetX() + r.GetLargura()
-	mundoY2 := r.GetY() + r.GetAltura()
+	mundoX1 := self.GetX()
+	mundoY1 := self.GetY()
+	mundoX2 := self.GetX() + self.GetLargura()
+	mundoY2 := self.GetY() + self.GetAltura()
 
 	// Extremidades do Objeto
 	outroX1 := r2.GetX()
@@ -73,12 +73,12 @@ func (r *Retangulo) EstaDentro(r2 *Retangulo) bool {
 	return outroX1 >= mundoX1 && outroX2 <= mundoX2 && outroY1 >= mundoY1 && outroY2 <= mundoY2
 }
 
-func (r *Retangulo) EstaDentroDireto(outroX1 float64, outroY1 float64, outroLargura float64, outroAltura float64) bool {
+func (self *Retangulo) EstaDentroDireto(outroX1 float64, outroY1 float64, outroLargura float64, outroAltura float64) bool {
 	// Extremidades do Retângulo (Mundo)
-	mundoX1 := r.GetX()
-	mundoY1 := r.GetY()
-	mundoX2 := r.GetX() + r.GetLargura()
-	mundoY2 := r.GetY() + r.GetAltura()
+	mundoX1 := self.GetX()
+	mundoY1 := self.GetY()
+	mundoX2 := self.GetX() + self.GetLargura()
+	mundoY2 := self.GetY() + self.GetAltura()
 
 	// Extremidades do Objeto
 
@@ -89,12 +89,12 @@ func (r *Retangulo) EstaDentroDireto(outroX1 float64, outroY1 float64, outroLarg
 }
 
 // MargemInterna: Encolhe o limite de colisão para dentro
-func (r *Retangulo) EstaNaMargemInterna(r2 *Retangulo, margem float64) bool {
+func (self *Retangulo) EstaNaMargemInterna(r2 *Retangulo, margem float64) bool {
 	// Extremidades do Retângulo (Mundo)
-	mundoX1 := r.GetX()
-	mundoY1 := r.GetY()
-	mundoX2 := mundoX1 + r.GetLargura()
-	mundoY2 := mundoY1 + r.GetAltura()
+	mundoX1 := self.GetX()
+	mundoY1 := self.GetY()
+	mundoX2 := mundoX1 + self.GetLargura()
+	mundoY2 := mundoY1 + self.GetAltura()
 
 	// Extremidades do Objeto
 	outroX1 := r2.GetX()
@@ -106,12 +106,12 @@ func (r *Retangulo) EstaNaMargemInterna(r2 *Retangulo, margem float64) bool {
 }
 
 // MargemExterna: Expande o limite de colisão para fora
-func (r *Retangulo) EstaNaMargemExterna(r2 *Retangulo, margem float64) bool {
+func (self *Retangulo) EstaNaMargemExterna(r2 *Retangulo, margem float64) bool {
 	// Extremidades do Retângulo (Mundo)
-	mundoX1 := r.GetX()
-	mundoY1 := r.GetY()
-	mundoX2 := mundoX1 + r.GetLargura()
-	mundoY2 := mundoY1 + r.GetAltura()
+	mundoX1 := self.GetX()
+	mundoY1 := self.GetY()
+	mundoX2 := mundoX1 + self.GetLargura()
+	mundoY2 := mundoY1 + self.GetAltura()
 
 	// Extremidades do Objeto
 	outroX1 := r2.GetX()
@@ -122,12 +122,12 @@ func (r *Retangulo) EstaNaMargemExterna(r2 *Retangulo, margem float64) bool {
 	return outroX1 >= mundoX1-margem && outroX2 <= mundoX2+margem && outroY1 >= outroY1-margem && outroY2 <= mundoY2+margem
 }
 
-func (r *Retangulo) Colide(r2 *Retangulo) bool {
+func (self *Retangulo) Colide(r2 *Retangulo) bool {
 	// Posições do retangulo 1
-	posX1 := r.x
-	posY1 := r.y
-	posX2 := posX1 + r.largura
-	posY2 := posY1 + r.altura
+	posX1 := self.x
+	posY1 := self.y
+	posX2 := posX1 + self.largura
+	posY2 := posY1 + self.altura
 
 	// Posições do retangulo 2
 	outroX1 := r2.x

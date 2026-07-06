@@ -33,12 +33,12 @@ const (
 	NOME_JOGO = "Gopher_Dungeon_Arena"
 )
 
-func XAleatorio(r *rand.Rand) float64 {
-	return float64(r.Intn(JANELA_LARGURA))
+func XAleatorio(self *rand.Rand) float64 {
+	return float64(self.Intn(JANELA_LARGURA))
 }
 
-func YAleatorio(r *rand.Rand) float64 {
-	return float64(r.Intn(JANELA_ALTURA))
+func YAleatorio(self *rand.Rand) float64 {
+	return float64(self.Intn(JANELA_ALTURA))
 }
 
 func GeradorAleatorio() *rand.Rand {

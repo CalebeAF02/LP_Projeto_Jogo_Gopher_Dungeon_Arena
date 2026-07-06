@@ -13,22 +13,27 @@ import (
 
 type SistemaDebug struct{}
 
-func (s *SistemaDebug) Atualizar(cj interfaces.ICenaJogo) {
+func (self *SistemaDebug) Atualizar(cj interfaces.ICenaJogo) {
 	// Atalho para debugar as entidades no terminal
-	s.Input(cj)
+	self.Input(cj)
 }
 
-func (s *SistemaDebug) Input(cj interfaces.ICenaJogo) {
+func (self *SistemaDebug) Input(cj interfaces.ICenaJogo) {
 	if ebiten.IsKeyPressed(ebiten.KeyF1) {
-		s.ListarPrincipaisEntidades(cj)
+		self.ListarPrincipaisEntidades(cj)
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyF2) {
-		s.ListarEntidadesOrdenadas(cj)
+		self.ListarEntidadesOrdenadas(cj)
 	}
 }
 
-func (s *SistemaDebug) ListarEntidadesOrdenadas(cj interfaces.ICenaJogo) {
+func (self *SistemaDebug) ListarEntidadesOrdenadas(cj interfaces.ICenaJogo) {
+
+	contComidas := 0
+	contParedes := 0
+	contBots := 0
+
 	fmt.Println("\n" + strings.Repeat("=", 40))
 	fmt.Println("   RELATÓRIO DE ENTIDADES (ORDENADO POR ID)")
 	fmt.Println(strings.Repeat("=", 40))
@@ -61,6 +66,14 @@ func (s *SistemaDebug) ListarEntidadesOrdenadas(cj interfaces.ICenaJogo) {
 
 		fmt.Printf("\n>>> ID: %d | CLASSE: %s\n", id, t.Name())
 
+		if t.Name() == "Bot" {
+			contBots++
+		} else if t.Name() == "Parede" {
+			contParedes++
+		} else if t.Name() == "Comida" {
+			contComidas++
+		}
+
 		// Listar Atributos
 		for i := 0; i < v.NumField(); i++ {
 			campoNome := t.Field(i).Name
@@ -75,9 +88,13 @@ func (s *SistemaDebug) ListarEntidadesOrdenadas(cj interfaces.ICenaJogo) {
 		}
 	}
 	fmt.Println("\n" + strings.Repeat("=", 40))
+	fmt.Println("O Mundo possui : |", contParedes, " Paredes| , |", contBots, " Bots| e |", contComidas, " Comidas|")
+
+	fmt.Println("\n" + strings.Repeat("=", 40))
+
 }
 
-func (s *SistemaDebug) ListarPrincipaisEntidades(cj interfaces.ICenaJogo) {
+func (self *SistemaDebug) ListarPrincipaisEntidades(cj interfaces.ICenaJogo) {
 	entidades := cj.GetEntidades()
 	if len(entidades) == 0 {
 		fmt.Println("O mundo está vazio.")

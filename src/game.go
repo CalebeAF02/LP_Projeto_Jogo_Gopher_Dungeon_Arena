@@ -40,87 +40,87 @@ func NovoGame() *Game {
 	return &game
 }
 
-func (g *Game) GetCena() interfaces.ICena {
-	return g.CenaCorrente
+func (self *Game) GetCena() interfaces.ICena {
+	return self.CenaCorrente
 }
-func (g *Game) GetCenaJogo() interfaces.ICenaJogo {
-	return g.CenaJogo
-}
-
-func (g *Game) SetCenaJogo(cj interfaces.ICenaJogo) {
-	g.CenaJogo = cj
-}
-func (g *Game) SetCena(cena interfaces.ICena) {
-	g.CenaCorrente = cena
+func (self *Game) GetCenaJogo() interfaces.ICenaJogo {
+	return self.CenaJogo
 }
 
-func (g *Game) Update() error {
-	g.CenaCorrente.Update()
+func (self *Game) SetCenaJogo(cj interfaces.ICenaJogo) {
+	self.CenaJogo = cj
+}
+func (self *Game) SetCena(cena interfaces.ICena) {
+	self.CenaCorrente = cena
+}
+
+func (self *Game) Update() error {
+	self.CenaCorrente.Update()
 
 	//fmt.Println(g.CenaCorrente.GetNome())
 
 	return nil
 }
 
-func (g *Game) Draw(tela *ebiten.Image) {
-	g.CenaCorrente.Draw(tela)
+func (self *Game) Draw(tela *ebiten.Image) {
+	self.CenaCorrente.Draw(tela)
 }
-func (g *Game) Layout(l, a int) (int, int) {
+func (self *Game) Layout(l, a int) (int, int) {
 	return config.JANELA_LARGURA, config.JANELA_ALTURA
 }
 
-func (g *Game) IniciarJogo() {
-	g.CenaJogo.ReIniciar()
-	g.CenaCorrente = g.CenaJogo
+func (self *Game) IniciarJogo() {
+	self.CenaJogo.ReIniciar()
+	self.CenaCorrente = self.CenaJogo
 }
 
-func (g *Game) ReiniciarMudarTelaMenuIniciar() {
+func (self *Game) ReiniciarMudarTelaMenuIniciar() {
 
-	g.SalvarProgresso()
+	self.SalvarProgresso()
 
 	cenaCorrente := cenas.CenaMenuIniciar{}
 	cenaCorrente.SetFonteCache(*assets.FonteCacheCriar())
-	cenaCorrente.SetGame(g)
-	g.CenaJogo = cenas.NovoCenaJogo(g)
-	g.SetCena(&cenaCorrente)
+	cenaCorrente.SetGame(self)
+	self.CenaJogo = cenas.NovoCenaJogo(self)
+	self.SetCena(&cenaCorrente)
 }
 
-func (g *Game) MudarTelaMenuIniciar() {
+func (self *Game) MudarTelaMenuIniciar() {
 	cenaCorrente := cenas.CenaMenuIniciar{}
 	cenaCorrente.SetFonteCache(*assets.FonteCacheCriar())
-	cenaCorrente.SetGame(g)
-	g.SetCena(&cenaCorrente)
+	cenaCorrente.SetGame(self)
+	self.SetCena(&cenaCorrente)
 }
 
-func (g *Game) MudarTelaProgresso() {
+func (self *Game) MudarTelaProgresso() {
 	cenaCorrente := cenas.CenaProgresso{}
 	cenaCorrente.SetFonteCache(*assets.FonteCacheCriar())
-	cenaCorrente.SetGame(g)
-	g.SetCena(&cenaCorrente)
+	cenaCorrente.SetGame(self)
+	self.SetCena(&cenaCorrente)
 }
 
-func (g *Game) Pausar() {
+func (self *Game) Pausar() {
 	cenaPause := cenas.CenaMenuPause{}
-	cenaPause.SetGame(g)
-	g.SetCena(&cenaPause)
+	cenaPause.SetGame(self)
+	self.SetCena(&cenaPause)
 }
 
-func (g *Game) Voltar() {
-	g.SetCena(g.GetCenaJogo())
+func (self *Game) Voltar() {
+	self.SetCena(self.GetCenaJogo())
 }
 
-func (g *Game) Sair() {
+func (self *Game) Sair() {
 	os.Exit(0)
 }
 
-func (g *Game) GetNome() string {
+func (self *Game) GetNome() string {
 	return "GAME"
 }
 
-func (g *Game) SalvarProgresso() {
-	nivel.SalvarProgresso(g.Progresso)
+func (self *Game) SalvarProgresso() {
+	nivel.SalvarProgresso(self.Progresso)
 }
 
-func (g *Game) GetNivelCorrente() int {
-	return g.Progresso.NivelCorrente
+func (self *Game) GetNivelCorrente() int {
+	return self.Progresso.NivelCorrente
 }

@@ -13,7 +13,7 @@ import (
 type MovimentadorVertical struct {
 }
 
-func (mb *MovimentadorVertical) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (self *MovimentadorVertical) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	posY := 0.0
 
 	tomadaDeDecicao := r.Intn(100)
@@ -47,10 +47,10 @@ func (mb *MovimentadorVertical) Mover(entidade ecs.Entidade, sistemaColisao inte
 	}
 }
 
-func (mb *MovimentadorVertical) GetTipo() string {
+func (self *MovimentadorVertical) GetTipo() string {
 	return "VERTICAL"
 }
 
-func (mb *MovimentadorVertical) GetCor() color.Color {
+func (self *MovimentadorVertical) GetCor() color.Color {
 	return cores.AMARELO
 }

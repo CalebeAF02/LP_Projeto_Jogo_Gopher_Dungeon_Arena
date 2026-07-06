@@ -22,44 +22,44 @@ func NovaCamera(mundo *geometria.Retangulo) *Camera {
 	return &nCamera
 }
 
-func (c *Camera) MoverCameraLivremente() {
+func (self *Camera) MoverCameraLivremente() {
 	//c.movendoCamera += 1
 
-	if c.movendoCamera >= 5 {
-		c.posicao.SetX(c.posicao.GetX() + c.velocidade.GetX())
-		c.posicao.SetY(c.posicao.GetY() + c.velocidade.GetY())
+	if self.movendoCamera >= 5 {
+		self.posicao.SetX(self.posicao.GetX() + self.velocidade.GetX())
+		self.posicao.SetY(self.posicao.GetY() + self.velocidade.GetY())
 
-		c.movendoCamera = 0
+		self.movendoCamera = 0
 	}
 	//c.OrganizarCamera()
 }
 
-func (c *Camera) OrganizarCamera(posX float64, posY float64) {
+func (self *Camera) OrganizarCamera(posX float64, posY float64) {
 	limiteCamerax2 := float64(config.MUNDO_LARGURA - config.JANELA_LARGURA)
 	limiteCameraxY := float64(config.MUNDO_ALTURA - config.JANELA_ALTURA)
 
 	if posX >= 0 {
 		fmt.Println("Sai da visao Minima do Eixo X ", posX)
-		c.SetX(0)
+		self.SetX(0)
 	} else if posX >= limiteCamerax2 {
 		fmt.Println("Sai da visao Maxima do Eixo X ", posX)
-		c.SetX(limiteCamerax2*(-1) - (config.JANELA_LARGURA / 2))
+		self.SetX(limiteCamerax2*(-1) - (config.JANELA_LARGURA / 2))
 	} else {
-		c.SetX(posX)
+		self.SetX(posX)
 	}
 
 	if posY >= 0 {
 		fmt.Println("Sai da visao Minima do Eixo Y ", posY)
-		c.SetY(0)
+		self.SetY(0)
 	} else if posY >= limiteCameraxY {
 		fmt.Println("Sai da visao Maxima do Eixo Y ", posY)
-		c.SetY((limiteCameraxY*(-1) - (config.JANELA_ALTURA / 2)))
+		self.SetY((limiteCameraxY*(-1) - (config.JANELA_ALTURA / 2)))
 	} else {
-		c.SetY(posY)
+		self.SetY(posY)
 	}
 }
 
-func (c *Camera) OrganizarCameraPeloJogador(j *geometria.Ponto) {
+func (self *Camera) OrganizarCameraPeloJogador(j *geometria.Ponto) {
 	// 1. Centraliza a câmera no jogador
 	// A fórmula é: -(Posição_Jogador) + (Metade_da_Tela)
 	novoX := -j.GetX() + (float64(config.JANELA_LARGURA) / 2)
@@ -86,49 +86,49 @@ func (c *Camera) OrganizarCameraPeloJogador(j *geometria.Ponto) {
 		novoY = limiteMaxY
 	}
 
-	c.SetX(novoX)
-	c.SetY(novoY)
+	self.SetX(novoX)
+	self.SetY(novoY)
 }
 
-func (c *Camera) GetMundo() *geometria.Retangulo {
-	return c.mundo
+func (self *Camera) GetMundo() *geometria.Retangulo {
+	return self.mundo
 }
-func (c *Camera) GetX() float64 {
-	return c.posicao.GetX()
+func (self *Camera) GetX() float64 {
+	return self.posicao.GetX()
 }
-func (c *Camera) GetY() float64 {
-	return c.posicao.GetY()
-}
-
-func (c *Camera) GetLargura() float64 {
-	return c.mundo.GetLargura()
-}
-func (c *Camera) GetAltura() float64 {
-	return c.mundo.GetAltura()
+func (self *Camera) GetY() float64 {
+	return self.posicao.GetY()
 }
 
-func (c *Camera) SetMundo(tela *geometria.Retangulo) {
-	c.mundo = tela
+func (self *Camera) GetLargura() float64 {
+	return self.mundo.GetLargura()
 }
-func (c *Camera) SetX(cameraX float64) {
-	c.posicao.SetX(cameraX)
-}
-func (c *Camera) SetY(cameraY float64) {
-	c.posicao.SetY(cameraY)
-}
-func (c *Camera) SetVelocidadeX(dirY float64) {
-	c.velocidade.SetY(dirY)
-}
-func (c *Camera) SetVelocidadeY(dirX float64) {
-	c.velocidade.SetX(dirX)
+func (self *Camera) GetAltura() float64 {
+	return self.mundo.GetAltura()
 }
 
-func (c *Camera) Atualizar() {
+func (self *Camera) SetMundo(tela *geometria.Retangulo) {
+	self.mundo = tela
+}
+func (self *Camera) SetX(cameraX float64) {
+	self.posicao.SetX(cameraX)
+}
+func (self *Camera) SetY(cameraY float64) {
+	self.posicao.SetY(cameraY)
+}
+func (self *Camera) SetVelocidadeX(dirY float64) {
+	self.velocidade.SetY(dirY)
+}
+func (self *Camera) SetVelocidadeY(dirX float64) {
+	self.velocidade.SetX(dirX)
+}
+
+func (self *Camera) Atualizar() {
 	//c.OrganizarCamera()
 	
 }
 
-func (c *Camera) Desenhar(tela *ebiten.Image) {
+func (self *Camera) Desenhar(tela *ebiten.Image) {
 	//Tela Amarela
 	//ebitenutil.DrawRect(tela, c.GetX(), c.GetY(), (c.GetLargura()/PROPORCAO_MINI_MAPA)/2, (c.GetAltura()/PROPORCAO_MINI_MAPA)/2, cores.AMARELO)
 }

@@ -32,54 +32,54 @@ func NovaParede(cenaJogo interfaces.ICenaJogo, posicao *geometria.Ponto) *Parede
 	return &nParede
 }
 
-func (j *Parede) GetID() ecs.EntidadeID {
-	return j.entidadeID
+func (self *Parede) GetID() ecs.EntidadeID {
+	return self.entidadeID
 }
 
-func (b *Parede) GetX() float64 {
-	return b.estrutura.GetX()
+func (self *Parede) GetX() float64 {
+	return self.estrutura.GetX()
 }
 
-func (b *Parede) GetY() float64 {
-	return b.estrutura.GetY()
+func (self *Parede) GetY() float64 {
+	return self.estrutura.GetY()
 }
 
-func (b *Parede) GetLargura() float64 {
-	return b.estrutura.GetLargura()
+func (self *Parede) GetLargura() float64 {
+	return self.estrutura.GetLargura()
 }
 
-func (b *Parede) GetAltura() float64 {
-	return b.estrutura.GetAltura()
+func (self *Parede) GetAltura() float64 {
+	return self.estrutura.GetAltura()
 }
 
-func (b *Parede) GetTipo() string {
+func (self *Parede) GetTipo() string {
 	return "PAREDE"
 }
 
-func (b *Parede) Atualizar() {
+func (self *Parede) Atualizar() {
 
 }
 
-func (e *Parede) GetComponente(id string) interface{} {
-	return e.Componentes[id]
+func (self *Parede) GetComponente(id string) interface{} {
+	return self.Componentes[id]
 }
 
-func (e *Parede) AdicionarComponente(id string, comp interface{}) {
-	if e.Componentes == nil {
-		e.Componentes = make(map[string]interface{})
+func (self *Parede) AdicionarComponente(id string, comp interface{}) {
+	if self.Componentes == nil {
+		self.Componentes = make(map[string]interface{})
 	}
-	e.Componentes[id] = comp
+	self.Componentes[id] = comp
 }
 
-func (b *Parede) Desenhar(tela *ebiten.Image) {
-	ebitenutil.DrawRect(tela, b.cenaJogo.GetCamera().GetX()+b.GetX(), b.cenaJogo.GetCamera().GetY()+b.GetY(), utils.PAREDE_TAMANHO_MUNDO, utils.PAREDE_TAMANHO_MUNDO, cores.PRETO)
+func (self *Parede) Desenhar(tela *ebiten.Image) {
+	ebitenutil.DrawRect(tela, self.cenaJogo.GetCamera().GetX()+self.GetX(), self.cenaJogo.GetCamera().GetY()+self.GetY(), utils.PAREDE_TAMANHO_MUNDO, utils.PAREDE_TAMANHO_MUNDO, cores.PRETO)
 }
 
-func (b *Parede) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
-	ebitenutil.DrawRect(tela, mapaX+(b.GetX()/config.PROPORCAO_MAPA), mapaY+(b.GetY()/config.PROPORCAO_MAPA), utils.PAREDE_TAMANHO_MAPA, utils.PAREDE_TAMANHO_MAPA, cores.PRETO)
+func (self *Parede) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
+	ebitenutil.DrawRect(tela, mapaX+(self.GetX()/config.PROPORCAO_MAPA), mapaY+(self.GetY()/config.PROPORCAO_MAPA), utils.PAREDE_TAMANHO_MAPA, utils.PAREDE_TAMANHO_MAPA, cores.PRETO)
 }
 
-func (e *Parede) ExisteComponente(id string) bool {
-	_, existe := e.Componentes[id]
+func (self *Parede) ExisteComponente(id string) bool {
+	_, existe := self.Componentes[id]
 	return existe
 }

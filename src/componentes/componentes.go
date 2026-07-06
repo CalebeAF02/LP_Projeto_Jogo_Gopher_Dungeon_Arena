@@ -103,43 +103,43 @@ type Pontuacao struct {
 	EntreiNaSaida bool
 }
 
-func (v *Vida) EstaVivo() bool {
-	if v.TipoOrganismo == entidades.JOGADOR.String() {
-		if v.Quantidade > 0 {
-			v.Status = true
-			return v.Status
+func (self *Vida) EstaVivo() bool {
+	if self.TipoOrganismo == entidades.JOGADOR.String() {
+		if self.Quantidade > 0 {
+			self.Status = true
+			return self.Status
 		}
-		v.Status = false
-		return v.Status
-	} else if v.TipoOrganismo == entidades.BOT.String() {
-		if v.Sangue > 0 {
-			v.Status = true
-			return v.Status
+		self.Status = false
+		return self.Status
+	} else if self.TipoOrganismo == entidades.BOT.String() {
+		if self.Sangue > 0 {
+			self.Status = true
+			return self.Status
 		}
-		v.Status = false
-		return v.Status
+		self.Status = false
+		return self.Status
 	}
 	return false
 }
 
-func (v *Vida) CorrigeSangue(nivel int) {
-	v.Sangue = 100 * nivel
+func (self *Vida) CorrigeSangue(nivel int) {
+	self.Sangue = 100 * nivel
 }
 
-func (v *Vida) PerdeSangue(rit int, nivel int) {
-	v.Sangue -= rit
+func (self *Vida) PerdeSangue(rit int, nivel int) {
+	self.Sangue -= rit
 
-	if v.Sangue <= 0 && v.TipoOrganismo == entidades.JOGADOR.String() {
-		v.Renasce(nivel)
+	if self.Sangue <= 0 && self.TipoOrganismo == entidades.JOGADOR.String() {
+		self.Renasce(nivel)
 	}
 }
 
-func (v *Vida) Renasce(nivel int) {
-	if v.EstaVivo() {
-		v.TiraUmaVida()
+func (self *Vida) Renasce(nivel int) {
+	if self.EstaVivo() {
+		self.TiraUmaVida()
 
-		if v.Quantidade > 0 {
-			v.ResetaSangue(nivel)
+		if self.Quantidade > 0 {
+			self.ResetaSangue(nivel)
 		} else {
 			//fmt.Println("O jogador " + v.nome + " morreu!")
 		}
@@ -149,15 +149,15 @@ func (v *Vida) Renasce(nivel int) {
 	}
 }
 
-func (v *Vida) TiraUmaVida() {
-	if v.Quantidade > 0 {
-		v.Quantidade -= 1
+func (self *Vida) TiraUmaVida() {
+	if self.Quantidade > 0 {
+		self.Quantidade -= 1
 	}
 }
 
-func (v *Vida) AcrescentaUmaVida() bool {
-	if v.Quantidade < 3 {
-		v.Quantidade += 1
+func (self *Vida) AcrescentaUmaVida() bool {
+	if self.Quantidade < 3 {
+		self.Quantidade += 1
 		return true
 	} else {
 		return false
@@ -165,13 +165,13 @@ func (v *Vida) AcrescentaUmaVida() bool {
 	}
 }
 
-func (v *Vida) Colisao() {
+func (self *Vida) Colisao() {
 }
 
-func (v *Vida) ResetaVida(valor int) {
-	v.Quantidade = valor
+func (self *Vida) ResetaVida(valor int) {
+	self.Quantidade = valor
 }
 
-func (v *Vida) ResetaSangue(nivel int) {
-	v.CorrigeSangue(nivel)
+func (self *Vida) ResetaSangue(nivel int) {
+	self.CorrigeSangue(nivel)
 }

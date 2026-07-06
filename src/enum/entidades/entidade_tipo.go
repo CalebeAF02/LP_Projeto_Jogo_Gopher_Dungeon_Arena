@@ -14,8 +14,8 @@ const (
 	SAIDA
 )
 
-func (t EntidadeTipo) String() string {
-	switch t {
+func (self EntidadeTipo) String() string {
+	switch self {
 	case POSICAO:
 		return "POSICAO"
 	case BOT:

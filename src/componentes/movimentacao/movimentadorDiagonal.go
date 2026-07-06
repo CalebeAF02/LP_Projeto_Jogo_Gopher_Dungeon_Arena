@@ -14,7 +14,7 @@ import (
 type MovimentadorDiagonal struct {
 }
 
-func (md *MovimentadorDiagonal) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
+func (self *MovimentadorDiagonal) Mover(entidade ecs.Entidade, sistemaColisao interfaces.ISistemaColisao, mundo *geometria.Retangulo, objeto interfaces.HabilidadeMovimentacao, r *rand.Rand) {
 	posX := 0.0
 	posY := 0.0
 
@@ -48,10 +48,10 @@ func (md *MovimentadorDiagonal) Mover(entidade ecs.Entidade, sistemaColisao inte
 
 }
 
-func (md *MovimentadorDiagonal) GetTipo() string {
+func (self *MovimentadorDiagonal) GetTipo() string {
 	return "DIAGONAL"
 }
 
-func (md *MovimentadorDiagonal) GetCor() color.Color {
+func (self *MovimentadorDiagonal) GetCor() color.Color {
 	return cores.ROSA
 }

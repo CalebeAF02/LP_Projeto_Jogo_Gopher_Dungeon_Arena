@@ -43,54 +43,54 @@ func NovoPortalEntrada(cj interfaces.ICenaJogo, id int64) *PortalEntrada {
 	return &nBot
 }
 
-func (j *PortalEntrada) GetID() ecs.EntidadeID {
-	return j.entidadeID
+func (self *PortalEntrada) GetID() ecs.EntidadeID {
+	return self.entidadeID
 }
 
-func (e *PortalEntrada) GetComponente(id string) interface{} {
-	return e.Componentes[id]
+func (self *PortalEntrada) GetComponente(id string) interface{} {
+	return self.Componentes[id]
 }
 
-func (e *PortalEntrada) AdicionarComponente(id string, comp interface{}) {
-	if e.Componentes == nil {
-		e.Componentes = make(map[string]interface{})
+func (self *PortalEntrada) AdicionarComponente(id string, comp interface{}) {
+	if self.Componentes == nil {
+		self.Componentes = make(map[string]interface{})
 	}
-	e.Componentes[id] = comp
+	self.Componentes[id] = comp
 }
-func (e *PortalEntrada) AlterarComponente(id string, comp interface{}) {
-	e.Componentes[id] = comp
+func (self *PortalEntrada) AlterarComponente(id string, comp interface{}) {
+	self.Componentes[id] = comp
 }
 
-func (e *PortalEntrada) ExisteComponente(id string) bool {
-	_, existe := e.Componentes[id]
+func (self *PortalEntrada) ExisteComponente(id string) bool {
+	_, existe := self.Componentes[id]
 	return existe
 }
 
-func (b *PortalEntrada) Atualizar() {
+func (self *PortalEntrada) Atualizar() {
 
-	if b.ObterTeleTransporte().TemBot {
-		if b.ObterTeleTransporte().Contagem > 0 {
+	if self.ObterTeleTransporte().TemBot {
+		if self.ObterTeleTransporte().Contagem > 0 {
 			//fmt.Printf("\t ++ Vou fazer teletransporte\n")
-			b.ObterTeleTransporte().Contagem -= 1
+			self.ObterTeleTransporte().Contagem -= 1
 
-			b.anguloRotacao += 0.002
+			self.anguloRotacao += 0.002
 
 			// Mantém o progresso sempre dentro do limite de 0.0 a 1.0 de forma eterna
-			if b.anguloRotacao >= 1.0 {
-				b.anguloRotacao -= 1.0
+			if self.anguloRotacao >= 1.0 {
+				self.anguloRotacao -= 1.0
 			}
 
-			if b.ObterTeleTransporte().Contagem == 0 {
+			if self.ObterTeleTransporte().Contagem == 0 {
 				//	fmt.Printf("\t ++ Teletransportar AGORAAAAAAAAAAAAAAA\n")
 
 				//portal_saida_corpo_comp := b.ObterTeleTransporte().ConectadoSaida.GetComponente(componentes.CORPO.String())
 				//portal_saida := portal_saida_corpo_comp.(*geometria.Retangulo)
 
-				if b.ObterTeleTransporte().ConectadoSaida == nil {
+				if self.ObterTeleTransporte().ConectadoSaida == nil {
 					return
 				}
 
-				portal_saida_recebendo_teletransporte_comp := b.ObterTeleTransporte().ConectadoSaida.GetComponente(componentes.RECEBENDO_TELETRANSPORTE.String())
+				portal_saida_recebendo_teletransporte_comp := self.ObterTeleTransporte().ConectadoSaida.GetComponente(componentes.RECEBENDO_TELETRANSPORTE.String())
 				portal_recebendo_teletransporte := portal_saida_recebendo_teletransporte_comp.(*componentes.RecebendoTeletransporte)
 
 				if !portal_recebendo_teletransporte.TemBot {
@@ -98,14 +98,14 @@ func (b *PortalEntrada) Atualizar() {
 					portal_recebendo_teletransporte.TemBot = true
 					portal_recebendo_teletransporte.Contagem = 200
 
-					botTele := b.ObterTeleTransporte().Bot
+					botTele := self.ObterTeleTransporte().Bot
 
 					portal_recebendo_teletransporte.Bot = botTele
-					b.ObterTeleTransporte().TemBot = false
+					self.ObterTeleTransporte().TemBot = false
 
 				} else {
 					//	fmt.Printf("\t Nao tem como sair do teletransporte !!!")
-					b.ObterTeleTransporte().Contagem = 200
+					self.ObterTeleTransporte().Contagem = 200
 
 				}
 
@@ -116,21 +116,21 @@ func (b *PortalEntrada) Atualizar() {
 
 }
 
-func (b *PortalEntrada) ObterTeleTransporte() *componentes.EnviandoTeletransporte {
-	if tele_comp := b.GetComponente(componentes.ENVIANDO_TELETRANSPORTE.String()); tele_comp != nil {
+func (self *PortalEntrada) ObterTeleTransporte() *componentes.EnviandoTeletransporte {
+	if tele_comp := self.GetComponente(componentes.ENVIANDO_TELETRANSPORTE.String()); tele_comp != nil {
 		return tele_comp.(*componentes.EnviandoTeletransporte)
 	}
 	return nil
 }
 
-func (b *PortalEntrada) ConectarSaida(portalSaida *PortalSaida) {
-	b.ObterTeleTransporte().ConectadoSaida = portalSaida.entidade
+func (self *PortalEntrada) ConectarSaida(portalSaida *PortalSaida) {
+	self.ObterTeleTransporte().ConectadoSaida = portalSaida.entidade
 }
 
-func (b *PortalEntrada) Desenhar(tela *ebiten.Image) {
+func (self *PortalEntrada) Desenhar(tela *ebiten.Image) {
 	// 1. Pega as coordenadas X e Y da tela considerando a câmera
-	posXX := b.cenaJogo.GetCamera().GetX() + b.GetX1()
-	posY := b.cenaJogo.GetCamera().GetY() + b.GetY1()
+	posXX := self.cenaJogo.GetCamera().GetX() + self.GetX1()
+	posY := self.cenaJogo.GetCamera().GetY() + self.GetY1()
 	tamanho := float32(utils.PORTAL_ENTRADA_TAMANHO)
 
 	// 2. Desenha o quadrado maior original (Laranja)
@@ -148,7 +148,7 @@ func (b *PortalEntrada) Desenhar(tela *ebiten.Image) {
 	// Desenha as 4 quinas
 	for i := 0; i < 4; i++ {
 		// Distribui as 4 quinas igualmente
-		progresso := b.anguloRotacao + (float64(i) * 0.25)
+		progresso := self.anguloRotacao + (float64(i) * 0.25)
 		if progresso >= 1.0 {
 			progresso -= 1.0
 		}
@@ -207,7 +207,7 @@ func (b *PortalEntrada) Desenhar(tela *ebiten.Image) {
 	centroY := float32(posY) + (tamanho / 2.0)
 	vector.DrawFilledCircle(tela, centroX, centroY, raioCirculo, cores.PRETO, true)
 
-	portalTransporte_com := b.GetComponente(componentes.ENVIANDO_TELETRANSPORTE.String())
+	portalTransporte_com := self.GetComponente(componentes.ENVIANDO_TELETRANSPORTE.String())
 	teletransporte := portalTransporte_com.(*componentes.EnviandoTeletransporte)
 
 	if teletransporte.TemBot {
@@ -219,35 +219,35 @@ func (b *PortalEntrada) Desenhar(tela *ebiten.Image) {
 
 }
 
-func (b *PortalEntrada) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
-	ebitenutil.DrawRect(tela, mapaX+(b.GetX1()/config.PROPORCAO_MAPA), mapaY+(b.GetY1()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
+func (self *PortalEntrada) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
+	ebitenutil.DrawRect(tela, mapaX+(self.GetX1()/config.PROPORCAO_MAPA), mapaY+(self.GetY1()/config.PROPORCAO_MAPA), utils.BOT_TAMANHO_MAPA, utils.BOT_TAMANHO_MAPA, cores.VERMELHO)
 }
 
-func (b *PortalEntrada) GetX1() float64 {
-	return b.posicao.GetX()
+func (self *PortalEntrada) GetX1() float64 {
+	return self.posicao.GetX()
 }
 
-func (b *PortalEntrada) GetY1() float64 {
-	return b.posicao.GetY()
+func (self *PortalEntrada) GetY1() float64 {
+	return self.posicao.GetY()
 }
 
-func (b *PortalEntrada) GetX2() float64 {
-	return b.posicao.GetX() + utils.BOT_TAMANHO_MUNDO
+func (self *PortalEntrada) GetX2() float64 {
+	return self.posicao.GetX() + utils.BOT_TAMANHO_MUNDO
 }
 
-func (b *PortalEntrada) GetY2() float64 {
-	return b.posicao.GetY() + utils.BOT_TAMANHO_MUNDO
+func (self *PortalEntrada) GetY2() float64 {
+	return self.posicao.GetY() + utils.BOT_TAMANHO_MUNDO
 }
-func (b *PortalEntrada) GetLargura() float64 {
+func (self *PortalEntrada) GetLargura() float64 {
 	return utils.BOT_TAMANHO_MUNDO
 }
 
-func (b *PortalEntrada) GetTipo() string {
+func (self *PortalEntrada) GetTipo() string {
 	return entidades.PORTAL_ENTRADA.String()
 }
 
-func (b *PortalEntrada) SetPosicao(x float64, y float64) {
-	b.posicao.SetPosicao(x, y)
-	b.corpo.SetX(x)
-	b.corpo.SetY(y)
+func (self *PortalEntrada) SetPosicao(x float64, y float64) {
+	self.posicao.SetPosicao(x, y)
+	self.corpo.SetX(x)
+	self.corpo.SetY(y)
 }

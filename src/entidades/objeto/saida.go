@@ -39,8 +39,8 @@ func (self *Saida) GetID() ecs.EntidadeID {
 	return self.entidadeID
 }
 
-func (b *Saida) ObterCorpo() *geometria.Retangulo {
-	if corpocomp := b.GetComponente(componentes.CORPO.String()); corpocomp != nil {
+func (self *Saida) ObterCorpo() *geometria.Retangulo {
+	if corpocomp := self.GetComponente(componentes.CORPO.String()); corpocomp != nil {
 		return corpocomp.(*geometria.Retangulo)
 	}
 	return nil

@@ -13,17 +13,17 @@ type SistemaColisao struct {
 	cenaJogo interfaces.ICenaJogo
 }
 
-func (s *SistemaColisao) SetCenaJogo(cj interfaces.ICenaJogo) {
-	s.cenaJogo = cj
+func (self *SistemaColisao) SetCenaJogo(cj interfaces.ICenaJogo) {
+	self.cenaJogo = cj
 }
 
-func (s *SistemaColisao) CriarRespostaColisao(status bool, tipo string, subTipo string) *ecs.RespostaColisao {
+func (self *SistemaColisao) CriarRespostaColisao(status bool, tipo string, subTipo string) *ecs.RespostaColisao {
 	nRespostaColisao := ecs.RespostaColisao{Status: status, Tipo: tipo, SubTipo: subTipo}
 
 	return &nRespostaColisao
 }
 
-func (s *SistemaColisao) EsseTipoColide(tipo string) bool {
+func (self *SistemaColisao) EsseTipoColide(tipo string) bool {
 
 	switch tipo {
 	case entidades.PAREDE.String():
@@ -45,10 +45,10 @@ func (s *SistemaColisao) EsseTipoColide(tipo string) bool {
 	return false
 }
 
-func (s *SistemaColisao) VaiColidir(origem string, origemEntidade ecs.Entidade, meuCorpoAtual *geometria.Retangulo, proximoCorpo *geometria.Retangulo) *ecs.RespostaColisao {
-	for _, entidadeColidida := range s.cenaJogo.GetEntidades() {
+func (self *SistemaColisao) VaiColidir(origem string, origemEntidade ecs.Entidade, meuCorpoAtual *geometria.Retangulo, proximoCorpo *geometria.Retangulo) *ecs.RespostaColisao {
+	for _, entidadeColidida := range self.cenaJogo.GetEntidades() {
 		colididoTipo := entidadeColidida.GetTipo()
-		if s.EsseTipoColide(colididoTipo) {
+		if self.EsseTipoColide(colididoTipo) {
 
 			estaVivo := true
 
@@ -117,24 +117,24 @@ func (s *SistemaColisao) VaiColidir(origem string, origemEntidade ecs.Entidade, 
 						if sub_tipo := entidadeColidida.GetComponente(componentes.SUB_TIPO.String()); sub_tipo != nil {
 
 							sub_tipo_valor := sub_tipo.(*componentes.SubTipo)
-							return s.CriarRespostaColisao(true, colididoTipo, sub_tipo_valor.Valor)
+							return self.CriarRespostaColisao(true, colididoTipo, sub_tipo_valor.Valor)
 						} else {
-							return s.CriarRespostaColisao(true, colididoTipo, "")
+							return self.CriarRespostaColisao(true, colididoTipo, "")
 						}
 					} else {
-						return s.CriarRespostaColisao(true, colididoTipo, "")
+						return self.CriarRespostaColisao(true, colididoTipo, "")
 
 					}
 				}
 			}
 		}
 	}
-	return s.CriarRespostaColisao(false, "", "")
+	return self.CriarRespostaColisao(false, "", "")
 }
 
 // ColideComTipo isola uma busca específica (útil para o Spawn ou lógicas de IA direcionadas)
-func (s *SistemaColisao) ColideComTipo(eu *geometria.Retangulo, tipoDesejado string) bool {
-	for _, e := range s.cenaJogo.GetEntidades() {
+func (self *SistemaColisao) ColideComTipo(eu *geometria.Retangulo, tipoDesejado string) bool {
+	for _, e := range self.cenaJogo.GetEntidades() {
 		if e.GetTipo() == tipoDesejado {
 			if corpoEntidade := e.GetComponente(componentes.CORPO.String()); corpoEntidade != nil {
 				if eu.Colide(corpoEntidade.(*geometria.Retangulo)) {
@@ -147,14 +147,14 @@ func (s *SistemaColisao) ColideComTipo(eu *geometria.Retangulo, tipoDesejado str
 }
 
 // Métodos auxiliares semanticamente limpos, reaproveitando a função genérica
-func (s *SistemaColisao) ColideComBarreiras(eu *geometria.Retangulo) bool {
-	return s.ColideComTipo(eu, entidades.PAREDE.String())
+func (self *SistemaColisao) ColideComBarreiras(eu *geometria.Retangulo) bool {
+	return self.ColideComTipo(eu, entidades.PAREDE.String())
 }
 
-func (s *SistemaColisao) ColideComJogador(eu *geometria.Retangulo) bool {
-	return s.ColideComTipo(eu, entidades.JOGADOR.String())
+func (self *SistemaColisao) ColideComJogador(eu *geometria.Retangulo) bool {
+	return self.ColideComTipo(eu, entidades.JOGADOR.String())
 }
 
-func (s *SistemaColisao) ColideComBot(eu *geometria.Retangulo) bool {
-	return s.ColideComTipo(eu, entidades.BOT.String())
+func (self *SistemaColisao) ColideComBot(eu *geometria.Retangulo) bool {
+	return self.ColideComTipo(eu, entidades.BOT.String())
 }

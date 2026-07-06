@@ -34,58 +34,58 @@ func NovaComida(cenaJogo interfaces.ICenaJogo, posicao *geometria.Ponto) *Comida
 	return &nComida
 }
 
-func (c *Comida) ObterEnergia() *componentes.Energia {
-	if energia_comp := c.GetComponente(componentes.ENERGIA.String()); energia_comp != nil {
+func (self *Comida) ObterEnergia() *componentes.Energia {
+	if energia_comp := self.GetComponente(componentes.ENERGIA.String()); energia_comp != nil {
 		return energia_comp.(*componentes.Energia)
 	}
 	return nil
 }
 
-func (c *Comida) GetID() ecs.EntidadeID {
-	return c.entidadeID
+func (self *Comida) GetID() ecs.EntidadeID {
+	return self.entidadeID
 }
 
-func (c *Comida) GetX() float64 {
-	return c.estrutura.GetX()
+func (self *Comida) GetX() float64 {
+	return self.estrutura.GetX()
 }
 
-func (c *Comida) GetY() float64 {
-	return c.estrutura.GetY()
+func (self *Comida) GetY() float64 {
+	return self.estrutura.GetY()
 }
 
-func (c *Comida) GetLargura() float64 {
-	return c.estrutura.GetLargura()
+func (self *Comida) GetLargura() float64 {
+	return self.estrutura.GetLargura()
 }
 
-func (c *Comida) GetAltura() float64 {
-	return c.estrutura.GetAltura()
+func (self *Comida) GetAltura() float64 {
+	return self.estrutura.GetAltura()
 }
 
-func (c *Comida) GetTipo() string {
+func (self *Comida) GetTipo() string {
 	return "COMIDA"
 }
 
-func (c *Comida) Atualizar() {
-	c.ciclos += 1
+func (self *Comida) Atualizar() {
+	self.ciclos += 1
 
-	if c.ciclos > 200 {
-		c.ciclos = 0
+	if self.ciclos > 200 {
+		self.ciclos = 0
 	}
 }
 
-func (c *Comida) GetComponente(id string) interface{} {
-	return c.Componentes[id]
+func (self *Comida) GetComponente(id string) interface{} {
+	return self.Componentes[id]
 }
 
-func (c *Comida) AdicionarComponente(id string, comp interface{}) {
-	if c.Componentes == nil {
-		c.Componentes = make(map[string]interface{})
+func (self *Comida) AdicionarComponente(id string, comp interface{}) {
+	if self.Componentes == nil {
+		self.Componentes = make(map[string]interface{})
 	}
-	c.Componentes[id] = comp
+	self.Componentes[id] = comp
 }
 
-func (c *Comida) Desenhar(tela *ebiten.Image) {
-	if !c.ObterEnergia().Status {
+func (self *Comida) Desenhar(tela *ebiten.Image) {
+	if !self.ObterEnergia().Status {
 		return
 	}
 
@@ -93,26 +93,26 @@ func (c *Comida) Desenhar(tela *ebiten.Image) {
 	var raioMedio float64 = utils.COMIDA_TAMANHO_MUNDO - 5.0
 	var raioPequeno float64 = utils.COMIDA_TAMANHO_MUNDO - 8.0
 
-	ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioMaior, cores.ROSA_CHOQUE)
-	ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioMedio, cores.BRANCO)
+	ebitenutil.DrawCircle(tela, (self.cenaJogo.GetCamera().GetX()+self.GetX())+(raioMaior/2), (self.cenaJogo.GetCamera().GetY()+self.GetY())+(raioMaior/2), raioMaior, cores.ROSA_CHOQUE)
+	ebitenutil.DrawCircle(tela, (self.cenaJogo.GetCamera().GetX()+self.GetX())+(raioMaior/2), (self.cenaJogo.GetCamera().GetY()+self.GetY())+(raioMaior/2), raioMedio, cores.BRANCO)
 
-	if c.ciclos > 100 {
-		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioPequeno, cores.ROSA_CHOQUE)
+	if self.ciclos > 100 {
+		ebitenutil.DrawCircle(tela, (self.cenaJogo.GetCamera().GetX()+self.GetX())+(raioMaior/2), (self.cenaJogo.GetCamera().GetY()+self.GetY())+(raioMaior/2), raioPequeno, cores.ROSA_CHOQUE)
 
-		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2)-20, (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioPequeno, cores.ROSA_CHOQUE)
-		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2)+20, (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2), raioPequeno, cores.ROSA_CHOQUE)
+		ebitenutil.DrawCircle(tela, (self.cenaJogo.GetCamera().GetX()+self.GetX())+(raioMaior/2)-20, (self.cenaJogo.GetCamera().GetY()+self.GetY())+(raioMaior/2), raioPequeno, cores.ROSA_CHOQUE)
+		ebitenutil.DrawCircle(tela, (self.cenaJogo.GetCamera().GetX()+self.GetX())+(raioMaior/2)+20, (self.cenaJogo.GetCamera().GetY()+self.GetY())+(raioMaior/2), raioPequeno, cores.ROSA_CHOQUE)
 
-		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2)-20, raioPequeno, cores.ROSA_CHOQUE)
-		ebitenutil.DrawCircle(tela, (c.cenaJogo.GetCamera().GetX()+c.GetX())+(raioMaior/2), (c.cenaJogo.GetCamera().GetY()+c.GetY())+(raioMaior/2)+20, raioPequeno, cores.ROSA_CHOQUE)
+		ebitenutil.DrawCircle(tela, (self.cenaJogo.GetCamera().GetX()+self.GetX())+(raioMaior/2), (self.cenaJogo.GetCamera().GetY()+self.GetY())+(raioMaior/2)-20, raioPequeno, cores.ROSA_CHOQUE)
+		ebitenutil.DrawCircle(tela, (self.cenaJogo.GetCamera().GetX()+self.GetX())+(raioMaior/2), (self.cenaJogo.GetCamera().GetY()+self.GetY())+(raioMaior/2)+20, raioPequeno, cores.ROSA_CHOQUE)
 	}
 
 }
 
-func (c *Comida) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
-	ebitenutil.DrawCircle(tela, mapaX+(c.GetX()/config.PROPORCAO_MAPA), mapaY+(c.GetY()/config.PROPORCAO_MAPA), utils.COMIDA_TAMANHO_MAPA, cores.LARANJA)
+func (self *Comida) DesenharMapa(tela *ebiten.Image, mapaX float64, mapaY float64) {
+	ebitenutil.DrawCircle(tela, mapaX+(self.GetX()/config.PROPORCAO_MAPA), mapaY+(self.GetY()/config.PROPORCAO_MAPA), utils.COMIDA_TAMANHO_MAPA, cores.LARANJA)
 }
 
-func (c *Comida) ExisteComponente(id string) bool {
-	_, existe := c.Componentes[id]
+func (self *Comida) ExisteComponente(id string) bool {
+	_, existe := self.Componentes[id]
 	return existe
 }

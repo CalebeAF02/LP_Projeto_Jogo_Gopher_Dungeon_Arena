@@ -60,16 +60,16 @@ func NovoSpriteSheetPortal(imgImg *ebiten.Image) *SpriteSheetPortal {
 }
 
 // ObterPortal retorna o sub-sprite correspondente ao índice (0 a 8) ou constante
-func (ss *SpriteSheetPortal) ObterPortal(tipo int) *ebiten.Image {
-	if tipo < 0 || tipo >= len(ss.subPortais) {
-		return ss.subPortais[PortalLaranja] // Fallback seguro caso mande um índice inválido
+func (self *SpriteSheetPortal) ObterPortal(tipo int) *ebiten.Image {
+	if tipo < 0 || tipo >= len(self.subPortais) {
+		return self.subPortais[PortalLaranja] // Fallback seguro caso mande um índice inválido
 	}
-	return ss.subPortais[tipo]
+	return self.subPortais[tipo]
 }
 
 // DesenharPortal desenha o portal específico diretamente na tela na posição desejada
-func (ss *SpriteSheetPortal) DesenharPortal(tela *ebiten.Image, tipo int, x, y float64) {
-	portalImg := ss.ObterPortal(tipo)
+func (self *SpriteSheetPortal) DesenharPortal(tela *ebiten.Image, tipo int, x, y float64) {
+	portalImg := self.ObterPortal(tipo)
 
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(x, y)

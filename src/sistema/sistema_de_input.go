@@ -6,7 +6,7 @@ import (
 
 type SistemaInput struct{}
 
-func (s *SistemaInput) Atualizar(cj interfaces.ICenaJogo) {
+func (self *SistemaInput) Atualizar(cj interfaces.ICenaJogo) {
 	// Atalho para debugar as entidades no terminal
 
 }

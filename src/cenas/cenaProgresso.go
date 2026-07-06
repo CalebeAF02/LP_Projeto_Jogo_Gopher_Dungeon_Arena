@@ -22,37 +22,37 @@ type CenaProgresso struct {
 	fontecache assets.FonteCache
 }
 
-func (cp *CenaProgresso) SetFonteCache(cache assets.FonteCache) {
-	cp.fontecache = cache
+func (self *CenaProgresso) SetFonteCache(cache assets.FonteCache) {
+	self.fontecache = cache
 }
 
-func (cp *CenaProgresso) GetGame() interfaces.IGame {
-	return cp.game
+func (self *CenaProgresso) GetGame() interfaces.IGame {
+	return self.game
 }
 
-func (cp *CenaProgresso) SetGame(game interfaces.IGame) {
-	cp.game = game
+func (self *CenaProgresso) SetGame(game interfaces.IGame) {
+	self.game = game
 }
 
-func (cp *CenaProgresso) Input() {
+func (self *CenaProgresso) Input() {
 	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
-		cp.game.MudarTelaMenuIniciar()
+		self.game.MudarTelaMenuIniciar()
 	}
 }
 
-func (cp *CenaProgresso) Update() error {
-	cp.Input()
+func (self *CenaProgresso) Update() error {
+	self.Input()
 	return nil
 
 }
 
-func (cp *CenaProgresso) Draw(tela *ebiten.Image) {
+func (self *CenaProgresso) Draw(tela *ebiten.Image) {
 
-	assets.EscreverTextoCentralizado(tela, cp.fontecache.Titulo, 180, "GOPHER DUNGEON ARENA - NÍVEIS")
+	assets.EscreverTextoCentralizado(tela, self.fontecache.Titulo, 180, "GOPHER DUNGEON ARENA - NÍVEIS")
 
 	var linha float64 = 180
 
-	nivel := cp.game.GetNivelCorrente()
+	nivel := self.game.GetNivelCorrente()
 
 	for i := 1; i <= 10; i++ {
 		x := linha + float64((i-1)%5)*200.0
@@ -60,19 +60,19 @@ func (cp *CenaProgresso) Draw(tela *ebiten.Image) {
 
 		if i < nivel {
 			// níveis já concluídos → verde
-			cp.DrawNivel(tela, x, y, i, CONCLUIDO)
+			self.DrawNivel(tela, x, y, i, CONCLUIDO)
 		} else if i == nivel {
 			// nível corrente → destaque
-			cp.DrawNivel(tela, x, y, i, DESBLOQUEADO)
+			self.DrawNivel(tela, x, y, i, DESBLOQUEADO)
 		} else {
 			// níveis futuros → normal
-			cp.DrawNivel(tela, x, y, i, BLOQUEADO)
+			self.DrawNivel(tela, x, y, i, BLOQUEADO)
 		}
 	}
 
 }
 
-func (cp *CenaProgresso) DrawNivel(tela *ebiten.Image, px float64, py float64, nivel int, modo int) {
+func (self *CenaProgresso) DrawNivel(tela *ebiten.Image, px float64, py float64, nivel int, modo int) {
 
 	if modo == DESBLOQUEADO {
 		ebitenutil.DrawRect(tela, px, py, 100, 100, cores.AMBAR)
@@ -105,6 +105,6 @@ func (cp *CenaProgresso) DrawNivel(tela *ebiten.Image, px float64, py float64, n
 	)
 }
 
-func (cp *CenaProgresso) GetNome() string {
+func (self *CenaProgresso) GetNome() string {
 	return "CENA_PROGRESSO"
 }
