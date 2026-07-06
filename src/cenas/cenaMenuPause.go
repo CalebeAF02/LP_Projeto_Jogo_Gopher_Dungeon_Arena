@@ -9,7 +9,8 @@ import (
 )
 
 type CenaMenuPause struct {
-	game interfaces.IGame
+	game           interfaces.IGame
+	aceitaComandos int
 }
 
 func (self *CenaMenuPause) SetFonteCache(cache assets.FonteCache) {
@@ -32,12 +33,12 @@ func (self *CenaMenuPause) Sair() {
 }
 
 func (self *CenaMenuPause) Input() {
-	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
+	if ebiten.IsKeyPressed(ebiten.KeyEscape) && self.aceitaComandos >= 100 {
 		//fmt.Println("estou precionando o esc na cena pause !")
 		self.Sair()
 	}
 
-	if ebiten.IsKeyPressed(ebiten.KeySpace) {
+	if ebiten.IsKeyPressed(ebiten.KeySpace) && self.aceitaComandos >= 100 {
 		//fmt.Println("estou precionando o space na cena pause !")
 		self.Voltar()
 	}
@@ -45,6 +46,9 @@ func (self *CenaMenuPause) Input() {
 
 func (self *CenaMenuPause) Update() error {
 	self.Input()
+	if self.aceitaComandos <= 100 {
+		self.aceitaComandos += 1
+	}
 	return nil
 }
 

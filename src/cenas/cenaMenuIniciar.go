@@ -28,18 +28,18 @@ func (self *CenaMenuIniciar) SetGame(game interfaces.IGame) {
 }
 
 func (self *CenaMenuIniciar) Input() {
-	if ebiten.IsKeyPressed(ebiten.KeyEscape) && self.aceitaComandos >= 300 {
+	if ebiten.IsKeyPressed(ebiten.KeyEscape) && self.aceitaComandos >= 100 {
 		//fmt.Println("estou precionando o esc na cena menu !")
 		self.game.Sair()
 	}
 
-	if ebiten.IsKeyPressed(ebiten.KeyEnter) {
+	if ebiten.IsKeyPressed(ebiten.KeyEnter) && self.aceitaComandos >= 100 {
 		//fmt.Println("estou precionando o enter na cena menu !")
 
 		self.game.IniciarJogo()
 	}
 
-	if ebiten.IsKeyPressed(ebiten.KeyP) {
+	if ebiten.IsKeyPressed(ebiten.KeyP) && self.aceitaComandos >= 100 {
 		//fmt.Println("estou precionando o enter na cena menu !")
 
 		self.game.MudarTelaProgresso()
@@ -48,7 +48,7 @@ func (self *CenaMenuIniciar) Input() {
 
 func (self *CenaMenuIniciar) Update() error {
 	self.Input()
-	if self.aceitaComandos <= 400 {
+	if self.aceitaComandos <= 100 {
 		self.aceitaComandos += 1
 	}
 

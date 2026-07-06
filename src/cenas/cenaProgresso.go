@@ -18,8 +18,9 @@ const (
 )
 
 type CenaProgresso struct {
-	game       interfaces.IGame
-	fontecache assets.FonteCache
+	game           interfaces.IGame
+	fontecache     assets.FonteCache
+	aceitaComandos int
 }
 
 func (self *CenaProgresso) SetFonteCache(cache assets.FonteCache) {
@@ -35,13 +36,16 @@ func (self *CenaProgresso) SetGame(game interfaces.IGame) {
 }
 
 func (self *CenaProgresso) Input() {
-	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
+	if ebiten.IsKeyPressed(ebiten.KeyEscape) && self.aceitaComandos >= 100 {
 		self.game.MudarTelaMenuIniciar()
 	}
 }
 
 func (self *CenaProgresso) Update() error {
 	self.Input()
+	if self.aceitaComandos <= 100 {
+		self.aceitaComandos += 1
+	}
 	return nil
 
 }
