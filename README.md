@@ -1,31 +1,67 @@
 # Gopher Dungeon Arena
 
-Gopher Dungeon Arena é um projeto universitário para a UnB, desenvolvido no 8º semestre da disciplina de Linguagens de Programação. Trata-se de um jogo de arena com temática de dungeon, criado para demonstrar o potencial de Go em projetos de jogos e para explorar competências de programação avançada.
+Gopher Dungeon Arena é um projeto acadêmico desenvolvido em Go para a disciplina de Linguagens de Programação da UnB. O objetivo é criar um jogo 2D de arena com mecânicas de movimentação, colisão, câmera, minimapa, inimigos e progressão de fases.
 
-## Objetivo final
+## Visão geral
 
-Entregar um jogo funcional e estruturado em Go que evidencie:
-- uso de concorrência para gerenciamento de entidades e lógica de jogo;
-- tipagem segura e organização clara de dados;
-- sincronização de estado sem condições de corrida;
-- desempenho consistente, mesmo em simulações de combate e movimento.
+O projeto foi pensado como uma aplicação prática para explorar conceitos de programação, arquitetura de software e desenvolvimento de jogos em Go. A implementação atual já possui uma estrutura funcional com menu inicial, cena de jogo, entidades, colisões básicas, bots com diferentes tipos de movimentação e persistência de progresso.
 
-## O que vai acontecer neste processo
+## Funcionalidades implementadas
 
-1. Aprender Go de forma autônoma e aplicar seus recursos no desenvolvimento do jogo.
-2. Construir uma base de motor de jogo com entidades, componentes e sistemas.
-3. Implementar entrada do usuário, renderização básica de mundo e regras de combate.
-4. Adicionar mecânicas de projéteis, colisões, personagens e comportamento de inimigos.
-5. Garantir que o projeto utilize bem os pontos fortes de Go: goroutines, canais e estruturas leves.
+- Menu inicial e telas de navegação
+- Cena principal de jogo
+- Jogador controlável
+- Bots com diferentes comportamentos de movimentação
+- Colisões básicas com paredes e objetos do mapa
+- Comida, saída, portais e minimapa
+- Câmera dinâmica seguindo o jogador
+- Persistência de progresso em arquivo JSON
 
-## Por que Go?
+## Tecnologias
 
-Mesmo não sendo uma linguagem ensinada diretamente na disciplina, Go é a escolha ideal para este projeto porque permite:
-- código simples e legível;
-- fácil controle de concorrência;
-- compilação rápida;
-- gerenciamento eficiente de memória.
+- Go
+- Ebiten para renderização gráfica
+- Estruturas modulares inspiradas em ECS
+- Arquitetura baseada em cenas, interfaces e sistemas
 
-## Link rápido
+## Como executar
 
-- [Sumário](./SUMARIO.md)
+No diretório do projeto, execute:
+
+```bash
+go run .
+```
+
+Para compilar o projeto:
+
+```bash
+go build ./...
+```
+
+## Controles principais
+
+- Enter: iniciar o jogo
+- Esc: voltar ao menu ou sair, conforme a tela
+- Setas ou WASD: movimentar o jogador
+- P: pausar o jogo
+- Ctrl + M: alternar a posição do minimapa
+- Ctrl + O: mostrar ou ocultar o minimapa
+
+## Estrutura do projeto
+
+- [main.go](main.go): ponto de entrada do jogo
+- [src/game.go](src/game.go): controle principal do fluxo do jogo
+- [src/cenas](src/cenas): telas e gerenciamento de cenas
+- [src/entidades](src/entidades): personagens e objetos do mundo
+- [src/sistema](src/sistema): lógica de atualização e comportamento
+- [src/nivel](src/nivel): carregamento de fases e progresso
+
+## Documentação
+
+- [Documentação do jogo](docs/tecnico/documentacao_jogo.md)
+- [Índice da documentação](docs/README.md)
+- [Sumário](SUMARIO.md)
+
+## Status
+
+O projeto já está compilando corretamente e possui uma base funcional para evolução em gameplay, IA e refinamento técnico.

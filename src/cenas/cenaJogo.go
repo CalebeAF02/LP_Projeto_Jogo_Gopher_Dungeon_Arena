@@ -15,6 +15,7 @@ import (
 	"Gopher_Dungeon_Arena/src/utils"
 	"math/rand"
 	"strconv"
+	"sync"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -25,6 +26,7 @@ type CenaJogo struct {
 	proximo            int
 	mundo              *geometria.Retangulo
 	entidades          map[ecs.EntidadeID]ecs.Entidade
+	entidadesLock      sync.RWMutex
 	camera             *ecs.Camera
 	miniMapa           *ecs.MiniMapa
 	aleatorio          *rand.Rand
@@ -94,7 +96,9 @@ func (self *CenaJogo) ReIniciar() {
 
 	//sistemaSpaw.SpawnJogadores(&cj)
 
+	self.entidadesLock.Lock()
 	self.entidades = make(map[ecs.EntidadeID]ecs.Entidade)
+	self.entidadesLock.Unlock()
 	self.entrouNaSaida = false
 	self.coletadoTudo = false
 	self.contadorBotsMortos = 0
@@ -121,14 +125,23 @@ func (self *CenaJogo) CriarEntidade() ecs.EntidadeID {
 }
 
 func (self *CenaJogo) RemoverEntidade(entidade ecs.EntidadeID) {
+	self.entidadesLock.Lock()
 	delete(self.entidades, entidade)
+	self.entidadesLock.Unlock()
 }
 
 func (self *CenaJogo) GetGame() interfaces.IGame {
 	return self.game
 }
 func (self *CenaJogo) GetEntidades() map[ecs.EntidadeID]ecs.Entidade {
-	return self.entidades
+	self.entidadesLock.RLock()
+	defer self.entidadesLock.RUnlock()
+
+	copia := make(map[ecs.EntidadeID]ecs.Entidade, len(self.entidades))
+	for k, v := range self.entidades {
+		copia[k] = v
+	}
+	return copia
 }
 
 func (self *CenaJogo) GetTimes() []*outros.Time {
@@ -176,7 +189,9 @@ func (self *CenaJogo) SetGame(game interfaces.IGame) {
 	self.game = game
 }
 func (self *CenaJogo) SetEntidade(nEntidade ecs.EntidadeID, posicao ecs.Entidade) {
+	self.entidadesLock.Lock()
 	self.entidades[nEntidade] = posicao
+	self.entidadesLock.Unlock()
 }
 func (self *CenaJogo) SetMiniMapa(miniMapa *ecs.MiniMapa) {
 	self.miniMapa = miniMapa

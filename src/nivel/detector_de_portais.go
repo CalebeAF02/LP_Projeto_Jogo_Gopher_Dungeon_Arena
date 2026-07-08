@@ -140,7 +140,7 @@ func procurarPortais(img image.Image, dados []interface{}) []interface{} {
 	}
 
 	fmt.Printf("Passo 1: %d portais detectados na malha do labirinto.\n", len(portais))
-	fmt.Println("Passo 2: Rastreando caminhos a partir de cada portal...\n")
+	fmt.Println("Passo 2: Rastreando caminhos a partir de cada portal...")
 
 	// Para evitar exibir conexões duplicadas (A->B e B->A)
 	printedPairs := make(map[string]bool)
