@@ -31,13 +31,23 @@ func (self *SistemaIA) Atualizar(cj interfaces.ICenaJogo) {
 		}
 	}
 
+	done := make(chan struct{})
 	go func() {
 		wg.Wait()
+		close(done)
 		close(decisions)
 	}()
 
 	// Por enquanto apenas iteramos sobre as decisões coletadas.
-	for d := range decisions {
-		_ = d // placeholder: futuras integrações processarão essas decisões
+	for {
+		select {
+		case d, ok := <-decisions:
+			if !ok {
+				return
+			}
+			_ = d
+		case <-done:
+			return
+		}
 	}
 }
